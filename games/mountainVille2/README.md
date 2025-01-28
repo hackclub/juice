@@ -23,5 +23,3 @@ We plan to have 3 series, each with about 10min of gameplay. First series is abo
 materials to build back buildings that were destroyed, and the final mountain is where all the villagers were displaced and you have to grab them
 to take them back to their homes. Increasing difficulties, size, and complexity of the mountains as you go. 
 
----
-*Remember: Focus on gameplay mechanics and player experience. Save the details about story, art style, sound design, UI flowcharts, marketing plans, or achievements for later.*
