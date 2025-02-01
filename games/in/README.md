@@ -15,7 +15,7 @@ The player is moving in and must either unpack boxes to organize into shelves/dr
  small puzzles (e.g. quick time events, searching for objects in the scene). 
  The reward is moving onto the next room and progressing the story abt the ghost that haunts the house.
 
-How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?
+**How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?**
 We plan to invest a lot of time into visuals and story so that the game is calming and/or terrifying depending on the player's progress. As well, we will be creative
 in our level design (like what exactly the player is organizing; a creative idea could be a plushie collection in a bedroom) In certain areas, there will be a horror 
 elements (e.g. jumpscare, smth moves by itself) that encourages the player to keep playing and find out whats going on. 
