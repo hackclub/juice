@@ -18,6 +18,4 @@ The player is moving in and must either unpack boxes to organize into shelves/dr
 **How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?**
 We plan to invest a lot of time into visuals and story so that the game is calming and/or terrifying depending on the player's progress. As well, we will be creative
 in our level design (like what exactly the player is organizing; a creative idea could be a plushie collection in a bedroom) In certain areas, there will be a horror 
-elements (e.g. jumpscare, smth moves by itself) that encourages the player to keep playing and find out whats going on. 
----
-*Remember: Focus on gameplay mechanics and player experience. Save the details about story, art style, sound design, UI flowcharts, marketing plans, or achievements for later.*
+elements (e.g. jumpscare, smth moves by itself) that encourages the player to keep playing and find out what's going on. 
