@@ -1,0 +1,18 @@
+SYMBOL
+
+**Team Members:** hanatuk
+
+**How would you pitch your game in one line?**
+A card-based game with a style similar to Balatro using cards which depict symbols, likely emojis. The cards in your deck can be merged together to create new cards in a way similar to Infinite Craft.
+
+**What is the key mechanic(s) that make it fun?**
+The near infinite possibilities for combinations can result in unique strategies. Plus, a large goal would be to make the game feel 'satisfying' to play.
+
+**How does the game actually play? (Core Game Loop)**
+The game would either be multiplayer, having two players competing against eachother, or take a single-player, roguelike approach. Either way, the core gameplay loop would involve using your available cards to accomplish some goal (such as obtaining a specified symbol). 
+
+**How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?**
+A graph/tree showing the relationship between symbols will become available as players discover new combinations, encouraging further experimentation and strategy. Some sort of progession between rounds would also be implemented, with the player able to influence their starting deck.
+
+---
+

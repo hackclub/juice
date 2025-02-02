@@ -1,9 +1,10 @@
 #  **Shadows Of Memory**  
 
 ###  **Team Members:**  
-- 0xDracula  
+- 0xDracula (Abdallah Ebrahim)
 - Mohamed Ayman  
-- Mina Emil  
+- Mina Emil
+- Mostafa Mohamed
 
 ---
 

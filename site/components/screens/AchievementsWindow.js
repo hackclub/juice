@@ -90,7 +90,7 @@ export default function AchievementsWindow({ position, isDragging, isActive, han
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", color: "black", textShadow: "0 0 2px white"}}>
                             <p>Challenge Progress</p>
                             <p>{selectedRank === 2 ? 
-                                `${userData?.totalStretchHours?.toFixed(2) || "0.00"}/15` : 
+                                `${userData?.totalJuiceHours?.toFixed(2) || "0.00"}/15` : 
                                 (hasPRSubmitted ? "1/1" : "0/1")}</p>
                         </div>
                         <div style={{width: "100%", backgroundColor: "#000", height: 1, marginTop: 4, marginBottom: 4}}>

@@ -1,7 +1,7 @@
 import formidable from 'formidable';
 import fs from 'fs';
 import { uploadToS3 } from '../utils/s3.js';
-import { getUserByToken, createOmgMoment, updateJuiceStretch } from '../utils/airtable.js';
+import { getUserByToken, createOmgMoment, updateJuiceStretch, updateJungleStretch } from '../utils/airtable.js';
 
 export async function uploadVideo(req, res) {
   try {
@@ -22,6 +22,7 @@ export async function uploadVideo(req, res) {
     const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
     const stretchId = Array.isArray(fields.stretchId) ? fields.stretchId[0] : fields.stretchId;
     const stopTime = Array.isArray(fields.stopTime) ? fields.stopTime[0] : fields.stopTime;
+    const isJuice = Array.isArray(fields.isJuice) ? fields.isJuice[0] : fields.isJuice;
     
     if (!files.video) {
       return res.status(400).json({ message: 'No video file uploaded' });
@@ -44,8 +45,14 @@ export async function uploadVideo(req, res) {
       s3Upload.Location
     );
 
-    // Update juice stretch with end time and link to OMG moment
-    await updateJuiceStretch(stretchId, stopTime, omgMoment.id);
+    console.log(isJuice)
+    if (isJuice == "true"){
+      // Update juice stretch with end time and link to OMG moment
+      await updateJuiceStretch(stretchId, stopTime, omgMoment.id);
+    } else {
+      // Update jungle stretch with end time and link to OMG moment
+      await updateJungleStretch(stretchId, stopTime, omgMoment.id)
+    }
 
     // Clean up the temporary file
     fs.unlinkSync(videoFile.filepath);

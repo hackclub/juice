@@ -27,6 +27,7 @@ export default async function handler(req, res) {
       video: record.fields.video,
       created_at: record.fields.created_at,
       // email: record.fields.email,
+      slackId: record.fields["Slack ID"],
       kudos: record.fields.kudos || 0
     }));
 

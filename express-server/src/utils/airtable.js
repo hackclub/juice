@@ -58,3 +58,25 @@ export async function updateJuiceStretch(stretchId, stopTime, omgMomentId) {
 
   return stretchRecord;
 } 
+
+export async function updateJungleStretch(stretchId, stopTime, omgMomentId) {
+  const stretchRecords = await base('jungleStretches').select({
+    filterByFormula: `{ID} = '${stretchId}'`
+  }).firstPage();
+
+  if (!stretchRecords || stretchRecords.length === 0) {
+    throw new Error(`Juice stretch not found with ID: ${stretchId}`);
+  }
+
+  const stretchRecord = stretchRecords[0];
+  
+  await base('jungleStretches').update([{
+    id: stretchRecord.id,
+    fields: {
+      endTime: stopTime,
+      omgMoments: [omgMomentId]
+    }
+  }]);
+
+  return stretchRecord;
+} 

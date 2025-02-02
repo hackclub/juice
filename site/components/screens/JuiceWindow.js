@@ -195,6 +195,7 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             formData.append('token', userData.token);
             formData.append('stretchId', currentStretchId);
             formData.append('stopTime', stopTime.toISOString());
+            formData.append("isJuice", true);
 
             const uploadResponse = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/video/upload', {
                 method: 'POST',
@@ -221,7 +222,6 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                     throw new Error('Failed to resume juice stretch');
                 }
                 const data = await response.json();
-                console.log(data.newPauseTime)
                 setTotalPauseTimeSeconds(data.newPauseTime)
                 setIsPaused(false);
             } catch (error) {
@@ -254,7 +254,7 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             setJuicerImage('/juicerRest.png');
         } catch (error) {
             console.error('Error creating OMG moment:', error);
-            alert('Failed to create OMG moment. Please try again.');
+            alert('Failed to create OMG moment. Please try again with a smaller file or refresh  the page');
         } finally {
             setIsSubmitting(false);
         }
@@ -353,30 +353,31 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
     };
 
     return (
-        <>
+        <div onClick={handleWindowClick('juiceWindow')}
+            style={{
+                position: "absolute", 
+                transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
+                top: "50%",
+                left: "50%",
+                zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX, 
+            }}>
             <audio ref={clickSoundRef} src="./click.mp3" />
             <audio ref={expSoundRef} src="./expSound.mp3" volume="0.5" />
             <audio ref={congratsSoundRef} src="./juicercongrats.mp3" />
-            <div 
-                onClick={handleWindowClick('juiceWindow')}
-                style={{
-                    display: "flex", 
-                    position: "absolute", 
-                    zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX, 
-                    width: 400,
-                    height: 475,
-                    color: 'black',
-                    backgroundColor: "#fff", 
-                    border: "1px solid #000", 
-                    borderRadius: 4,
-                    flexDirection: "column",
-                    padding: 0,
-                    justifyContent: "space-between",
-                    transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
-                    top: "50%",
-                    left: "50%",
-                    userSelect: "none"
-                }}>
+            <div style={{
+                display: "flex", 
+                width: 400,
+                height: "fit-content",
+                color: 'black',
+                backgroundColor: "#fff", 
+                border: "1px solid #000", 
+                borderRadius: 4,
+                flexDirection: "column",
+                padding: 0,
+                justifyContent: "space-between",
+                userSelect: "none",
+                animation: "linear .3s windowShakeAndScale"
+            }}>
                 <div 
                     onMouseDown={handleMouseDown('juiceWindow')}
                     style={{
@@ -406,8 +407,8 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                             }
                             <div style={{display: "flex", flexDirection: "column", gap: 4}}>
                                 <p>Current Session: {timeJuiced}</p>
-                                <p>Total Time Juiced: {userData?.totalStretchHours ? 
-                                    `${Math.floor(userData.totalStretchHours)} hours ${Math.round((userData.totalStretchHours % 1) * 60)} min` : 
+                                <p>Total Time Juiced: {userData?.totalJuiceHours ? 
+                                    `${Math.floor(userData.totalJuiceHours)} hours ${Math.round((userData.totalJuiceHours % 1) * 60)} min` : 
                                     "0 hours 0 min"}</p>
                             </div>
                             
@@ -531,6 +532,6 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                     )}
                 </div>
             </div>
-        </>
+        </div>
     );
 } 

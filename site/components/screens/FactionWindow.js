@@ -60,14 +60,18 @@ export default function FactionWindow({ position, isDragging, isActive, handleMo
     };
 
     return (
-        <>
+        <div style={{
+            position: "absolute", 
+            zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX, 
+            transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
+            top: "50%",
+            left: "50%",
+        }}>
             <style>{ticketShakeKeyframes}</style>
             <div 
                 onClick={handleWindowClick('faction')}
                 style={{
                     display: "flex", 
-                    position: "absolute", 
-                    zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX, 
                     width: 400,
                     height: 300,
                     color: 'black',
@@ -78,10 +82,8 @@ export default function FactionWindow({ position, isDragging, isActive, handleMo
                     flexDirection: "column",
                     padding: 0,
                     justifyContent: "space-between",
-                    transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
-                    top: "50%",
-                    left: "50%",
-                    userSelect: "none"
+                    userSelect: "none",
+                    animation: "linear .3s windowShakeAndScale"
                 }}>
                 <div 
                     onMouseDown={handleMouseDown('faction')}
@@ -143,6 +145,6 @@ export default function FactionWindow({ position, isDragging, isActive, handleMo
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 } 

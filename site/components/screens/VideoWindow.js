@@ -276,334 +276,266 @@ export default function VideoWindow({ position, isDragging, isActive, handleMous
     );
 
     return (
-        <div
-            ref={containerRef}
-            onClick={handleWindowClick('video')}
-            data-window-id="video"
-            tabIndex={0}
-            style={{
-                display: "flex",
-                position: "absolute",
-                zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX,
-                width: 640,
-                height: 460,
-                backgroundColor: "#232325",
-                borderRadius: 4,
-                border: "1px solid #000",
-                flexDirection: "column",
-                padding: 0,
-                justifyContent: "space-between",
-                transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
-                top: "50%",
-                left: "50%",
-                userSelect: "none",
-                boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-                outline: "none"
-            }}>
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-            <style>
-                {`
-                    ::cue {
-                        opacity: 0 !important;
-                        background: transparent !important;
-                        color: transparent !important;
-                    }
-                `}
-            </style>
+        <div style={{
+            position: "absolute",
+            zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX,
+            transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
+            top: "50%",
+            left: "50%",
+        }}>
+            <div
+                ref={containerRef}
+                onClick={handleWindowClick('video')}
+                data-window-id="video"
+                tabIndex={0}
+                style={{
+                    display: "flex",
+                    
+                    width: 640,
+                    height: 460,
+                    backgroundColor: "#232325",
+                    borderRadius: 4,
+                    border: "1px solid #000",
+                    flexDirection: "column",
+                    padding: 0,
+                    justifyContent: "space-between",
+                    userSelect: "none",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
+                    outline: "none",
+                    animation: "linear .3s windowShakeAndScale"
+                }}>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                <style>
+                    {`
+                        ::cue {
+                            opacity: 0 !important;
+                            background: transparent !important;
+                            color: transparent !important;
+                        }
+                    `}
+                </style>
 
-            {/* Title Bar */}
-            <div style={{
-                display: "flex",
-                flexDirection: "column",
-                borderBottom: "1px solid #000",
-                backgroundColor: "#fff",
-                borderRadius: "4px 4px 0 0",
-                overflow: "visible"
-            }}>
-                {/* Window Controls */}
-                <div
-                    onMouseDown={handleMouseDown('video')}
-                    style={{
-                        display: "flex",
-                        padding: "4px 8px",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        cursor: isDragging ? 'grabbing' : 'grab',
-                        borderBottom: "1px solid #000"
-                    }}>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); handleDismiss('video'); }}
-                        style={{
-                            padding: 0,
-                            width: 20,
-                            height: 20,
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: '#fff',
-                            border: '1px solid #000',
-                            borderRadius: 0
-                        }}>x</button>
-                    <p style={{ margin: 0, fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif", fontSize: "14px" }}>video.mp4</p>
-                    <div style={{width: 20}}></div>
-                </div>
-
-                {/* Menu Bar */}
+                {/* Title Bar */}
                 <div style={{
                     display: "flex",
-                    padding: 0,
+                    flexDirection: "column",
                     borderBottom: "1px solid #000",
-                    position: "relative",
-                }}>
-                    <button
-                        onClick={() => {
-                            setShowPlaybackMenu(!showPlaybackMenu);
-                            setShowSubtitlesMenu(false);
-                        }}
-                        style={{
-                            fontSize: "12px",
-                            fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
-                            cursor: "pointer",
-                            background: "#fff",
-                            border: "none",
-                            borderRight: "1px solid #000",
-                            padding: "4px 12px",
-                            color: "#000",
-                            margin: 0,
-                            position: "relative",
-                            hidden: "false"
-                        }}>
-                        Playback
-                        {showPlaybackMenu && (
-                            <MenuDropdown
-                                show={showPlaybackMenu}
-                                onClose={() => setShowPlaybackMenu(false)}
-                                style={{
-                                    position: 'absolute',
-                                    top: '100%',
-                                    left: 0,
-                                    border: '1px solid #000',
-                                    borderTop: 'none',
-                                    zIndex: 999999999999999999999999
-                                }}
-                            >
-                                <MenuItem onClick={() => handlePlaybackSpeed(0.25)} checked={playbackSpeed === 0.25}>
-                                    0.25×
-                                </MenuItem>
-                                <MenuItem onClick={() => handlePlaybackSpeed(0.5)} checked={playbackSpeed === 0.5}>
-                                    0.5×
-                                </MenuItem>
-                                <MenuItem onClick={() => handlePlaybackSpeed(1)} checked={playbackSpeed === 1}>
-                                    Normal
-                                </MenuItem>
-                                <MenuItem onClick={() => handlePlaybackSpeed(1.5)} checked={playbackSpeed === 1.5}>
-                                    1.5×
-                                </MenuItem>
-                                <MenuItem onClick={() => handlePlaybackSpeed(2)} checked={playbackSpeed === 2}>
-                                    2×
-                                </MenuItem>
-                            </MenuDropdown>
-                        )}
-                    </button>
-                    <button
-                        onClick={() => {
-                            setShowSubtitlesMenu(!showSubtitlesMenu);
-                            setShowPlaybackMenu(false);
-                        }}
-                        style={{
-                            fontSize: "12px",
-                            fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
-                            cursor: "pointer",
-                            background: "#fff",
-                            border: "none",
-                            borderRight: "1px solid #000",
-                            padding: "4px 12px",
-                            color: "#000",
-                            margin: 0,
-                            position: "relative"
-                        }}>
-                        Subtitles
-                        {showSubtitlesMenu && (
-                            <MenuDropdown
-                                show={showSubtitlesMenu}
-                                onClose={() => setShowSubtitlesMenu(false)}
-                                style={{
-                                    position: 'absolute',
-                                    top: '100%',
-                                    left: 0,
-                                    border: '1px solid #000',
-                                    borderTop: 'none',
-                                    zIndex: 1001
-                                }}
-                            >
-                                <MenuItem onClick={toggleSubtitles} checked={showSubtitles}>
-                                    {showSubtitles ? 'Disable Subtitles' : 'Enable Subtitles'}
-                                </MenuItem>
-                            </MenuDropdown>
-                        )}
-                    </button>
-                </div>
-            </div>
-
-            {/* Video Container */}
-            <div style={{
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                backgroundColor: "#000",
-                borderRadius: "0 0 4px 4px",
-                overflow: "visible"
-            }}>
-                <div style={{ flex: 1, position: "relative" }}>
-                    <video
-                        ref={videoRef}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "contain",
-                        }}
-                        autoPlay
-                        onClick={togglePlay}
-                    >
-                        <source src="./juice.mp4" type="video/mp4" />
-                        <track label="English" kind="subtitles" srclang="en" src="./juice.vtt" default />
-                        Your browser does not support the video tag.
-                    </video>
-                    {showSubtitles && currentCue && (
-                        <div style={{
-                            position: 'absolute',
-                            bottom: '5%',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            color: '#FFE600',
-                            fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
-                            fontSize: '18px',
-                            textShadow: `-2px -2px 0 #000,
-                                2px -2px 0 #000,
-                                -2px 2px 0 #000,
-                                2px 2px 0 #000,
-                                -2px 0 0 #000,
-                                2px 0 0 #000,
-                                0 -2px 0 #000,
-                                0 2px 0 #000`,
-                            textAlign: 'center',
-                            maxWidth: '90%',
-                            whiteSpace: 'pre-line',
-                            fontWeight: 'normal'
-                        }}>
-                            {currentCue}
-                        </div>
-                    )}
-                </div>
-
-                {/* Control Bar */}
-                <div style={{
                     backgroundColor: "#fff",
-                    borderTop: "1px solid #000",
-                    padding: "4px",
+                    borderRadius: "4px 4px 0 0",
+                    overflow: "visible"
                 }}>
-                    {/* Timeline */}
+                    {/* Window Controls */}
                     <div
-                        onClick={handleSeek}
+                        onMouseDown={handleMouseDown('video')}
                         style={{
-                            height: "8px",
-                            backgroundColor: "#fff",
-                            marginBottom: "4px",
-                            cursor: "pointer",
-                            position: "relative",
-                            border: "1px solid #000"
-                        }}
-                    >
-                        <div style={{
-                            height: "100%",
-                            backgroundColor: "#000",
-                            width: `${(currentTime / duration) * 100}%`,
-                        }} />
+                            display: "flex",
+                            padding: "4px 8px",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            cursor: isDragging ? 'grabbing' : 'grab',
+                            borderBottom: "1px solid #000"
+                        }}>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); handleDismiss('video'); }}
+                            style={{
+                                padding: 0,
+                                width: 20,
+                                height: 20,
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                backgroundColor: '#fff',
+                                border: '1px solid #000',
+                                borderRadius: 0
+                            }}>x</button>
+                        <p style={{ margin: 0, fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif", fontSize: "14px" }}>video.mp4</p>
+                        <div style={{width: 20}}></div>
                     </div>
 
-                    {/* Controls */}
+                    {/* Menu Bar */}
                     <div style={{
                         display: "flex",
-                        alignItems: "center",
-                        gap: "2px",
-                        padding: "0 4px"
+                        padding: 0,
+                        borderBottom: "1px solid #000",
+                        position: "relative",
                     }}>
                         <button
-                            onClick={handleSkipBackward}
-                            style={{
-                                background: "none",
-                                border: "1px solid #000",
-                                color: "#000",
-                                cursor: "pointer",
-                                padding: "2px",
-                                width: "24px",
-                                height: "24px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "12px",
-                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
+                            onClick={() => {
+                                setShowPlaybackMenu(!showPlaybackMenu);
+                                setShowSubtitlesMenu(false);
                             }}
-                        >
-                            ←10
+                            style={{
+                                fontSize: "12px",
+                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
+                                cursor: "pointer",
+                                background: "#fff",
+                                border: "none",
+                                borderRight: "1px solid #000",
+                                padding: "4px 12px",
+                                color: "#000",
+                                margin: 0,
+                                position: "relative",
+                                hidden: "false"
+                            }}>
+                            Playback
+                            {showPlaybackMenu && (
+                                <MenuDropdown
+                                    show={showPlaybackMenu}
+                                    onClose={() => setShowPlaybackMenu(false)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '100%',
+                                        left: 0,
+                                        border: '1px solid #000',
+                                        borderTop: 'none',
+                                        zIndex: 999999999999999999999999
+                                    }}
+                                >
+                                    <MenuItem onClick={() => handlePlaybackSpeed(0.25)} checked={playbackSpeed === 0.25}>
+                                        0.25×
+                                    </MenuItem>
+                                    <MenuItem onClick={() => handlePlaybackSpeed(0.5)} checked={playbackSpeed === 0.5}>
+                                        0.5×
+                                    </MenuItem>
+                                    <MenuItem onClick={() => handlePlaybackSpeed(1)} checked={playbackSpeed === 1}>
+                                        Normal
+                                    </MenuItem>
+                                    <MenuItem onClick={() => handlePlaybackSpeed(1.5)} checked={playbackSpeed === 1.5}>
+                                        1.5×
+                                    </MenuItem>
+                                    <MenuItem onClick={() => handlePlaybackSpeed(2)} checked={playbackSpeed === 2}>
+                                        2×
+                                    </MenuItem>
+                                </MenuDropdown>
+                            )}
                         </button>
-
                         <button
+                            onClick={() => {
+                                setShowSubtitlesMenu(!showSubtitlesMenu);
+                                setShowPlaybackMenu(false);
+                            }}
+                            style={{
+                                fontSize: "12px",
+                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
+                                cursor: "pointer",
+                                background: "#fff",
+                                border: "none",
+                                borderRight: "1px solid #000",
+                                padding: "4px 12px",
+                                color: "#000",
+                                margin: 0,
+                                position: "relative"
+                            }}>
+                            Subtitles
+                            {showSubtitlesMenu && (
+                                <MenuDropdown
+                                    show={showSubtitlesMenu}
+                                    onClose={() => setShowSubtitlesMenu(false)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '100%',
+                                        left: 0,
+                                        border: '1px solid #000',
+                                        borderTop: 'none',
+                                        zIndex: 1001
+                                    }}
+                                >
+                                    <MenuItem onClick={toggleSubtitles} checked={showSubtitles}>
+                                        {showSubtitles ? 'Disable Subtitles' : 'Enable Subtitles'}
+                                    </MenuItem>
+                                </MenuDropdown>
+                            )}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Video Container */}
+                <div style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    backgroundColor: "#000",
+                    borderRadius: "0 0 4px 4px",
+                    overflow: "visible"
+                }}>
+                    <div style={{ flex: 1, position: "relative" }}>
+                        <video
+                            ref={videoRef}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "contain",
+                            }}
+                            autoPlay
                             onClick={togglePlay}
+                        >
+                            <source src="./juice.mp4" type="video/mp4" />
+                            <track label="English" kind="subtitles" srclang="en" src="./juice.vtt" default />
+                            Your browser does not support the video tag.
+                        </video>
+                        {showSubtitles && currentCue && (
+                            <div style={{
+                                position: 'absolute',
+                                bottom: '5%',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                color: '#FFE600',
+                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
+                                fontSize: '18px',
+                                textShadow: `-2px -2px 0 #000,
+                                    2px -2px 0 #000,
+                                    -2px 2px 0 #000,
+                                    2px 2px 0 #000,
+                                    -2px 0 0 #000,
+                                    2px 0 0 #000,
+                                    0 -2px 0 #000,
+                                    0 2px 0 #000`,
+                                textAlign: 'center',
+                                maxWidth: '90%',
+                                whiteSpace: 'pre-line',
+                                fontWeight: 'normal'
+                            }}>
+                                {currentCue}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Control Bar */}
+                    <div style={{
+                        backgroundColor: "#fff",
+                        borderTop: "1px solid #000",
+                        padding: "4px",
+                    }}>
+                        {/* Timeline */}
+                        <div
+                            onClick={handleSeek}
                             style={{
-                                background: "none",
-                                border: "1px solid #000",
-                                color: "#000",
+                                height: "8px",
+                                backgroundColor: "#fff",
+                                marginBottom: "4px",
                                 cursor: "pointer",
-                                padding: "2px",
-                                width: "24px",
-                                height: "24px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "16px",
-                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
+                                position: "relative",
+                                border: "1px solid #000"
                             }}
                         >
-                            {isPlaying ? '⏸' : '▶'}
-                        </button>
-
-                        <button
-                            onClick={handleSkipForward}
-                            style={{
-                                background: "none",
-                                border: "1px solid #000",
-                                color: "#000",
-                                cursor: "pointer",
-                                padding: "2px",
-                                width: "24px",
-                                height: "24px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "12px",
-                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
-                            }}
-                        >
-                            10→
-                        </button>
-
-                        <div style={{
-                            color: "#000",
-                            fontSize: "12px",
-                            fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
-                            marginLeft: "8px"
-                        }}>
-                            {formatTime(currentTime)} / {formatTime(duration)}
+                            <div style={{
+                                height: "100%",
+                                backgroundColor: "#000",
+                                width: `${(currentTime / duration) * 100}%`,
+                            }} />
                         </div>
 
-                        <div style={{ flex: 1 }} />
-
-                        <div style={{ position: "relative" }}>
+                        {/* Controls */}
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "2px",
+                            padding: "0 4px"
+                        }}>
                             <button
-                                onMouseEnter={() => !isDraggingVolume && setShowVolume(true)}
+                                onClick={handleSkipBackward}
                                 style={{
                                     background: "none",
                                     border: "1px solid #000",
@@ -619,89 +551,162 @@ export default function VideoWindow({ position, isDragging, isActive, handleMous
                                     fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
                                 }}
                             >
-                                {volume === 0 ? '×♪' : volume < 0.5 ? '♪' : '♪♪'}
+                                ←10
                             </button>
 
-                            {(showVolume || isDraggingVolume) && (
-                                <div
+                            <button
+                                onClick={togglePlay}
+                                style={{
+                                    background: "none",
+                                    border: "1px solid #000",
+                                    color: "#000",
+                                    cursor: "pointer",
+                                    padding: "2px",
+                                    width: "24px",
+                                    height: "24px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontSize: "16px",
+                                    fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
+                                }}
+                            >
+                                {isPlaying ? '⏸' : '▶'}
+                            </button>
+
+                            <button
+                                onClick={handleSkipForward}
+                                style={{
+                                    background: "none",
+                                    border: "1px solid #000",
+                                    color: "#000",
+                                    cursor: "pointer",
+                                    padding: "2px",
+                                    width: "24px",
+                                    height: "24px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontSize: "12px",
+                                    fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
+                                }}
+                            >
+                                10→
+                            </button>
+
+                            <div style={{
+                                color: "#000",
+                                fontSize: "12px",
+                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif",
+                                marginLeft: "8px"
+                            }}>
+                                {formatTime(currentTime)} / {formatTime(duration)}
+                            </div>
+
+                            <div style={{ flex: 1 }} />
+
+                            <div style={{ position: "relative" }}>
+                                <button
+                                    onMouseEnter={() => !isDraggingVolume && setShowVolume(true)}
                                     style={{
-                                        position: "absolute",
-                                        bottom: "100%",
-                                        left: "50%",
-                                        transform: "translateX(-50%)",
-                                        marginBottom: "8px",
-                                        backgroundColor: "#fff",
+                                        background: "none",
                                         border: "1px solid #000",
-                                        padding: "4px",
+                                        color: "#000",
+                                        cursor: "pointer",
+                                        padding: "2px",
+                                        width: "24px",
+                                        height: "24px",
                                         display: "flex",
-                                        flexDirection: "column",
                                         alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: "12px",
+                                        fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
                                     }}
-                                    onMouseLeave={() => !isDraggingVolume && setShowVolume(false)}
                                 >
+                                    {volume === 0 ? '×♪' : volume < 0.5 ? '♪' : '♪♪'}
+                                </button>
+
+                                {(showVolume || isDraggingVolume) && (
                                     <div
-                                        ref={volumeBarRef}
-                                        onMouseDown={handleVolumeMouseDown}
                                         style={{
-                                            width: "24px",
-                                            height: "80px",
+                                            position: "absolute",
+                                            bottom: "100%",
+                                            left: "50%",
+                                            transform: "translateX(-50%)",
+                                            marginBottom: "8px",
                                             backgroundColor: "#fff",
                                             border: "1px solid #000",
-                                            cursor: "pointer",
-                                            position: "relative"
-                                        }}
-                                    >
-                                        <div style={{
-                                            position: "absolute",
-                                            bottom: 0,
-                                            left: 0,
-                                            right: 0,
-                                            height: `${volume * 100}%`,
-                                            backgroundColor: "#000"
-                                        }} />
-                                        <div style={{
-                                            position: "absolute",
-                                            left: 0,
-                                            right: 0,
-                                            height: "100%",
+                                            padding: "4px",
                                             display: "flex",
                                             flexDirection: "column",
-                                            justifyContent: "space-between",
-                                            padding: "4px 0",
-                                            pointerEvents: "none"
-                                        }}>
-                                            {[...Array(5)].map((_, i) => (
-                                                <div key={i} style={{
-                                                    width: "100%",
-                                                    borderTop: "1px solid #000",
-                                                    opacity: 0.2
-                                                }} />
-                                            ))}
+                                            alignItems: "center",
+                                        }}
+                                        onMouseLeave={() => !isDraggingVolume && setShowVolume(false)}
+                                    >
+                                        <div
+                                            ref={volumeBarRef}
+                                            onMouseDown={handleVolumeMouseDown}
+                                            style={{
+                                                width: "24px",
+                                                height: "80px",
+                                                backgroundColor: "#fff",
+                                                border: "1px solid #000",
+                                                cursor: "pointer",
+                                                position: "relative"
+                                            }}
+                                        >
+                                            <div style={{
+                                                position: "absolute",
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                height: `${volume * 100}%`,
+                                                backgroundColor: "#000"
+                                            }} />
+                                            <div style={{
+                                                position: "absolute",
+                                                left: 0,
+                                                right: 0,
+                                                height: "100%",
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                justifyContent: "space-between",
+                                                padding: "4px 0",
+                                                pointerEvents: "none"
+                                            }}>
+                                                {[...Array(5)].map((_, i) => (
+                                                    <div key={i} style={{
+                                                        width: "100%",
+                                                        borderTop: "1px solid #000",
+                                                        opacity: 0.2
+                                                    }} />
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
 
-                        <button
-                            onClick={toggleFullscreen}
-                            style={{
-                                background: "none",
-                                border: "1px solid #000",
-                                color: "#000",
-                                cursor: "pointer",
-                                padding: "2px",
-                                width: "24px",
-                                height: "24px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "14px",
-                                fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
-                            }}
-                        >
-                            {isFullscreen ? '↙' : '↗'}
-                        </button>
+                            <button
+                                onClick={toggleFullscreen}
+                                style={{
+                                    background: "none",
+                                    border: "1px solid #000",
+                                    color: "#000",
+                                    cursor: "pointer",
+                                    padding: "2px",
+                                    width: "24px",
+                                    height: "24px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontSize: "14px",
+                                    fontFamily: "'Jersey 25', Arial, Helvetica, sans-serif"
+                                }}
+                            >
+                                {isFullscreen ? '↙' : '↗'}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

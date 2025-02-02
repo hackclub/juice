@@ -161,7 +161,13 @@ export default function FortuneBasket({
   }
 
   return (
-    <>
+    <div style={{
+      transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
+      position: "absolute", 
+      top: "50%",
+      left: "50%",
+      zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX
+    }}>
       <style>{cookieShakeKeyframes}</style>
       <div 
         onClick={(e) => {
@@ -172,7 +178,6 @@ export default function FortuneBasket({
         }}
         style={{
           display: "flex", 
-          position: "absolute", 
           width: 300,
           height: 220,
           backgroundColor: "#fff", 
@@ -183,11 +188,8 @@ export default function FortuneBasket({
           color: 'black',
           justifyContent: "flex-start",
           alignItems: "center",
-          transform: `translate(calc(-50% + ${position.x}px), calc(-50% + ${position.y}px))`,
-          top: "50%",
-          left: "50%",
           userSelect: "none",
-          zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX
+          animation: "linear .3s windowShakeAndScale"
         }}>
         <div 
           onMouseDown={(e) => {
@@ -300,6 +302,6 @@ export default function FortuneBasket({
         {/* Confetti effect */}
         {showConfetti && <Confetti width={300} height={200} recycle={false} numberOfPieces={200} colors={['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3']} />}
       </div>
-    </>
+    </div>
   );
 }

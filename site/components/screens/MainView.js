@@ -13,6 +13,8 @@ import Background from '../Background';
 import ShareSuccessPanel from './ShareSuccessPanel';
 import FortuneBasket from './FortuneBasket';
 import ThanksWindow from './ThanksWindow';
+import JungleWindow from './JungleWindow';
+import FruitBasketWindow from './FruitBasketWindow';
 
 export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserData }) {
   const [time, setTime] = React.useState(new Date());
@@ -32,6 +34,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
   const [factionPosition, setFactionPosition] = React.useState({ x: 250, y: 250 });
   const [firstChallengePosition, setFirstChallengePosition] = React.useState({ x: 300, y: 300 });
   const [juiceWindowPosition, setJuiceWindowPosition] = React.useState({ x: 0, y: 0 });
+  const [jungleWindowPosition, setjungleWindowPosition] = React.useState({ x: 0, y: 0 });
+  const [fruitBasketWindowPosition, setFruitBasketWindowPosition] = React.useState({ x: 0, y: 0})
   const [fortuneBasketPosition, setFortuneBasketPosition] = React.useState({ 
     x: Math.max(0, window.innerWidth / 2 - 150), 
     y: Math.max(0, window.innerHeight / 2 - 110)
@@ -56,6 +60,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
     video: 397,
     faction: 200,
     juiceWindow: 300,
+    jungleWindow: 300,
+    fruitBasketWindow: 300,
     fortuneBasket: 220,
     thanks: 300
   };
@@ -97,6 +103,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('achievements')) {
           setOpenWindows(prev => [...prev, 'achievements']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'achievements'), 'achievements']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'achievements'), 'achievements']);
         }
@@ -104,6 +112,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('wutIsThis')) {
           setOpenWindows(prev => [...prev, 'wutIsThis']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'wutIsThis'), 'wutIsThis']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'wutIsThis'), 'wutIsThis']);
         }
@@ -111,6 +121,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('register')) {
           setOpenWindows(prev => [...prev, 'register']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'register'), 'register']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'register'), 'register']);
         }
@@ -118,6 +130,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('juiceWindow')) {
           setOpenWindows(prev => [...prev, 'juiceWindow']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'juiceWindow'), 'juiceWindow']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'juiceWindow'), 'juiceWindow']);
         }
@@ -125,6 +139,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('video')) {
           setOpenWindows(prev => [...prev, 'video']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'video'), 'video']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'video'), 'video']);
         }
@@ -132,6 +148,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('fortuneBasket')) {
           setOpenWindows(prev => [...prev, 'fortuneBasket']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'fortuneBasket'), 'fortuneBasket']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'fortuneBasket'), 'fortuneBasket']);
         }
@@ -139,6 +157,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('kudos')) {
           setOpenWindows(prev => [...prev, 'kudos']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'kudos'), 'kudos']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'kudos'), 'kudos']);
         }
@@ -146,13 +166,33 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         if (!openWindows.includes('thanks')) {
           setOpenWindows(prev => [...prev, 'thanks']);
           setWindowOrder(prev => [...prev.filter(w => w !== 'thanks'), 'thanks']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
         } else {
           setWindowOrder(prev => [...prev.filter(w => w !== 'thanks'), 'thanks']);
+        }
+      } else if (fileId === "Jungle") {
+        if (!openWindows.includes('jungleWindow')) {
+          setOpenWindows(prev => [...prev, 'jungleWindow']);
+          setWindowOrder(prev => [...prev.filter(w => w !== 'jungleWindow'), 'jungleWindow']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
+        } else {
+          setWindowOrder(prev => [...prev.filter(w => w !== 'jungleWindow'), 'jungleWindow']);
+        }
+      } else if (fileId === "FruitBasket") {
+        if (!openWindows.includes('fruitBasketWindow')) {
+          setOpenWindows(prev => [...prev, 'fruitBasketWindow']);
+          setWindowOrder(prev => [...prev.filter(w => w !== 'fruitBasketWindow'), 'fruitBasketWindow']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
+        } else {
+          setWindowOrder(prev => [...prev.filter(w => w !== 'fruitBasketWindow'), 'fruitBasketWindow']);
         }
       }
     }
     setSelectedFile(fileId);
-  };
+  }
 
   const handleMouseDown = (windowName) => (e) => {
     console.log('MouseDown triggered for window:', windowName);
@@ -198,6 +238,12 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
       case 'thanks':
         position = thanksPosition;
         break;
+      case 'jungleWindow':
+        position = jungleWindowPosition
+        break;
+      case 'fruitBasketWindow':
+        position = fruitBasketWindowPosition
+        break
       default:
         console.log('Unknown window name:', windowName);
         position = { x: 0, y: 0 };
@@ -249,6 +295,10 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         setKudosPosition(newPosition);
       } else if (activeWindow === 'thanks') {
         setThanksPosition(newPosition);
+      } else if (activeWindow === 'jungleWindow') {
+        setjungleWindowPosition(newPosition);
+      } else if (activeWindow === 'fruitBasketWindow') {
+        setFruitBasketWindowPosition(newPosition);
       }
     }
   };
@@ -286,6 +336,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
   const handleRegisterOpen = () => {
     if (!openWindows.includes('register')) {
       setOpenWindows(prev => [...prev, 'register']);
+      document.getElementById("windowOpenAudio").currentTime = 0;
+      document.getElementById("windowOpenAudio").play();
       setWindowOrder(prev => [...prev.filter(w => w !== 'register'), 'register']);
     } else {
       setWindowOrder(prev => [...prev.filter(w => w !== 'register'), 'register']);
@@ -295,6 +347,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
   const handleFactionOpen = () => {
     if (!openWindows.includes('faction')) {
       setOpenWindows(prev => [...prev, 'faction']);
+      document.getElementById("windowOpenAudio").currentTime = 0;
+      document.getElementById("windowOpenAudio").play();
       setWindowOrder(prev => [...prev.filter(w => w !== 'faction'), 'faction']);
     } else {
       setWindowOrder(prev => [...prev.filter(w => w !== 'faction'), 'faction']);
@@ -304,6 +358,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
   const handleFirstChallengeOpen = () => {
     if (!openWindows.includes('firstChallenge')) {
       setOpenWindows(prev => [...prev, 'firstChallenge']);
+      document.getElementById("windowOpenAudio").currentTime = 0;
+      document.getElementById("windowOpenAudio").play();
       setWindowOrder(prev => [...prev.filter(w => w !== 'firstChallenge'), 'firstChallenge']);
     } else {
       setWindowOrder(prev => [...prev.filter(w => w !== 'firstChallenge'), 'firstChallenge']);
@@ -317,6 +373,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         // Open register window if no token
         if (!openWindows.includes('register')) {
           setOpenWindows(prev => [...prev, 'register']);
+          document.getElementById("windowOpenAudio").currentTime = 0;
+          document.getElementById("windowOpenAudio").play();
           setWindowOrder(prev => [...prev.filter(w => w !== 'register'), 'register']);
         }
         return;
@@ -386,6 +444,8 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
   const handleFortuneCookieOpen = () => {
     if (!openWindows.includes('fortuneBasket')) {
       setOpenWindows(prev => [...prev, 'fortuneBasket']);
+      document.getElementById("windowOpenAudio").currentTime = 0;
+      document.getElementById("windowOpenAudio").play();
     }
   };
 
@@ -533,6 +593,25 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
             transform: scale(1.1);
           }
         }
+        @keyframes windowShakeAndScale {
+          0%{
+            transform: rotateZ(0deg) scale(0.5);
+          }
+          33%{
+            transform: rotateZ(20deg) scale(1.2);
+          }
+          66%{
+            transform: rotateZ(-20deg) scale(0.8);
+          }
+          100% {
+            transform: rotateZ(0deg) scale(1);
+          }
+        }
+        @keyframes rainbow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0%, 50%; }
+        }
       `}</style>
       <div 
         style={{
@@ -596,6 +675,26 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
                         color: '#000',
                         fontWeight: userData?.totalKudos > 0 ? 'bold' : 'normal'
                     }}>{userData?.totalKudos || 0}</p>
+                </div>
+                <div style={{
+                    display: "flex", 
+                    border: "1px solid #000", 
+                    alignItems: "center", 
+                    justifyContent: "space-around", 
+                    borderRadius: 4, 
+                    padding: "2px 4px",
+                    minWidth: 42,
+                    gap: 6,
+                    transition: 'all 0.3s ease',
+                    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                    borderColor: '#000'
+                }}>  
+                    <img style={{width: 14, height: 14}} src={"/jungle/token.png"}/>
+                    <p style={{
+                        fontSize: 16,
+                        color: '#000',
+                        fontWeight: userData?.totalKudos > 0 ? 'bold' : 'normal'
+                    }}>{userData?.totalTokens || 0}</p>
                 </div>
                 <p style={{
                     color: "rgba(0, 0, 0, 0.8)",
@@ -728,6 +827,42 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
           />
         )}
 
+        {openWindows.includes('jungleWindow') && (
+          <JungleWindow
+            position={jungleWindowPosition}
+            isDragging={isDragging && activeWindow === 'jungleWindow'}
+            isActive={windowOrder[windowOrder.length - 1] === 'jungleWindow'}
+            handleMouseDown={handleMouseDown}
+            handleDismiss={handleDismiss}
+            handleWindowClick={handleWindowClick}
+            BASE_Z_INDEX={getWindowZIndex('jungleWindow')}
+            ACTIVE_Z_INDEX={getWindowZIndex('jungleWindow')}
+            userData={userData}
+            setUserData={setUserData}
+            startJuicing={startJuicing}
+            playCollectSound={playCollectSound}
+            isJuicing={isJuicing}
+          />
+        )}
+
+        {openWindows.includes('fruitBasketWindow') && (
+          <FruitBasketWindow
+            position={fruitBasketWindowPosition}
+            isDragging={isDragging && activeWindow === 'fruitBasketWindow'}
+            isActive={windowOrder[windowOrder.length - 1] === 'fruitBasketWindow'}
+            handleMouseDown={handleMouseDown}
+            handleDismiss={handleDismiss}
+            handleWindowClick={handleWindowClick}
+            BASE_Z_INDEX={getWindowZIndex('fruitBasketWindow')}
+            ACTIVE_Z_INDEX={getWindowZIndex('fruitBasketWindow')}
+            userData={userData}
+            setUserData={setUserData}
+            startJuicing={startJuicing}
+            playCollectSound={playCollectSound}
+            isJuicing={isJuicing}
+          />
+        )}
+
         {openWindows.includes('fortuneBasket') && (
           <FortuneBasket 
             handleDismiss={() => handleDismiss('fortuneBasket')}
@@ -785,14 +920,16 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         }}>
             <div style={{display: "flex", gap: 8, flexDirection: "row", padding: 8}}>
                 <div>
-                    <FileIcon 
-                        text="wutIsThis.txt" 
-                        icon="./texticon.png"
-                        isSelected={selectedFile === "file1"}
-                        onClick={handleFileClick("file1")}
-                        delay={0}
-                        data-file-id="file1"
-                    />
+                  {isLoggedIn && (
+                      <FileIcon
+                      text="Jungle"
+                      icon="./jungle/jungleicon.png"
+                      isSelected={selectedFile === "Jungle"}
+                      onClick={handleFileClick("Jungle")}
+                      delay={0.5}
+                      data-file-id="Jungle"
+                      />
+                    )}
                     <FileIcon 
                         text="Achievements" 
                         icon="achievmentsicon.png"
@@ -809,6 +946,16 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
                         delay={0.4} 
                         data-file-id="Fortune Basket" 
                     />
+                    {isLoggedIn && (
+                      <FileIcon
+                      text="Fruit Basket"
+                      icon="./jungle/fullbasket.png"
+                      isSelected={selectedFile === "FruitBasket"}
+                      onClick={handleFileClick("FruitBasket")}
+                      delay={0.5}
+                      data-file-id="FruitBasket"
+                      />
+                    )}
                 </div>
                 <div>
                     <FileIcon 
@@ -827,16 +974,28 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
                         delay={0.3}
                         data-file-id="video.mp4"
                     />
-                    {isLoggedIn &&
+                    {isLoggedIn &&(
+                      <FileIcon 
+                          text="Kudos"
+                          icon="./kudos.png" 
+                          style={{ backgroundColor: "#000", color: "#fff" }}
+                          isSelected={selectedFile === "Kudos"}
+                          onClick={handleFileClick("Kudos")}
+                          delay={0.5}
+                          data-file-id="Kudos"
+                      />
+                    )
+                    }
+                </div>
+                <div>
                     <FileIcon 
-                        text="Kudos"
-                        icon="./kudos.png" 
-                        style={{ backgroundColor: "#000", color: "#fff" }}
-                        isSelected={selectedFile === "Kudos"}
-                        onClick={handleFileClick("Kudos")}
-                        delay={0.5}
-                        data-file-id="Kudos"
-                    />}
+                        text="wutIsThis.txt" 
+                        icon="./texticon.png"
+                        isSelected={selectedFile === "file1"}
+                        onClick={handleFileClick("file1")}
+                        delay={0}
+                        data-file-id="file1"
+                    />
                 </div>
             </div>
         </div>
@@ -963,6 +1122,7 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
         {/* Add audio elements */}
         <audio id="juicerAudio" src="./juicer.mp3" preload="auto"></audio>
         <audio id="collectAudio" src="./collect.mp3" preload="auto"></audio>
+        <audio id="windowOpenAudio" src="./sounds/windowOpenSound.wav"/>
       </div>
     </div>
   );

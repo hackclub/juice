@@ -81,6 +81,8 @@ export default function WelcomeWindow({ position, isDragging, isActive, handleMo
                 setIsMuted(true);
             }
             setTimeout(() => {
+                document.getElementById("windowOpenAudio").currentTime = 0;
+                document.getElementById("windowOpenAudio").play();
                 setOpenWindows(prev => [...prev, 'wutIsThis']);
                 setWindowOrder(prev => [...prev.filter(w => w !== 'wutIsThis'), 'wutIsThis']);
                 
@@ -98,6 +100,8 @@ export default function WelcomeWindow({ position, isDragging, isActive, handleMo
             }, 100);
         } else if (options[index] === 'Start Juicing') {
             setTimeout(() => {
+                document.getElementById("windowOpenAudio").currentTime = 0;
+                document.getElementById("windowOpenAudio").play();
                 setOpenWindows(prev => [...prev, 'juiceWindow']);
                 setWindowOrder(prev => [...prev.filter(w => w !== 'juiceWindow'), 'juiceWindow']);
             }, 100);
