@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://e00rxbd4xd1c"]
+
+[ext_resource type="Script" path="res://chef.gd" id="1_g2kvc"]
+[ext_resource type="Texture2D" uid="uid://bfelsvg5oqpu6" path="res://art/walk1.png" id="1_tqb7i"]
+[ext_resource type="Texture2D" uid="uid://cnxxk4srktn5r" path="res://art/walk2.png" id="2_h6aya"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0vm8h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tqb7i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_h6aya")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Chef" type="Area2D"]
+script = ExtResource("1_g2kvc")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_0vm8h")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-28, 56, -4, 54, -4, 30, 10, 54, 30, 50, 12, 14, 38, 12, 40, -56, -38, -56, -36, 6, -20, 14)
