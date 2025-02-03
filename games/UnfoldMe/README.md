@@ -1,6 +1,6 @@
 # Game Name
 
-**Team Members:** Darren Su & Eddie Bian
+**Team Members:** Darren Su, Eddie Bian, Bianca Bian
 
 **How would you pitch your game in one line?**
 It's like Celeste meets Origami, where each minute unfolds into a new adventure along your paper buddy

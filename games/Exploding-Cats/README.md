@@ -1,6 +1,6 @@
 # Exploding-Cats
 
-**Team Members:** Jamie Chopon
+**Team Members:** Jamie Chopon , Ethan Brende
 
 **How would you pitch your game in one line?**
 

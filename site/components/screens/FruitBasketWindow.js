@@ -22,7 +22,7 @@ export default function FruitBasketWindow({ position, isDragging, isActive, hand
     };
 
     const handleRedeemTokens = () => {
-        alert("This feature will become available in " + Math.floor((new Date("2025-02-04T00:00:00").getTime() - new Date().getTime())/3600000) + " hours " + "and " + Math.round((new Date("2025-02-04T00:00:00").getTime() - new Date().getTime())/60000%60) + " minutes")
+        alert("This feature will become available in " + Math.floor((new Date("2025-02-05T00:00:00").getTime() - new Date().getTime())/3600000) + " hours " + "and " + Math.round((new Date("2025-02-04T00:00:00").getTime() - new Date().getTime())/60000%60) + " minutes")
     }
 
     // Load data
