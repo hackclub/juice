@@ -1,18 +1,21 @@
 **HELLEVATOR**
 
-**Team Members:** [Your names here]
+**Team Members:** [Ayham, Shaibal]
 
 **How would you pitch your game in one line?**
-ultrakill but its just a middle aged man swept into hell from an elevator from his office apartment
+A player descends through randomly generated dungeon layers using a central elevator while battling enemies and overcoming challenges.
 
 **What is the key mechanic(s) that make it fun?**
-the movement and weapons should make it pretty clear to the player that this is meant to be a speedrunning game. meaning theres no limit to how fast you can go. any strategy you find. use it.
+Dynamic Movement & Exploration – Smooth traversal and fluid movement make it easy to navigate each level.
+Randomized Dungeon Layouts – Every playthrough feels fresh with procedurally generated maps.
+Combat & Encounters – Engaging enemy spawns keeps the action exciting.
 
 **How does the game actually play? (Core Game Loop)**
-*elevator dings* you are now in hell. then the elevator opens and you're forced to punch off a few enemies chasing you
+Spawn in a procedurally generated dungeon floor.
+Fight off random enemies and creatures.
 
 **How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?**
-make them fall into the trap of improvement. that feeling that "i could do a LITTLE bit better" and have them entrapped into the game for eternity.. or as long as you like :)
+completing the game will take 30 minutes or more, depending on the player's skill level, and replayability will happen due to its randomised maps.
 
 ---
 *Remember: Focus on gameplay mechanics and player experience. Save the details about story, art style, sound design, UI flowcharts, marketing plans, or achievements for later.*
