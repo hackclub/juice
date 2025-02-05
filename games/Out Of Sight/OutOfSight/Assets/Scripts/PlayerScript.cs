@@ -4,9 +4,9 @@ public class PlayerScript : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f; // Force applied for jumping
+
     private bool isGrounded; // To check if the player is on the ground
     private Rigidbody rb;
-    [SerializeField] private 
 
     void Start()
     {
