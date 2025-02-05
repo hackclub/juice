@@ -18,4 +18,4 @@ Roll through the maze, lighting up your surroundings, solving puzzles, and dodgi
 
 **How will you keep players engaged for 30 minutes? What's the general scope of your game (will change as you go)?**
 
-New mechanics, hidden paths, and interactive elements keep things fresh. The game rewards exploration and challenges players to think creatively with light.
+New mechanics, hidden paths, and interactive elements keep things fresh. The game rewards exploration and challenges players to think creatively with light.
