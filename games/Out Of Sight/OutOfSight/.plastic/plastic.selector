@@ -1,0 +1,4 @@
+repository "OutOfSight@Cool_to_Kool@cloud"
+  path "/"
+    br "/main"
+    co "/main"
