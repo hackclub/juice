@@ -1,6 +1,6 @@
 # Castle Hardcore 
 
-**Team Members:** Mohd Faizal
+**Team Members:** Mohd Faizal,Adhdhyan,Parv
 
 **How would you pitch your game in one line?**
 It is like getting over it but in 2d with less frustating and more entertaining levels.
