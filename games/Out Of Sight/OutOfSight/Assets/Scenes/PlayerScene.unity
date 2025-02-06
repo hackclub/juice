@@ -858,9 +858,9 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0.3, y: 0, z: -2.18}
-  Damping: {x: 0.36, y: 0.5}
+  Damping: {x: 0.18, y: 0.5}
   Lookahead:
-    Enabled: 1
+    Enabled: 0
     Time: 0.071
     Smoothing: 3.9
     IgnoreY: 0
@@ -878,7 +878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
+    PositionDamping: {x: 0.75, y: 1, z: 1}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
