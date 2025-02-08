@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!121 &12100000
+Flare:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BF1_Sun
+  m_FlareTexture: {fileID: 2800000, guid: 2c0866669c9da064ea045cb8803808e8, type: 3}
+  m_TextureLayout: 1
+  m_Elements:
+  - m_ImageIndex: 0
+    m_Position: 0
+    m_Size: 140
+    m_Color: {r: 0.4716981, g: 0.25830463, b: 0.246974, a: 0}
+    m_UseLightColor: 1
+    m_Rotate: 0
+    m_Zoom: 0
+    m_Fade: 1
+  - m_ImageIndex: 1
+    m_Position: 0
+    m_Size: 97.34
+    m_Color: {r: 0.9622642, g: 0.6186166, b: 0.54013884, a: 0}
+    m_UseLightColor: 1
+    m_Rotate: 1
+    m_Zoom: 0
+    m_Fade: 1
+  - m_ImageIndex: 6
+    m_Position: 1.58
+    m_Size: 21
+    m_Color: {r: 0.5660378, g: 0.14542612, b: 0.14150944, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 1
+    m_Zoom: 0
+    m_Fade: 1
+  - m_ImageIndex: 6
+    m_Position: 2.07
+    m_Size: 17
+    m_Color: {r: 0.5647059, g: 0.37936917, b: 0.26666668, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 1
+    m_Zoom: 0
+    m_Fade: 1
+  - m_ImageIndex: 7
+    m_Position: 2.19
+    m_Size: 10
+    m_Color: {r: 0.5566038, g: 0.44086364, b: 0.38069597, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 1
+    m_Zoom: 0
+    m_Fade: 1
+  - m_ImageIndex: 9
+    m_Position: 2.19
+    m_Size: 73
+    m_Color: {r: 0.4245283, g: 0.38247597, b: 0.38247597, a: 1}
+    m_UseLightColor: 0
+    m_Rotate: 1
+    m_Zoom: 0
+    m_Fade: 1
+  m_UseFog: 1
