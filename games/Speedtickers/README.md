@@ -1,4 +1,4 @@
-*Team Members:* Juan Esteban, Adrian Gonzalo, Gabriel Picone, Agustin Barrios
+*Team Members:* Juan Esteban, Agustin Barrios
 
 *How would you pitch your game in one line?*
 [A 2d Plataformer based in the ULTRAKILL frenetic movement and the mechanics of Celeste requiring to beat levels before the time runs out.]
