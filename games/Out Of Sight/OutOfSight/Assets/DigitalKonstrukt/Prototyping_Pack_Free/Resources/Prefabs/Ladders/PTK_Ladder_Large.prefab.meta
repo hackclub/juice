@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6ee0bd1490e6fb2419babfdc9edf1855
+timeCreated: 1498297921
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Ladders/PTK_Ladder_Large.prefab
+  uploadId: 190597

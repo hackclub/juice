@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 70e177edaef3e0c4e8b3eb1bdc204afc
+timeCreated: 1498402184
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Collectables/PTK_Collectable_1_red.prefab
+  uploadId: 190597

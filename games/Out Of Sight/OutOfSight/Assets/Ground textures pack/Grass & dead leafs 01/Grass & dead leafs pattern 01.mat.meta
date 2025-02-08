@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 893960384de673345a82517892b28bc7
+labels:
+- Grass
+- Ground
+- Nature
+- Pattern
+- Terrain
+- Leafs
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Grass & dead leafs 01/Grass & dead leafs
+    pattern 01.mat
+  uploadId: 29429

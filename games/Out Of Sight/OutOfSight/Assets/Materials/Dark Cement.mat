@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Grass
+  m_Name: Dark Cement
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -115,8 +115,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.072267726, g: 0.5283019, b: 0.09030293, a: 1}
-    - _Color: {r: 0.0722677, g: 0.5283019, b: 0.09030289, a: 1}
+    - _BaseColor: {r: 0.5188679, g: 0.5164204, b: 0.5164204, a: 1}
+    - _Color: {r: 0.51886785, g: 0.51642036, b: 0.51642036, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

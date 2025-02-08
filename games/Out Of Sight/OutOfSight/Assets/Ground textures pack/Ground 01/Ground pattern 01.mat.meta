@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 748487d582b00d847bd57517f78d8e8f
+labels:
+- Ground
+- Nature
+- Pattern
+- Terrain
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Ground 01/Ground pattern 01.mat
+  uploadId: 29429

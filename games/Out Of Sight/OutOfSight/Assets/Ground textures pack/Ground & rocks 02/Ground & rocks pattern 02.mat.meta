@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: e7268e596932cb541834f57d320a4677
+labels:
+- Ground
+- Nature
+- Pattern
+- Stone
+- Terrain
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Ground & rocks 02/Ground & rocks pattern
+    02.mat
+  uploadId: 29429

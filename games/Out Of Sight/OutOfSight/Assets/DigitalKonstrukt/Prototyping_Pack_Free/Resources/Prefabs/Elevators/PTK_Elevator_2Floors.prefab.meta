@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e1eee625a99d1c547b6557fb3c05765f
+timeCreated: 1498560258
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Elevators/PTK_Elevator_2Floors.prefab
+  uploadId: 190597

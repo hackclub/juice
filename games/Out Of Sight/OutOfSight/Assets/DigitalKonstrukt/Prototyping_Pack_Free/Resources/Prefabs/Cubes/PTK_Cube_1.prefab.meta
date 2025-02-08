@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: b471d26a5eac87b4086c90c7c0b76f4e
+timeCreated: 1498297847
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Cubes/PTK_Cube_1.prefab
+  uploadId: 190597

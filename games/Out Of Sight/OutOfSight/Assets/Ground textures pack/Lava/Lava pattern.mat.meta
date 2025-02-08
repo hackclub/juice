@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 42e26e838cb21e944aa7de2aae4edefc
+labels:
+- Ground
+- Nature
+- Pattern
+- Rock
+- Stone
+- Terrain
+- Lava
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Lava/Lava pattern.mat
+  uploadId: 29429

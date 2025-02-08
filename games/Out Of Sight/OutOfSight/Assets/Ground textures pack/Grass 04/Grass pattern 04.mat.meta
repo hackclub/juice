@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 059cceb0ba6e50741bfe6ec2c755d5f4
+labels:
+- Grass
+- Ground
+- Nature
+- Pattern
+- Terrain
+- Clover
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Grass 04/Grass pattern 04.mat
+  uploadId: 29429

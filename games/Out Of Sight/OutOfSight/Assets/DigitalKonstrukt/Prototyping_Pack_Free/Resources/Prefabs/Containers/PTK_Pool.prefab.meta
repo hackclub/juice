@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: eb5e01ca629f1894186ffde0ed28d33d
+timeCreated: 1498560509
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Containers/PTK_Pool.prefab
+  uploadId: 190597

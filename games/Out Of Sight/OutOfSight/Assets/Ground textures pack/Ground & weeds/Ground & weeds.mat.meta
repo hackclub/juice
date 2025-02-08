@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 5674184a87d87e54ca8047426601a57b
+labels:
+- Nature
+- Pattern
+- Sand
+- Stone
+- Terrain
+- Shell
+- Weeds
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Ground & weeds/Ground & weeds.mat
+  uploadId: 29429

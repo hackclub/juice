@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d86005a29439b7541ade84523818db1a
+labels:
+- Grass
+- Ground
+- Nature
+- Pattern
+- Terrain
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Grass 03/Grass pattern 03.mat
+  uploadId: 29429

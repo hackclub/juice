@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fef78b03d45010a47bf4d11bd5dd5dea
+timeCreated: 1498297799
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Columns/PTK_Column_Medium.prefab
+  uploadId: 190597

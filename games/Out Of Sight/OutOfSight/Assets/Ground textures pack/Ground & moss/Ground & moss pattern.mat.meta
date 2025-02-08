@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5558b5711d37782468eeee5c2880e7d8
+labels:
+- Ground
+- Moss
+- Nature
+- Pattern
+- Terrain
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 13001
+  packageName: Ground Textures Pack
+  packageVersion: 1.0
+  assetPath: Assets/Ground textures pack/Ground & moss/Ground & moss pattern.mat
+  uploadId: 29429

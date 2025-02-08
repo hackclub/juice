@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: f22c6b28664f53d45a7182c78eb84eba
+timeCreated: 1498298065
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Walls/PTK_Wall_Medium_1.prefab
+  uploadId: 190597

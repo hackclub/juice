@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a523b2a222cd33041a9851edfed862dd
+timeCreated: 1498297961
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Ramps/PTK_Ramp_Large.prefab
+  uploadId: 190597

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a1cac729332a2ab4da9eddbafe267558
+timeCreated: 1498298061
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 94277
+  packageName: Prototyping Pack (Free)
+  packageVersion: 1.0
+  assetPath: Assets/DigitalKonstrukt/Prototyping_Pack_Free/Resources/Prefabs/Walls/PTK_Wall_Large_3.prefab
+  uploadId: 190597
