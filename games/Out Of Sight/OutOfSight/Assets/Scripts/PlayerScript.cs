@@ -1,3 +1,5 @@
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -36,7 +38,11 @@ public class PlayerScript : MonoBehaviour
         // Calculate movement direction relative to the camera
         Vector3 movement = (cameraRight * horizontalInput) * moveSpeed * Time.deltaTime;
 
-        movement.z = 0f;
+        if(SceneManager.GetActiveScene().name == "Prototype Scene") {
+            movement.z = 2.5f;
+        } else {
+            movement.z = 0f;
+        }
 
         // Apply the movement in world space
         transform.Translate(movement, Space.World);
