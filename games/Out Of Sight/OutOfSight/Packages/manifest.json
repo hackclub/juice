@@ -8,6 +8,7 @@
     "com.unity.inputsystem": "1.11.2",
     "com.unity.multiplayer.center": "1.0.0",
     "com.unity.probuilder": "6.0.4",
+    "com.unity.render-pipelines.high-definition": "17.0.3",
     "com.unity.render-pipelines.universal": "17.0.3",
     "com.unity.test-framework": "1.4.5",
     "com.unity.timeline": "1.8.7",
