@@ -1,3 +1,5 @@
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -36,14 +38,23 @@ public class PlayerScript : MonoBehaviour
         // Calculate movement direction relative to the camera
         Vector3 movement = (cameraRight * horizontalInput) * moveSpeed * Time.deltaTime;
 
-        // Apply the movement
+        if(SceneManager.GetActiveScene().name == "Prototype Scene") {
+            movement.z = 2.5f;
+        } else {
+            movement.z = 0f;
+        }
+
+        // Apply the movement in world space
         transform.Translate(movement, Space.World);
 
-        // Handle rotation to face the movement direction
-        if (movement != Vector3.zero)
+        // Snap rotation to match movement direction
+        if (horizontalInput > 0) // Moving right
         {
-            Quaternion targetRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+        }
+        else if (horizontalInput < 0) // Moving left
+        {
+            transform.rotation = Quaternion.Euler(0f, -90f, 0f);
         }
 
         // Handle jumping
@@ -57,26 +68,14 @@ public class PlayerScript : MonoBehaviour
         CheckAnimatorParameters(horizontalInput);
     }
 
-    private void CheckAnimatorParameters(float input)
-    {
-        if (isGrounded)
-        {
-            animator.SetBool("IsJumping", false);
-        }
-        else
-        {
-            animator.SetBool("IsJumping", true);
-        }
+   private void CheckAnimatorParameters(float input)
+{
+    // Handle grounded status for jumping animation
+    animator.SetBool("IsJumping", !isGrounded);
 
-        if (input == 0)
-        {
-            animator.SetBool("IsRunning", false);
-        }
-        else
-        {
-            animator.SetBool("IsRunning", true);
-        }
-    }
+    // Handle running animation
+    animator.SetBool("IsRunning", input != 0 && isGrounded);
+}
 
     private void OnCollisionEnter(Collision collision)
     {
