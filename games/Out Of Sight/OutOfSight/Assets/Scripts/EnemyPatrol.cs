@@ -9,6 +9,8 @@ public class EnemyPatrol : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
+    public float health;
+
     //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -17,6 +19,7 @@ public class EnemyPatrol : MonoBehaviour
     //Attacking
     public float timeBetweenAttacks;
     bool alreadyAttacked;
+    public GameObject projectile;
 
     //States
     public float sightRange, attackRange;
@@ -98,6 +101,19 @@ public class EnemyPatrol : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+    }
+
+    private void DestroyEnemy()
+    {
+        Destroy(gameObject);
     }
 
 
