@@ -2,32 +2,79 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f; // Force applied for jumping
+    [SerializeField] private float rotationSpeed = 10f; // Rotation speed in degrees per second
 
     private bool isGrounded; // To check if the player is on the ground
     private Rigidbody rb;
+    private Transform cameraTransform;
 
-    void Start(){
+    void Start()
+    {
         rb = GetComponent<Rigidbody>();
+        cameraTransform = Camera.main.transform; // Assuming the main camera is used
     }
 
     void Update()
     {
-        
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        
-        Vector3 movement = new Vector3(horizontalInput, 0f, 0f) * moveSpeed * Time.deltaTime;
+        // Get the camera's forward and right directions
+        Vector3 cameraForward = cameraTransform.forward;
+        Vector3 cameraRight = cameraTransform.right;
 
-        
-        transform.Translate(movement);
+        // Flatten the vectors to ignore any vertical component
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
 
-       
+        // Normalize the vectors to ensure consistent movement speed
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        // Calculate movement direction relative to the camera
+        Vector3 movement = (cameraRight * horizontalInput) * moveSpeed * Time.deltaTime;
+
+        // Apply the movement
+        transform.Translate(movement, Space.World);
+
+        // Handle rotation to face the movement direction
+        if (movement != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        // Handle jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+        }
+
+        // Update animator parameters
+        CheckAnimatorParameters(horizontalInput);
+    }
+
+    private void CheckAnimatorParameters(float input)
+    {
+        if (isGrounded)
+        {
+            animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+            animator.SetBool("IsJumping", true);
+        }
+
+        if (input == 0)
+        {
+            animator.SetBool("IsRunning", false);
+        }
+        else
+        {
+            animator.SetBool("IsRunning", true);
         }
     }
 
@@ -40,4 +87,3 @@ public class PlayerScript : MonoBehaviour
         }
     }
 }
-
