@@ -7699,7 +7699,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 875120020}
+  m_Mesh: {fileID: 2122947783}
 --- !u!33 &231478920
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -11535,6 +11535,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d280af3b42fb5f04ba881a234d5f1156, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d6c9a28178f252844a93c17ec7c254d9, type: 2}
     - target: {fileID: 919132149155446097, guid: d280af3b42fb5f04ba881a234d5f1156, type: 3}
       propertyPath: m_Name
       value: WoodenStreetBench (2)
@@ -12787,6 +12791,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d280af3b42fb5f04ba881a234d5f1156, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d6c9a28178f252844a93c17ec7c254d9, type: 2}
     - target: {fileID: 919132149155446097, guid: d280af3b42fb5f04ba881a234d5f1156, type: 3}
       propertyPath: m_Name
       value: WoodenStreetBench (4)
@@ -27730,7 +27738,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 875120020}
+  m_Mesh: {fileID: 1211643656}
 --- !u!33 &918798755
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -45008,7 +45016,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 1728429555}
 --- !u!33 &1540785277
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -61129,7 +61137,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1728429555}
+  m_Mesh: {fileID: 848493840}
 --- !u!33 &1885939367
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -67842,6 +67850,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d280af3b42fb5f04ba881a234d5f1156, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d6c9a28178f252844a93c17ec7c254d9, type: 2}
     - target: {fileID: 919132149155446097, guid: d280af3b42fb5f04ba881a234d5f1156, type: 3}
       propertyPath: m_Name
       value: WoodenStreetBench (3)
