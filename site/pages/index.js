@@ -50,7 +50,7 @@ export default function Home() {
 
   const handleAuthentication = async (token) => {
     try {
-      const response = await fetch("/api/user", {
+      const response = await fetch("https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,7 +79,7 @@ export default function Home() {
       // Don't set isLoggedIn until we verify the token
 
       // Fetch user data
-      fetch("/api/user", {
+      fetch("https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -204,6 +204,7 @@ export default function Home() {
           {stage === "loading" && <LoadingScreen />}
           {stage === "computer" && (
             <MainView
+              isJungle={false}
               isLoggedIn={isLoggedIn}
               setIsLoggedIn={setIsLoggedIn}
               userData={userData}

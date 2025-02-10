@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-export default function WutIsThisWindow({ position, isDragging, isActive, handleMouseDown, handleDismiss, handleWindowClick, BASE_Z_INDEX, ACTIVE_Z_INDEX }) {
+export default function WutIsJuiceWindow({ position, isDragging, isActive, handleMouseDown, handleDismiss, handleWindowClick, BASE_Z_INDEX, ACTIVE_Z_INDEX }) {
     const contentRef = useRef(null);
 
     const handleRegisterClick = (e) => {
@@ -23,12 +23,12 @@ export default function WutIsThisWindow({ position, isDragging, isActive, handle
             zIndex: isActive ? ACTIVE_Z_INDEX : BASE_Z_INDEX, 
         }}>
             <div 
-                onClick={handleWindowClick('wutIsThis')}
+                onClick={handleWindowClick('wutIsJuice')}
                 style={{
                     display: "flex", 
                     width: 650,
                     color: 'black',
-                    height: 470,
+                    height: 490,
                     backgroundColor: "#fff", 
                     border: "1px solid #000", 
                     borderRadius: 4,
@@ -38,7 +38,7 @@ export default function WutIsThisWindow({ position, isDragging, isActive, handle
                     animation: "linear .3s windowShakeAndScale"
                 }}>
                 <div 
-                    onMouseDown={handleMouseDown('wutIsThis')}
+                    onMouseDown={handleMouseDown('wutIsJuice')}
                     style={{
                         display: "flex", 
                         borderBottom: "1px solid #00000020", 
@@ -51,9 +51,9 @@ export default function WutIsThisWindow({ position, isDragging, isActive, handle
                         borderTopRightRadius: 4
                     }}>
                     <div style={{display: "flex", flexDirection: "row", gap: 8}}>
-                        <button onClick={(e) => { e.stopPropagation(); handleDismiss('wutIsThis'); }}>x</button>
+                        <button onClick={(e) => { e.stopPropagation(); handleDismiss('wutIsJuice'); }}>x</button>
                     </div>
-                    <p>wutIsThis.txt</p>
+                    <p>wutIsJuice.txt</p>
                     <div></div>
                 </div>
                 <div 
@@ -92,6 +92,9 @@ export default function WutIsThisWindow({ position, isDragging, isActive, handle
                             <li>ship their game to the Steam Store (30min playable content)</li>
                         </ul>
                         <p>You are invited & all of the tools are in your hands to make this adventure happen, so it's up to you. Do you want to make this adventure happen? If <a href="#" class="register-link">let's do this together</a></p>
+                        <b style={{
+                            animation: 'steamGrantFlash 1s infinite'
+                        }}>ALL PARTICIPANTS THAT SHIP & MEET CRITERIA GET FREE STEAM LICENSE GRANT!</b>
                     </div>
                 </div>
             </div>

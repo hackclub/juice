@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 export default function JungleWindow({ position, isDragging, isActive, handleMouseDown, handleDismiss, handleWindowClick, BASE_Z_INDEX, ACTIVE_Z_INDEX, userData, setUserData, startJuicing, playCollectSound, isJuicing }) {
     const [isForagingLocal, setIsForagingLocal] = useState(false);
+    const [isFightingBoss, setIsFightingBoss] = useState(false);
     const [showExplanation, setShowExplanation] = useState(false);
     const [currentStretchId, setCurrentStretchId] = useState(null);
     const [timeForaged, setTimeForaged] = useState('0:00');
@@ -19,6 +20,8 @@ export default function JungleWindow({ position, isDragging, isActive, handleMou
         apples: 0,
         blueberries: 0,
     })
+    const [githubLink, setGithubLink] = useState("")
+    const [itchLink, setItchLink] = useState("")
     const fileInputRef = useRef(null);
     const clickSoundRef = useRef(null);
     const expSoundRef = useRef(null);
@@ -283,7 +286,7 @@ export default function JungleWindow({ position, isDragging, isActive, handleMou
             }
 
             // Fetch updated user data to get new total time
-            const userResponse = await fetch('/api/user', {
+            const userResponse = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user', {
                 headers: {
                     'Authorization': `Bearer ${userData.token}`
                 }
@@ -408,8 +411,67 @@ export default function JungleWindow({ position, isDragging, isActive, handleMou
         }
     };
 
-    const handleFightBoss = () => {
-        alert("You're not strong enough to fight the boss yet! You need to forage more in the jungle.")
+    const handleFightBoss = async () => {
+        if (!userData) return;
+
+        try {
+            const response = await fetch('/api/get-time-to-next-boss', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: userData.token,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to get time to next boss');
+            }
+
+            const data = await response.json();
+            const timeToNextBoss = data.timeToNextBoss;
+            if(!timeToNextBoss) {
+                alert("The jungle seems peaceful... for now.")
+                return;
+            }
+
+            if (timeToNextBoss > 0) {
+                alert(`You're not strong enough to fight the boss yet! You need to forage more in the jungle for ${timeToNextBoss} more hours.`);
+            } else {
+                setIsFightingBoss(true);
+            }
+        } catch (error) {
+            console.error('Error fetching time to next boss:', error);
+        }
+    };
+
+    const handleFinishBoss = async () => {
+        if (!confirm("Are you sure your game meets all the requirements?")) {
+            return;
+        }
+        try {
+            const response = await fetch('/api/finish-boss', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    token: userData.token,
+                    stretchId: currentStretchId, 
+                    githubLink,
+                    itchLink
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fight Boss');
+            }
+            alert("BOSS SLAYED! Go redeem your prize!")
+            setIsFightingBoss(false)
+        } catch (error) {
+            console.error('Error fighting boss:', error);
+        }
     }
 
     return (
@@ -461,7 +523,86 @@ export default function JungleWindow({ position, isDragging, isActive, handleMou
                     <div></div>
                 </div>
                 <div style={{flex: 1, padding: 16, display: "flex", flexDirection: "column", gap: 8}}>
-                    {!showExplanation ? (
+                    {showExplanation ? (
+                        <div style={{display: "flex", flexDirection: "column", gap: 16}}>
+                            <p>Jungle is a way to gamify your process making mini-ships for your game & to log the time you spend making them. When you start working on your game, open the Jungle app and "Start Foraging". Once you have an "OMG IT WORKS MOMENT" capture that beautiful moment & share it with the Juice community. We'll come and give kudos to congratulate you & you'll get credit for that time :) <br/><br/>The Jungle is how you will earn [CURRENCY] to buy assets for your games and publish them on more platforms.</p>
+                            <button onClick={() => {
+                                playClick();
+                                setShowExplanation(false);
+                            }}>
+                                Return to Jungle
+                            </button>
+                        </div>
+                    ) 
+                    : 
+                    isFightingBoss ? (
+                        <>
+                            <h1 style={{fontSize: 32, lineHeight: 1}}>Jungle (v0.1)</h1>
+                            {isJuicing &&
+                            <p>You reached the Mossy Golem</p>
+                            }
+                            <div style={{display: "flex", flexDirection: "column", gap: 4}}>
+                                <p>This beast is a tough one! Your game must have the following features for this boss to be defeated: Working player movement,
+                                    camera controls, interactions with objects in the scene, and a bit of custom art.   
+                                </p>
+                                <p>In order to defeat this monstrosity, you have to upload your game to <a href="https://itch.io">Itch.io</a> 
+                                {" "}and publish your files to <a href='https://github.com'>Github</a>. Also please make sure to commit regularly from now on,
+                                because future bosses will be a lot tougher!</p>
+                                <p>Defeating this stony figure will allow you to REDEEM your tokens collected BEFORE the 3h mark required for this boss</p>
+                            </div>
+
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}>
+                                <img 
+                                    src="/jungle/mossgolem.gif"
+                                    alt="Jungle"
+                                    style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        imageRendering: "pixelated",
+                                        objectFit: "contain"
+                                    }}
+                                />
+                            </div>
+                            
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                margin: "10px 0",
+                            }}>
+                            </div>
+                            <div style={{padding: 8, display: 'flex', gap: 4, flexDirection: "column", border: "1px solid #000"}}>
+                                <input 
+                                    style={{width: "100%", padding: 2}} 
+                                    placeholder="Github Link"
+                                    value={githubLink}
+                                    onChange={(e) => setGithubLink(e.target.value)}
+                                />
+                                <input 
+                                    style={{width: "100%", padding: 2}} 
+                                    placeholder="Itch Link"
+                                    value={itchLink}
+                                    onChange={(e) => setItchLink(e.target.value)}
+                                />
+                                <button 
+                                    onClick={() => {
+                                        playClick();
+                                        handleFinishBoss();
+                                    }}
+                                    disabled={isSubmitting}
+                                    style={{width: "100%"}}
+                                >
+                                    {isSubmitting ? 'Fighting...' : 'FINISH HIM!'}
+                                </button>
+                            </div>
+                        </>
+                    )
+                    :
+                    (
                         <>
                             <h1 style={{fontSize: 32, lineHeight: 1}}>Jungle (v0.1)</h1>
                             {isJuicing &&
@@ -582,7 +723,7 @@ export default function JungleWindow({ position, isDragging, isActive, handleMou
                                     disabled={isSubmitting}
                                     style={{width: "100%"}}
                                 >
-                                    {isSubmitting ? 'Juicing...' : 'End Stretch with your "OMG IT WORKS" moment'}
+                                    {isSubmitting ? 'Foraging...' : 'End Stretch with your "OMG IT WORKS" moment'}
                                 </button>
                                 <div style={{width: "100%", display: "flex"}}>
                                     {isPaused ? (
@@ -620,17 +761,8 @@ export default function JungleWindow({ position, isDragging, isActive, handleMou
                             </div>
                             }
                         </>
-                    ) : (
-                        <div style={{display: "flex", flexDirection: "column", gap: 16}}>
-                            <p>Jungle is a way to gamify your process making mini-ships for your game & to log the time you spend making them. When you start working on your game, open the Jungle app and "Start Foraging". Once you have an "OMG IT WORKS MOMENT" capture that beautiful moment & share it with the Juice community. We'll come and give kudos to congratulate you & you'll get credit for that time :) <br/><br/>The Jungle is how you will earn [CURRENCY] to buy assets for your games and publish them on more platforms.</p>
-                            <button onClick={() => {
-                                playClick();
-                                setShowExplanation(false);
-                            }}>
-                                Return to Jungle
-                            </button>
-                        </div>
-                    )}
+                    )
+                    }
                 </div>
             </div>
         </div>

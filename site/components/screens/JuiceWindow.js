@@ -12,10 +12,32 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
     const [stopTime, setStopTime] = useState(null);
     const [isPaused, setIsPaused] = useState(false);
     const [totalPauseTimeSeconds, setTotalPauseTimeSeconds] = useState(0)
+    const [isWhisperEnabled, setIsWhisperEnabled] = useState(true);
     const fileInputRef = useRef(null);
     const clickSoundRef = useRef(null);
     const expSoundRef = useRef(null);
     const congratsSoundRef = useRef(null);
+    const whisperAudioRefs = useRef([]);
+
+
+    // temporary whisper audio files
+    const whisperAudioFiles = [
+        './whisper1.mp3',
+        './whisper2.mp3',
+        './whisper3.mp3',
+        './whisper4.mp3',
+        './whisper5.mp3',
+        './whisper6.mp3',
+        './whisper7.mp3',
+        './whisper8.mp3',
+        './whisper11.mp3',
+        './whisper12.mp3',
+        './whisper13.mp3',
+        './whisper14.mp3',
+        './whisper15.mp3',
+        './whisper16.mp3',
+
+    ];
     const [juicerImage, setJuicerImage] = useState('/juicerRest.png');
 
     // Add play click function
@@ -41,9 +63,29 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
         }
     };
 
+    const toggleWhisper = () => {
+        setIsWhisperEnabled(!isWhisperEnabled);
+    };
+
+    useEffect(() => {
+        whisperAudioRefs.current = whisperAudioFiles.map((file) => {
+            const audio = new Audio(file);
+            audio.volume = 0.5;
+            return audio;
+        });
+    }, []);
+
+    const playRandomWhisper = () => {
+        const randomIndex = Math.floor(Math.random() * whisperAudioRefs.current.length);
+        const selectedAudio = whisperAudioRefs.current[randomIndex];
+        selectedAudio.currentTime = 0;
+        selectedAudio.play().catch(e => console.error('Error playing whisper audio (whisper to yourself for now :P) :', e));
+    };
+
     useEffect(() => {
         let interval;
         let saveInterval;
+        let whisperInterval;
         if (isJuicingLocal && startTime && !stopTime && !isPaused) {
             interval = setInterval(() => {
                 const now = new Date();
@@ -73,14 +115,20 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                 } catch (error) {
                     console.error('Error pausing juice stretch:', error);
                 }
-            }, 10000)
+            }, 10000);
+            if (isWhisperEnabled) {
+                whisperInterval = setInterval(() => {
+                    playRandomWhisper();
+                }, 15 * 60 * 1000);
+            }
         }
         }
         return () => {
             clearInterval(interval)
             clearInterval(saveInterval)
+            clearInterval(whisperInterval)
         };
-    }, [isJuicingLocal, startTime, stopTime, isPaused]);
+    }, [isJuicingLocal, startTime, stopTime, isPaused, isWhisperEnabled]);
 
     // Load data
     useEffect(() => {
@@ -229,7 +277,7 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             }
 
             // Fetch updated user data to get new total time
-            const userResponse = await fetch('/api/user', {
+            const userResponse = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user', {
                 headers: {
                     'Authorization': `Bearer ${userData.token}`
                 }
@@ -516,6 +564,15 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                                         Cancel Juice Stretch
                                     </button>
                                 </div>
+                                <button 
+                                    onClick={() => {
+                                        playClick();
+                                        toggleWhisper();
+                                    }}
+                                    style={{width: "100%", marginTop: 8}}
+                                >
+                                    {isWhisperEnabled ? 'Disable Whisper Audio' : 'Enable Whisper Audio'}
+                                </button>
                             </div>
                             }
                         </>
@@ -534,4 +591,4 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             </div>
         </div>
     );
-} 
+}

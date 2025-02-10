@@ -157,6 +157,8 @@ export default function AchievementsWindow({ position, isDragging, isActive, han
                         <div style={{display: "flex", alignItems: "center", gap: 8}}>
                             <p>Rank 3</p>
                             <Image src="/lock.svg" width={16} height={16} alt="locked" />
+                            
+                            {userData?.achievements?.includes("poc_submitted") && <p style={{fontSize: 10, color: "red"}}>WILL UNLOCK FEB 9 MIDNIGHT</p>}
                         </div>
                         <p>Take a vertical slice of your game and make it great</p>
                     </div>

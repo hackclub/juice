@@ -8,7 +8,8 @@ export default function FruitBasketWindow({ position, isDragging, isActive, hand
         apples: 0,
         blueberries: 0,
     })
-    const fileInputRef = useRef(null);
+    const [hasClickedRedeem, setHasClickedRedeem] = useState(false)
+    const [showList, setShowList] = useState(false)
     const clickSoundRef = useRef(null);
     const expSoundRef = useRef(null);
     const congratsSoundRef = useRef(null);
@@ -22,7 +23,13 @@ export default function FruitBasketWindow({ position, isDragging, isActive, hand
     };
 
     const handleRedeemTokens = () => {
-        alert("This feature will become available in " + Math.floor((new Date("2025-02-04T00:00:00").getTime() - new Date().getTime())/3600000) + " hours " + "and " + Math.round((new Date("2025-02-04T00:00:00").getTime() - new Date().getTime())/60000%60) + " minutes")
+        if(!hasClickedRedeem)
+            setHasClickedRedeem(true);
+        else 
+            if(userData.totalRedeemableTokens == 0)
+                alert("You have to fight the next boss to redeem your tokens!")
+            else
+                window.location.replace("https://airtable.com/appHyfZjPXrRXxVGl/pagm3aJtiGwB7NfJl/form")
     }
 
     // Load data
@@ -116,18 +123,13 @@ export default function FruitBasketWindow({ position, isDragging, isActive, hand
                     <div></div>
                 </div>
                 <div style={{flex: 1, padding: 16, display: "flex", flexDirection: "column", gap: 8}}>
-                    <>
+                    {hasClickedRedeem ? 
+                    showList ? (<>
                         <h1 style={{fontSize: 32, lineHeight: 1}}>Fruit Basket</h1>
-                        <p>Here you can see all the fruit you foraged in the Jungle! After defeating your first boss in the jungle you can reedem this and buy assets for your game as well as publish it on other platforms! More details to come.</p>
-                        
-                        <div style={{display: "flex", flexDirection: "column", gap: 4}}>
-                            <p><img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/junglekiwi.png'/> Kiwis: {fruitCollected.kiwis}, {" "}
-                            <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/junglelemon.png'/> Lemons: {fruitCollected.lemons}, {" "}
-                            <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/jungleorange.png'/> Oranges: {fruitCollected.oranges} {" "}<br/>
-                            <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/jungleapple.png'/> Apples: {fruitCollected.apples}, {" "}
-                            <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/jungleblueberry.png'/> Blueberries: {fruitCollected.blueberries} <br/>
-                            <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/token.png'/> Tokens: {userData.totalTokens}</p>
-                        </div>
+                        <p>
+                        With the card grant you will be able to purchase: Steam Developer license, Google Play license, Apple App Store Developer license, Epic Games Developer license, 
+                        Game Maker Studio 2 Commercial license, Unity Asset Store assets, Itch.io Asset Store assets, FL studio License, Aseprite License
+                        </p>
 
                         <div style={{
                             display: "flex",
@@ -145,7 +147,65 @@ export default function FruitBasketWindow({ position, isDragging, isActive, hand
                                 }}
                             />
                         </div>
-                    </>
+                    </>) : 
+                        (<>
+                            <h1 style={{fontSize: 32, lineHeight: 1}}>Fruit Basket</h1>
+                            <p>You can redeem <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/goldToken.png'/>
+                            {userData.totalRedeemableTokens} (which is about {userData.totalRedeemableTokens / 10.6} USD). Fight more bosses to be able to redeem more tokens! 
+                            After completing the form you'll get your funds on a prepaid HCB card after we approve your submission.
+                             <a href='#'><button style={{all: "unset"}} onClick={() => setShowList(true)}>Here's a list of what you can spend your funds on</button></a>
+                            </p>
+
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}>
+                                <img 
+                                    src={fruitCollected.apples == 0 && fruitCollected.blueberries == 0 && fruitCollected.kiwis == 0 && fruitCollected.lemons == 0 && fruitCollected.oranges == 0 ? "/jungle/basket.png" : "/jungle/fullbasket.png"}
+                                    alt="Basket"
+                                    style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        imageRendering: "pixelated",
+                                        objectFit: "contain"
+                                    }}
+                                />
+                            </div>
+                        </>) : (
+                        <>
+                            <h1 style={{fontSize: 32, lineHeight: 1}}>Fruit Basket</h1>
+                            <p>Here you can see all the fruit you foraged in the Jungle! After defeating your first boss in the jungle you can reedem this and buy assets for your game as well as publish it on other platforms! More details to come.</p>
+                            
+                            <div style={{display: "flex", flexDirection: "column", gap: 4}}>
+                                <p><img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/junglekiwi.png'/> Kiwis: {fruitCollected.kiwis}, {" "}
+                                <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/junglelemon.png'/> Lemons: {fruitCollected.lemons}, {" "}
+                                <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/jungleorange.png'/> Oranges: {fruitCollected.oranges} {" "}<br/>
+                                <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/jungleapple.png'/> Apples: {fruitCollected.apples}, {" "}
+                                <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/jungleblueberry.png'/> Blueberries: {fruitCollected.blueberries} <br/>
+                                <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/token.png'/> Tokens: {userData.totalTokens}, {"     "}
+                                <img style={{height:".8rem", imageRendering: "pixelated"}} src='/jungle/goldToken.png'/> Redeemable Tokens: {userData.totalRedeemableTokens}</p>
+                            </div>
+
+                            <div style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}>
+                                <img 
+                                    src={fruitCollected.apples == 0 && fruitCollected.blueberries == 0 && fruitCollected.kiwis == 0 && fruitCollected.lemons == 0 && fruitCollected.oranges == 0 ? "/jungle/basket.png" : "/jungle/fullbasket.png"}
+                                    alt="Basket"
+                                    style={{
+                                        width: "150px",
+                                        height: "150px",
+                                        imageRendering: "pixelated",
+                                        objectFit: "contain"
+                                    }}
+                                />
+                            </div>
+                        </>
+                    )}
+                    
                     <div style={{display: "flex", flexDirection: "column", gap: 8}}>
                         <button style={{
                             background: "linear-gradient(270deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff)",

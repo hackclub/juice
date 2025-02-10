@@ -80,3 +80,7 @@ export async function updateJungleStretch(stretchId, stopTime, omgMomentId) {
 
   return stretchRecord;
 } 
+
+export function getAirtableBase() {
+  return base;
+} 
