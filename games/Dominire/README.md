@@ -1,6 +1,6 @@
-# Samurai Sequels
+# Dominire
 
-**Team Members:** Hussam, Pukit
+**Team Members:** BurntRanch, Pulkit, Toni500
 
 **How would you pitch your game in one line?** It's like Celeste, but 2 layers!
 

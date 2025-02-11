@@ -1,6 +1,6 @@
 # Peach Blossom
 
-**Team Members:** Ira Tiwari, Jiya Pandey
+**Team Members:** Ira Tiwari, Hansuja Yalavarthi, Orlando Sirais
 
 
 

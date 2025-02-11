@@ -989,6 +989,7 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
 
         {openWindows.includes("welcomeWindow") && (
           <WelcomeWindow
+            isJungle={isJungle}
             position={welcomePosition}
             isDragging={isDragging}
             isActive={windowOrder[windowOrder.length - 1] === "welcomeWindow"}
@@ -1325,7 +1326,7 @@ export default function MainView({ isLoggedIn, setIsLoggedIn, userData, setUserD
                   data-file-id="Kudos"
                 />
               )}
-              {isLoggedIn && (
+              {isLoggedIn && !isJungle && (
 
               <FileIcon
                 text="Moments"

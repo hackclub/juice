@@ -1,6 +1,6 @@
 # HiveQuest
 
-**Team Members:** Charmunk, truekas, Colbster937, Arimo-o
+**Team Members:** Charmunk, Colbster937, Arimo-o
 
 **How would you pitch your game in one line?**
 It's like Stardew valley but instead of mainly focusing on crops you mainly focus on raising and farming bees, with a side focus on crops for the bees to pollinate and generate different types of honey 

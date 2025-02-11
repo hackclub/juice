@@ -156,6 +156,15 @@ export default function SecondChallengeWindow({ position, isDragging, isActive, 
                                     />
                                     Mac
                                 </label>
+
+                                <label style={{display: "flex", alignItems: "center", gap: 4}}>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedPlatforms.includes('Web')}
+                                        onChange={() => togglePlatform('Web')}
+                                    />
+                                    Web
+                                </label>
                             </div>
                         </>
                     )}
