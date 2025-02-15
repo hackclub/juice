@@ -13,9 +13,9 @@ TagManager:
   - Water
   - UI
   - WhatIsGround
-  - WhatIsPlayer
-  - 
-  - 
+  - Player
+  - Target
+  - Obstruction
   - 
   - 
   - 

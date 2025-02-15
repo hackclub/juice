@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f3b79600d71843c4aad48aac16b8a6b2
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Materials/ForestGround.terrainlayer
+  uploadId: 482782

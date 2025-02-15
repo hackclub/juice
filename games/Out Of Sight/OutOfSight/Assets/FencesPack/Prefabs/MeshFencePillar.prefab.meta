@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: cd83c8163b09c374fb3ea0c253e57fbe
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Prefabs/MeshFencePillar.prefab
+  uploadId: 482782

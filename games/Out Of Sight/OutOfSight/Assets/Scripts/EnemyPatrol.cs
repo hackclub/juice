@@ -4,12 +4,10 @@ using UnityEngine.AI;
 public class EnemyPatrol : MonoBehaviour
 {
     public NavMeshAgent agent;
-
+    public Projectile projectile;
     public Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer;
-
-    public float health;
 
     //Patroling
     public Vector3 walkPoint;
@@ -19,7 +17,6 @@ public class EnemyPatrol : MonoBehaviour
     //Attacking
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-    public GameObject projectile;
 
     //States
     public float sightRange, attackRange;
@@ -78,7 +75,6 @@ public class EnemyPatrol : MonoBehaviour
         agent.SetDestination(player.position);
     }
     
-
     private void AttackPlayer()
     {
         //Make sure enemy doesn't move
@@ -101,19 +97,6 @@ public class EnemyPatrol : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked = false;
-    }
-
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
-    }
-
-    private void DestroyEnemy()
-    {
-        Destroy(gameObject);
     }
 
 

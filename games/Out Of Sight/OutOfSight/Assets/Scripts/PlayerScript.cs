@@ -50,13 +50,15 @@ public class PlayerScript : MonoBehaviour
         // Snap rotation to match movement direction
         if (horizontalInput > 0) // Moving right
         {
-            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+            
         }
         else if (horizontalInput < 0) // Moving left
         {
-            transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+    
         }
-
+        
         // Handle jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
