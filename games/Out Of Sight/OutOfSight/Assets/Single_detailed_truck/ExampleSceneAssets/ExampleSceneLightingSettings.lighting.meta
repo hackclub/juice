@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 03bd754e4c422f846ae5f62903928085
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 895
+  packageName: Single Detailed Truck
+  packageVersion: 1.2
+  assetPath: Assets/Single_detailed_truck/ExampleSceneAssets/ExampleSceneLightingSettings.lighting
+  uploadId: 703608

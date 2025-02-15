@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9ab0fc542e6aa6e48bf61987d199042b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159280
+  packageName: Sci-Fi Construction Kit (Modular)
+  packageVersion: 1.1.0
+  assetPath: Assets/SciFi Warehouse Kit/Demo/Scripts/PlayerMovement.cs
+  uploadId: 373385

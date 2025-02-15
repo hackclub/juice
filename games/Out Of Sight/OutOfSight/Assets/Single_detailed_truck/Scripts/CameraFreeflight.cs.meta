@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 19b84178ff73fe1439c57295ab5e47b8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 895
+  packageName: Single Detailed Truck
+  packageVersion: 1.2
+  assetPath: Assets/Single_detailed_truck/Scripts/CameraFreeflight.cs
+  uploadId: 703608

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fa804e3faf03f6e4c8bcc4681f3077fc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159280
+  packageName: Sci-Fi Construction Kit (Modular)
+  packageVersion: 1.1.0
+  assetPath: Assets/SciFi Warehouse Kit/Demo/Scripts/PlayRandomSound.cs
+  uploadId: 373385
