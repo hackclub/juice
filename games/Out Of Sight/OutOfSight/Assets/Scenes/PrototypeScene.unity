@@ -594,6 +594,8 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &392717756
+GameObject:
 --- !u!4 &489608598 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8624244351937533608, guid: 4fb5a69311d760845a3afea7653beb02, type: 3}
