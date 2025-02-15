@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 123c15bdc3d1d484c8e34649090d7b70
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Prefabs/ConcreteFance.prefab
+  uploadId: 482782

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9450da410aab0124489ff0a5cb807645
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Materials/OldWoodEnd.mat
+  uploadId: 482782

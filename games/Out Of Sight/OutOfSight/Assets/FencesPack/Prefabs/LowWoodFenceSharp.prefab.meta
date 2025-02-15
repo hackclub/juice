@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f544a2a9fed71534f85ea81385e80b16
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Prefabs/LowWoodFenceSharp.prefab
+  uploadId: 482782

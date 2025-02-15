@@ -1,0 +1,276 @@
+fileFormatVersion: 2
+guid: cae5fd5b00916314594b00729f56646b
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: SciFi_WallLight004
+    100002: SciFi_WallLight005
+    100004: SciFi_WallLight006
+    100006: SciFi_WallLight007
+    100008: SciFi_WallLight008
+    100010: SciFi_WallLight009
+    100012: SciFi_WallLight010
+    100014: SciFi_WallLight011
+    100016: SciFi_WallLight012
+    100018: SciFi_WallLight014
+    100020: SciFi_WallLight015
+    100022: SciFi_WallLight016
+    100024: SciFi_WallLightBulb004
+    100026: SciFi_WallLightBulb005
+    100028: SciFi_WallLightBulb006
+    100030: SciFi_WallLightBulb007
+    100032: SciFi_WallLightBulb008
+    100034: SciFi_WallLightBulb009
+    100036: SciFi_WallLightBulb010
+    100038: SciFi_WallLightBulb011
+    100040: SciFi_WallLightBulb012
+    100042: SciFi_WallLightBulb014
+    100044: SciFi_WallLightBulb015
+    100046: SciFi_WallLightBulb016
+    100048: Tunnel Beams001
+    100050: Tunnel Ceiling001
+    100052: //RootNode
+    100054: Tunnel Floor001
+    100056: Tunnel Piipes001
+    100058: Tunnel Walls001
+    400000: SciFi_WallLight004
+    400002: SciFi_WallLight005
+    400004: SciFi_WallLight006
+    400006: SciFi_WallLight007
+    400008: SciFi_WallLight008
+    400010: SciFi_WallLight009
+    400012: SciFi_WallLight010
+    400014: SciFi_WallLight011
+    400016: SciFi_WallLight012
+    400018: SciFi_WallLight014
+    400020: SciFi_WallLight015
+    400022: SciFi_WallLight016
+    400024: SciFi_WallLightBulb004
+    400026: SciFi_WallLightBulb005
+    400028: SciFi_WallLightBulb006
+    400030: SciFi_WallLightBulb007
+    400032: SciFi_WallLightBulb008
+    400034: SciFi_WallLightBulb009
+    400036: SciFi_WallLightBulb010
+    400038: SciFi_WallLightBulb011
+    400040: SciFi_WallLightBulb012
+    400042: SciFi_WallLightBulb014
+    400044: SciFi_WallLightBulb015
+    400046: SciFi_WallLightBulb016
+    400048: Tunnel Beams001
+    400050: Tunnel Ceiling001
+    400052: //RootNode
+    400054: Tunnel Floor001
+    400056: Tunnel Piipes001
+    400058: Tunnel Walls001
+    2100000: SciFi_lightFixture
+    2100002: SciFi_light_bulb
+    2100004: SciFi_walls
+    2100006: SciFi_floor_tile
+    2100008: SciFi_ceiling
+    2300000: SciFi_WallLight004
+    2300002: SciFi_WallLight005
+    2300004: SciFi_WallLight006
+    2300006: SciFi_WallLight007
+    2300008: SciFi_WallLight008
+    2300010: SciFi_WallLight009
+    2300012: SciFi_WallLight010
+    2300014: SciFi_WallLight011
+    2300016: SciFi_WallLight012
+    2300018: SciFi_WallLight014
+    2300020: SciFi_WallLight015
+    2300022: SciFi_WallLight016
+    2300024: SciFi_WallLightBulb004
+    2300026: SciFi_WallLightBulb005
+    2300028: SciFi_WallLightBulb006
+    2300030: SciFi_WallLightBulb007
+    2300032: SciFi_WallLightBulb008
+    2300034: SciFi_WallLightBulb009
+    2300036: SciFi_WallLightBulb010
+    2300038: SciFi_WallLightBulb011
+    2300040: SciFi_WallLightBulb012
+    2300042: SciFi_WallLightBulb014
+    2300044: SciFi_WallLightBulb015
+    2300046: SciFi_WallLightBulb016
+    2300048: Tunnel Beams001
+    2300050: Tunnel Ceiling001
+    2300052: Tunnel Floor001
+    2300054: Tunnel Piipes001
+    2300056: Tunnel Walls001
+    3300000: SciFi_WallLight004
+    3300002: SciFi_WallLight005
+    3300004: SciFi_WallLight006
+    3300006: SciFi_WallLight007
+    3300008: SciFi_WallLight008
+    3300010: SciFi_WallLight009
+    3300012: SciFi_WallLight010
+    3300014: SciFi_WallLight011
+    3300016: SciFi_WallLight012
+    3300018: SciFi_WallLight014
+    3300020: SciFi_WallLight015
+    3300022: SciFi_WallLight016
+    3300024: SciFi_WallLightBulb004
+    3300026: SciFi_WallLightBulb005
+    3300028: SciFi_WallLightBulb006
+    3300030: SciFi_WallLightBulb007
+    3300032: SciFi_WallLightBulb008
+    3300034: SciFi_WallLightBulb009
+    3300036: SciFi_WallLightBulb010
+    3300038: SciFi_WallLightBulb011
+    3300040: SciFi_WallLightBulb012
+    3300042: SciFi_WallLightBulb014
+    3300044: SciFi_WallLightBulb015
+    3300046: SciFi_WallLightBulb016
+    3300048: Tunnel Beams001
+    3300050: Tunnel Ceiling001
+    3300052: Tunnel Floor001
+    3300054: Tunnel Piipes001
+    3300056: Tunnel Walls001
+    4300000: SciFi_WallLight004
+    4300002: SciFi_WallLightBulb004
+    4300004: Tunnel Walls001
+    4300006: Tunnel Floor001
+    4300008: Tunnel Ceiling001
+    4300010: Tunnel Beams001
+    4300012: Tunnel Piipes001
+    4300014: SciFi_WallLight005
+    4300016: SciFi_WallLightBulb005
+    4300018: SciFi_WallLight006
+    4300020: SciFi_WallLight007
+    4300022: SciFi_WallLightBulb006
+    4300024: SciFi_WallLightBulb007
+    4300026: SciFi_WallLight008
+    4300028: SciFi_WallLight009
+    4300030: SciFi_WallLight010
+    4300032: SciFi_WallLight011
+    4300034: SciFi_WallLightBulb008
+    4300036: SciFi_WallLightBulb009
+    4300038: SciFi_WallLightBulb010
+    4300040: SciFi_WallLightBulb011
+    4300042: SciFi_WallLight012
+    4300044: SciFi_WallLightBulb012
+    4300046: SciFi_WallLight014
+    4300048: SciFi_WallLightBulb014
+    4300050: SciFi_WallLight015
+    4300052: SciFi_WallLight016
+    4300054: SciFi_WallLightBulb015
+    4300056: SciFi_WallLightBulb016
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SciFi_ceiling
+    second: {fileID: 2100000, guid: 03f6be1764ac1eb4782330625ff6e188, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SciFi_floor_tile
+    second: {fileID: 2100000, guid: aa382976d563168409ce37158855f22a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SciFi_lightFixture
+    second: {fileID: 2100000, guid: bb2d88d2112f74d4b8dfef23a4b5d31d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SciFi_light_bulb
+    second: {fileID: 2100000, guid: bc9fc69a1c4243343bff25dd7532a1b0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SciFi_walls
+    second: {fileID: 2100000, guid: d893f707bc253a84aa1e7d87361c830a, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159280
+  packageName: Sci-Fi Construction Kit (Modular)
+  packageVersion: 1.1.0
+  assetPath: Assets/SciFi Warehouse Kit/Art/Meshes/Structures/Corridors/Corridor
+    Corner.fbx
+  uploadId: 373385

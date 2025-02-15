@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 309d54b9b3c7a6c4badb50ec6550789e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Materials/MetalGray.mat
+  uploadId: 482782

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 757fd45e71eceb841af56147d69af637
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 895
+  packageName: Single Detailed Truck
+  packageVersion: 1.2
+  assetPath: Assets/Single_detailed_truck/ExampleSceneAssets/sky.mat
+  uploadId: 703608

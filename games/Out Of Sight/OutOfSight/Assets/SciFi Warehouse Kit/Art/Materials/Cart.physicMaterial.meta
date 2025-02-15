@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 78d04382307048b4681eae7b8232736a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 13400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159280
+  packageName: Sci-Fi Construction Kit (Modular)
+  packageVersion: 1.1.0
+  assetPath: Assets/SciFi Warehouse Kit/Art/Materials/Cart.physicMaterial
+  uploadId: 373385
