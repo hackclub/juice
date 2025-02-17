@@ -1,6 +1,6 @@
 # SLIFT
 
-**Team Members:** [Nio](https://github.com/N-O-M-I-S), [Christopher](https://github.com/cookiemonsternz)
+**Team Members:** [Nio](https://github.com/N-O-M-I-S), [Christopher](https://github.com/cookiemonsternz), [Gemma](https://dummyimage.com/600x400/000/fff&text=sorry+no+link+lol,+just+for+the+asthetic)
 
 ### **How would you pitch your game in one line?**
 High tension horror game meets Stickman Swing.
