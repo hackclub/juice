@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 84d4fbca7c5fff945b81d633ce9c84b3
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Prefabs/WoodFencePillar.prefab
+  uploadId: 482782

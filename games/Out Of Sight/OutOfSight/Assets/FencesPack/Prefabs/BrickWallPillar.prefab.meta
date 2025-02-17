@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d407fac58221628439e93e884e0355c9
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Prefabs/BrickWallPillar.prefab
+  uploadId: 482782

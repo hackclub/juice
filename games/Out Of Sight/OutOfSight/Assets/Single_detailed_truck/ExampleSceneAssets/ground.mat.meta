@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cee2b90931cd2a241848cab1fd5897a9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 895
+  packageName: Single Detailed Truck
+  packageVersion: 1.2
+  assetPath: Assets/Single_detailed_truck/ExampleSceneAssets/ground.mat
+  uploadId: 703608

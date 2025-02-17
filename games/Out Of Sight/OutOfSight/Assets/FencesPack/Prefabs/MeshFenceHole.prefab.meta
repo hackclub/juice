@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a3c449c80e5138946bc1c34f9dd7b0cc
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 211850
+  packageName: Realistic Fences Pack
+  packageVersion: 1.0
+  assetPath: Assets/FencesPack/Prefabs/MeshFenceHole.prefab
+  uploadId: 482782
