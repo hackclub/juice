@@ -1,7 +1,4 @@
-import Airtable from 'airtable';
-import { v4 as uuidv4 } from 'uuid';
-
-const base = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process.env.AIRTABLE_BASE_ID);
+import base from '@/lib/airtable';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

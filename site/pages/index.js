@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Geist, Geist_Mono } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useState, useRef, useEffect } from "react";
 import ThreeDWorld from "@/components/screens/ThreeDWorld";
@@ -8,17 +7,11 @@ import MainView from "@/components/screens/MainView";
 import { isMobile as MobileCheck } from "react-device-detect";
 import { isLowEnd } from "@/public/isLowEnd";
 
+// NOTE: font variables were unused, not sure about loading fonts so I imported them still
+// We could probably remove this import below without breaking anything
+import { geistMono as _geistMono, geistSans as _geistSans } from "@/lib/fonts";
+
 const LowEndDevice = isLowEnd();
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export default function Home() {
   const [stage, setStage] = useState("initial"); // 'initial', 'mac', 'loading', or 'computer'
