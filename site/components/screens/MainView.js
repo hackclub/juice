@@ -1096,18 +1096,21 @@ export default function MainView({
     if (!startDate) return 1;
     const start = new Date(startDate);
     const now = new Date();
-    // Calculate days difference in UTC
-    const diffTime = Math.abs(now.getTime() - start.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+    // Calculate exact hours since start
+    const diffHours = (now - start) / (1000 * 60 * 60);
+    // Only increment day count after a full 24 hours
+    return Math.floor(diffHours / 24) + 1;
   };
 
   // Helper function to get hours for stretches that ended in a given window
-  const getHoursInWindow = (stretches, windowStart, windowEnd) => {
+  const getHoursInWindow = (stretches, windowStart, windowEnd, tamagotchiStart) => {
     if (!stretches) return 0;
     return stretches.reduce((total, stretch) => {
+      const stretchStart = new Date(stretch.startTime);
       const stretchEnd = new Date(stretch.endTime);
-      if (stretchEnd >= windowStart && stretchEnd <= windowEnd) {
+
+      // Only count stretches that started after tamagotchi was created
+      if (stretchStart >= tamagotchiStart && stretchEnd >= windowStart && stretchEnd <= windowEnd) {
         return total + (stretch.timeWorkedHours || 0);
       }
       return total;
@@ -1128,46 +1131,53 @@ export default function MainView({
         ? new Date(now.getTime() - 24 * 60 * 60 * 1000)
         : tamagotchiStart;
 
-    return getHoursInWindow(stretches, dayWindow, now);
+    return getHoursInWindow(stretches, dayWindow, now, tamagotchiStart);
   };
 
   // Update isTamagotchiDead to use the same window logic
   const isTamagotchiDead = (userData) => {
-    if (!userData?.Tamagotchi?.length) return false;
+    if (!userData?.Tamagotchi?.[0]) return false;
+    
+    const tamagotchi = userData.Tamagotchi[0];
+    if (!tamagotchi.isAlive) return true;
 
-    const startTime = new Date(userData.Tamagotchi[0].startDate);
+    const startDate = new Date(tamagotchi.startDate);
     const now = new Date();
+    const diffTime = Math.abs(now - startDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Only check for death if more than 24 hours have passed since the last juicing
+    const lastJuiceTime = userData?.Loops?.['juiceLastOmgMomentAt'] 
+      ? new Date(userData.Loops['juiceLastOmgMomentAt'])
+      : now;
+    
+    const timeSinceLastJuice = Math.abs(now - lastJuiceTime);
+    const hoursSinceLastJuice = timeSinceLastJuice / (1000 * 60 * 60);
 
-    // Calculate how many complete 24h periods have passed
-    const totalHoursSinceStart = (now.getTime() - startTime.getTime()) / (1000 * 60 * 60);
-    const completePeriods = Math.floor(totalHoursSinceStart / 24);
-
-    // Check each 24h period
-    for (let i = 0; i < completePeriods; i++) {
-      const periodEnd = new Date(startTime.getTime() + (i + 1) * 24 * 60 * 60 * 1000);
-      const periodStart = new Date(periodEnd.getTime() - 24 * 60 * 60 * 1000);
-
-      // Calculate hours from stretches that ended in this period
-      const periodHours = 
-        getHoursInWindow(userData.juiceStretches, periodStart, periodEnd) +
-        getHoursInWindow(userData.jungleStretches, periodStart, periodEnd);
-
-      // If any period has less than 2 hours, the Tamagotchi is dead
-      if (periodHours < 2) {
-        return true;
-      }
-    }
-
-    return false;
+    return hoursSinceLastJuice > 24;
   };
 
-  // Update getRemainingHours to use the same window logic
+  // Update getRemainingHours to track daily requirement
   const getRemainingHours = (userData) => {
     const startDate = userData?.Tamagotchi?.[0]?.startDate;
-    const todaysJuiceHours = getTodaysHours(userData?.juiceStretches, startDate);
-    const todaysJungleHours = getTodaysHours(userData?.jungleStretches, startDate);
+    if (!startDate) return { hoursNeeded: '0.0', hoursLeft: '0.0' };
+    
+    const start = new Date(startDate);
+    const now = new Date();
+    const hoursSinceStart = (now - start) / (1000 * 60 * 60);
+    const currentPeriodEnd = new Date(start.getTime() + (Math.floor(hoursSinceStart / 24) + 1) * 24 * 60 * 60 * 1000);
+    const hoursUntilNextPeriod = (currentPeriodEnd - now) / (1000 * 60 * 60);
+    
+    // Calculate hours worked in current period
+    const periodStart = new Date(currentPeriodEnd.getTime() - 24 * 60 * 60 * 1000);
+    const todaysJuiceHours = getTodaysHours(userData?.juiceStretches, periodStart);
+    const todaysJungleHours = getTodaysHours(userData?.jungleStretches, periodStart);
     const totalHours = todaysJuiceHours + todaysJungleHours;
-    return Math.max(0, 2 - totalHours).toFixed(2);
+    
+    return {
+      hoursNeeded: Math.max(0, 2 - totalHours).toFixed(1),
+      hoursLeft: hoursUntilNextPeriod.toFixed(1)
+    };
   };
 
   // Update getProgressPercentage to use the same window logic
@@ -1175,23 +1185,20 @@ export default function MainView({
     if (!userData?.Tamagotchi?.length) return 0;
 
     const startDate = userData.Tamagotchi[0].startDate;
+    if (!startDate) return 0;
+    
+    const start = new Date(startDate);
     const now = new Date();
-    const dayWindow = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-    const todaysJuiceHours = getTodaysHours(userData?.juiceStretches, startDate);
-    const todaysJungleHours = getTodaysHours(userData?.jungleStretches, startDate);
+    const hoursSinceStart = (now - start) / (1000 * 60 * 60);
+    const currentPeriodEnd = new Date(start.getTime() + (Math.floor(hoursSinceStart / 24) + 1) * 24 * 60 * 60 * 1000);
+    
+    // Calculate hours worked in current period
+    const periodStart = new Date(currentPeriodEnd.getTime() - 24 * 60 * 60 * 1000);
+    const todaysJuiceHours = getTodaysHours(userData?.juiceStretches, periodStart);
+    const todaysJungleHours = getTodaysHours(userData?.jungleStretches, periodStart);
     const totalHours = todaysJuiceHours + todaysJungleHours;
 
-    console.log('Progress calculation:', {
-      tamagotchiStartDate: startDate,
-      dayWindowStart: dayWindow,
-      now: now,
-      todaysJuiceHours,
-      todaysJungleHours,
-      totalHours,
-      progress: Math.min(100, (totalHours / 2) * 100)
-    });
-
+    // Progress is based on getting 2 hours per day
     return Math.min(100, (totalHours / 2) * 100);
   };
 
@@ -1317,6 +1324,20 @@ export default function MainView({
       return 'blueberryturtle.gif'; // Green theme
     } else {
       return 'strawberrycat.gif'; // Pink/red theme
+    }
+  };
+
+  // Add this function after getRemainingHours
+  const getMessage = (userData) => {
+    if (!userData?.Tamagotchi?.[0]) return '';
+    
+    const { hoursNeeded, hoursLeft } = getRemainingHours(userData);
+    const daysLeft = 10 - getTamagotchiDay(userData?.Tamagotchi?.[0]?.startDate);
+    
+    if (hoursNeeded > 0) {
+      return `i'm hungry! feed me ${hoursNeeded} more hours of juice or jungle within the next ${hoursLeft} hours or I'll perish. if you keep me alive ${daysLeft} more days, Hack Club will mail me to you (a real life tamagotchi)`;
+    } else {
+      return `I'm full for the next ${hoursLeft} hours. ty for feeding me. just ${daysLeft} more days of feeding me and then I'll come to you in the mail as a tamagotchi`;
     }
   };
 
@@ -1997,7 +2018,7 @@ export default function MainView({
                 `,
                   }}
                 >
-                  {displayedMessage}
+                  {getMessage(userData)}
                 </p>
               </div>
             ) : (
