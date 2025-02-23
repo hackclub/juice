@@ -1109,29 +1109,41 @@ export default function MainView({
       const stretchStart = new Date(stretch.startTime);
       const stretchEnd = new Date(stretch.endTime);
 
-      // Only count stretches that started after tamagotchi was created
-      if (stretchStart >= tamagotchiStart && stretchEnd >= windowStart && stretchEnd <= windowEnd) {
-        return total + (stretch.timeWorkedHours || 0);
+      // If stretch ends after tamagotchi was created and before window end
+      if (stretchEnd >= tamagotchiStart && stretchEnd <= windowEnd) {
+        // If stretch started before tamagotchi, only count time after tamagotchi creation
+        const effectiveStart = stretchStart < tamagotchiStart ? tamagotchiStart : stretchStart;
+        const overlapHours = (stretchEnd - effectiveStart) / (1000 * 60 * 60);
+        return total + overlapHours;
       }
       return total;
     }, 0);
   };
 
   // Get hours for stretches that ended in the current window
-  const getTodaysHours = (stretches, startDate) => {
-    if (!stretches || !startDate) return 0;
+  const getTodaysHours = (stretches, periodStart) => {
+    if (!stretches || !periodStart) return 0;
 
     const now = new Date();
-    const tamagotchiStart = new Date(startDate);
+    const periodStartDate = new Date(periodStart);
+    const periodEnd = new Date(now > periodStartDate ? now : periodStartDate);
 
-    // If it's been more than 24 hours since start, use rolling 24h window
-    // If it's been less than 24 hours, use time since start
-    const dayWindow =
-      now.getTime() - tamagotchiStart.getTime() >= 24 * 60 * 60 * 1000
-        ? new Date(now.getTime() - 24 * 60 * 60 * 1000)
-        : tamagotchiStart;
+    return stretches.reduce((total, stretch) => {
+      const stretchStart = new Date(stretch.startTime);
+      const stretchEnd = new Date(stretch.endTime);
 
-    return getHoursInWindow(stretches, dayWindow, now, tamagotchiStart);
+      // Skip if stretch ended before period start
+      if (stretchEnd < periodStartDate) {
+        return total;
+      }
+
+      // Calculate overlap duration
+      const effectiveStart = stretchStart < periodStartDate ? periodStartDate : stretchStart;
+      const effectiveEnd = stretchEnd < periodEnd ? stretchEnd : periodEnd;
+      const overlapHours = (effectiveEnd - effectiveStart) / (1000 * 60 * 60);
+
+      return total + overlapHours;
+    }, 0);
   };
 
   // Update isTamagotchiDead to use the same window logic
@@ -1143,9 +1155,12 @@ export default function MainView({
 
     const startDate = new Date(tamagotchi.startDate);
     const now = new Date();
-    const diffTime = Math.abs(now - startDate);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     
+    // Don't check for death in the first 24 hours
+    const timeSinceStart = Math.abs(now - startDate);
+    const hoursSinceStart = timeSinceStart / (1000 * 60 * 60);
+    if (hoursSinceStart < 24) return false;
+
     // Only check for death if more than 24 hours have passed since the last juicing
     const lastJuiceTime = userData?.Loops?.['juiceLastOmgMomentAt'] 
       ? new Date(userData.Loops['juiceLastOmgMomentAt'])
