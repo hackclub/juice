@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import FileIcon from '../FileIcon';
 import WelcomeWindow from './WelcomeWindow';
 import AchievementsWindow from './AchievementsWindow';
@@ -25,6 +25,10 @@ import JungleShopWindow from './JungleShopWindow';
 import TamagotchiNotesWindow from './TamagotchiNotesWindow';
 import ZeroWindow from './ZeroWindow';
 import WutIsPenguathonWindow from './WutIsPenguathonWindow';
+import VillagerPokemonCard from '../VillagerPokemonCard';
+import BrucePokemonCard from '../BrucePokemonCard';
+import Win7PokemonCard from '../Win7PokemonCard';
+import CardCreatorWindow from './CardCreatorWindow';
 
 export default function MainView({
   isLoggedIn,
@@ -174,6 +178,7 @@ export default function MainView({
     galleryWindow: 397,
     zero: 300,
     wutIsPenguathon: 300,
+    cardCreator: 470,
   };
   const BASE_Z_INDEX = 1;
 
@@ -260,8 +265,13 @@ export default function MainView({
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
+        const daysNoun = pluralize(days, "Day", "Days");
+        const hoursNoun = pluralize(hours, "Hour", "Hours");
+        const minutesNoun = pluralize(minutes, "Minute", "Minutes");
+        const secondsNoun = pluralize(seconds, "Second", "Seconds");
+
         setTimeRemaining(
-          `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`
+          `${days} ${daysNoun}, ${hours} ${hoursNoun}, ${minutes} ${minutesNoun}, ${seconds} ${secondsNoun}`
         );
       } else {
         setTimeRemaining('Event has started!');
@@ -605,6 +615,9 @@ export default function MainView({
       case 'wutIsPenguathon':
         position = wutIsPenguathonWindowPosition;
         break;
+      case 'cardCreator':
+        position = cardCreatorPosition;
+        break;
       default:
         console.log('Unknown window name:', windowName);
         position = { x: 0, y: 0 };
@@ -683,6 +696,8 @@ export default function MainView({
         setZeroWindowPosition(newPosition);
       } else if (activeWindow === 'wutIsPenguathon') {
         setWutIsPenguathonWindowPosition(newPosition);
+      } else if (activeWindow === 'cardCreator') {
+        setCardCreatorPosition(newPosition);
       }
     }
   }; // Add closing brace here
@@ -1217,6 +1232,8 @@ export default function MainView({
     return Math.min(100, (totalHours / 2) * 100);
   };
 
+  const pluralize = (value, singular, plural) => parseFloat(value) === 1 ? singular : plural;
+
   // Add this after getProgressPercentage and before MainView component
   const getStatusMessage = (userData) => {
     const remainingHours = getRemainingHours(userData);
@@ -1237,12 +1254,16 @@ export default function MainView({
     const daysLeft =
       10 - getTamagotchiDay(userData?.Tamagotchi?.[0]?.startDate);
 
+    const tilDeadlineNoun = pluralize(hoursUntilDeadline, "hour", "hours");
+    const remainingHoursNoun = pluralize(remainingHours, "hour", "hours");
+    const daysLeftNoun = pluralize(daysLeft, "day", "days");
+
     if (remainingHours === '0.00') {
-      return `I'm full for the next ${hoursUntilDeadline} hours. ty for feeding me. just ${daysLeft} more days of feeding me and then I'll come to you in the mail as a tamagotchi`;
+      return `I'm full for the next ${hoursUntilDeadline} ${tilDeadlineNoun}. ty for feeding me. just ${daysLeft} more ${daysLeftNoun} of feeding me and then I'll come to you in the mail as a tamagotchi`;
     } else {
-      return `i'm hungry! feed me ${remainingHours} more hours of juice or jungle within the next ${hoursUntilDeadline} hours or I'll perish. ${
+      return `i'm hungry! feed me ${remainingHours} ${remainingHoursNoun} hours of juice or jungle within the next ${hoursUntilDeadline} ${tilDeadlineNoun} or I'll perish. ${
         daysLeft > 0
-          ? `if you keep me alive ${daysLeft} more days, Hack Club will mail me to you (a real life tamagotchi)`
+          ? `if you keep me alive ${daysLeft} more ${daysLeftNoun}, Hack Club will mail me to you (a real life tamagotchi)`
           : 'Hack Club will mail me to you soon!'
       }`;
     }
@@ -1348,13 +1369,120 @@ export default function MainView({
     
     const { hoursNeeded, hoursLeft } = getRemainingHours(userData);
     const daysLeft = 10 - getTamagotchiDay(userData?.Tamagotchi?.[0]?.startDate);
+
+    const daysLeftNoun = pluralize(daysLeft, "day", "days");
+    const hoursLeftNoun = pluralize(hoursLeft, "hour", "hours");
+    const hoursNeededNoun = pluralize(hoursNeeded, "hour", "hours");
     
     if (hoursNeeded > 0) {
-      return `i'm hungry! feed me ${hoursNeeded} more hours of juice or jungle within the next ${hoursLeft} hours or I'll perish. if you keep me alive ${daysLeft} more days, Hack Club will mail me to you (a real life tamagotchi)`;
+      return `i'm hungry! feed me ${hoursNeeded} more ${hoursNeededNoun} of juice or jungle within the next ${hoursLeft} ${hoursLeftNoun} or I'll perish. if you keep me alive ${daysLeft} more ${daysLeftNoun}, Hack Club will mail me to you (a real life tamagotchi)`;
     } else {
-      return `I'm full for the next ${hoursLeft} hours. ty for feeding me. just ${daysLeft} more days of feeding me and then I'll come to you in the mail as a tamagotchi`;
+      return `I'm full for the next ${hoursLeft} ${hoursLeftNoun}. ty for feeding me. just ${daysLeft} more ${daysLeftNoun} of feeding me and then I'll come to you in the mail as a tamagotchi`;
     }
   };
+
+  // Add these new state variables with the other state declarations
+  const [pressTimer, setPressTimer] = React.useState(null);
+  const [pressStartTime, setPressStartTime] = React.useState(null);
+  const [showPressIndicator, setShowPressIndicator] = React.useState(false);
+  const [pressUpdateInterval, setPressUpdateInterval] = React.useState(null);
+
+  // Add these new handler functions before the return statement
+  const handleTamagotchiMouseDown = () => {
+    if (!userData?.Tamagotchi?.length) return; // Only work if there's a Tamagotchi
+    
+    setPressStartTime(Date.now());
+    const timer = setTimeout(async () => {
+      const shouldDelete = window.confirm("Are you sure you want to kill the Tamagotchi and start fresh?");
+      if (shouldDelete) {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await fetch('/api/delete-tamagotchi', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }),
+          });
+
+          if (response.ok) {
+            // Update local state first
+            setUserData(prev => ({
+              ...prev,
+              Tamagotchi: []
+            }));
+            // Then refresh the page
+            window.location.reload();
+          } else {
+            console.error('Failed to delete Tamagotchi');
+          }
+        } catch (error) {
+          console.error('Error deleting Tamagotchi:', error);
+        }
+      }
+    }, 10000); // 10 seconds
+    setPressTimer(timer);
+    setShowPressIndicator(true);
+
+    // Start interval to update progress bar
+    const interval = setInterval(() => {
+      setPressStartTime(prev => prev); // Force re-render to update progress bar
+    }, 100);
+    setPressUpdateInterval(interval);
+  };
+
+  const handleTamagotchiMouseUp = () => {
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+      setPressTimer(null);
+    }
+    if (pressUpdateInterval) {
+      clearInterval(pressUpdateInterval);
+      setPressUpdateInterval(null);
+    }
+    setPressStartTime(null);
+    setShowPressIndicator(false);
+  };
+
+  // Add cleanup effect
+  React.useEffect(() => {
+    return () => {
+      if (pressTimer) clearTimeout(pressTimer);
+      if (pressUpdateInterval) clearInterval(pressUpdateInterval);
+    };
+  }, [pressTimer, pressUpdateInterval]);
+
+  // Add these state variables at the top of MainView component
+  const [villagerHover, setVillagerHover] = useState(false);
+  const [win7Hover, setWin7Hover] = useState(false);
+  const [bruceHover, setBruceHover] = useState(false);
+
+  // Add single hover state
+  const [isCardsFanned, setIsCardsFanned] = useState(false);
+
+  const handleQuestionClick = (e) => {
+    e.preventDefault(); // Prevent card click
+    if (!openWindows.includes('cardCreator')) {
+      setOpenWindows((prev) => [...prev, 'cardCreator']);
+      setWindowOrder((prev) => [
+        ...prev.filter((w) => w !== 'cardCreator'),
+        'cardCreator'
+      ]);
+      document.getElementById('windowOpenAudio').currentTime = 0;
+      document.getElementById('windowOpenAudio').play();
+    } else {
+      setWindowOrder((prev) => [
+        ...prev.filter((w) => w !== 'cardCreator'),
+        'cardCreator'
+      ]);
+    }
+  };
+
+  // Add this with the other position states near the top of MainView
+  const [cardCreatorPosition, setCardCreatorPosition] = React.useState({
+    x: 0,
+    y: 0
+  });
 
   return (
     <div
@@ -1700,6 +1828,14 @@ export default function MainView({
             background-position: -200% center;
           }
         }
+        @keyframes pressProgress {
+          0% {
+            transform: scaleX(0);
+          }
+          100% {
+            transform: scaleX(1);
+          }
+        }
       `}</style>
       <div
         style={{
@@ -1907,7 +2043,28 @@ export default function MainView({
               `,
                   transformOrigin: 'bottom center',
                 }}
+                onMouseDown={handleTamagotchiMouseDown}
+                onMouseUp={handleTamagotchiMouseUp}
+                onMouseLeave={handleTamagotchiMouseUp}
               >
+                {/* Add this progress indicator */}
+                {showPressIndicator && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: 4,
+                      backgroundColor: '#ff0000',
+                      transformOrigin: 'left',
+                      transform: `scaleX(${
+                        pressStartTime ? (Date.now() - pressStartTime) / 10000 : 0
+                      })`,
+                      transition: 'transform 0.1s linear',
+                    }}
+                  />
+                )}
                 <p
                   style={{
                     fontSize: 12,
@@ -1987,10 +2144,8 @@ export default function MainView({
                         gap: 8,
                       }}
                     >
-                      <span style={{ fontSize: 32 }}>🪦</span>
                       <p style={{ fontSize: 12, textAlign: 'center' }}>
-                        You missed a day & it died. It's ok though, keep
-                        juicing! ❤️
+                        I don't see your tamagotchi. pls refresh :)
                       </p>
                     </div>
                   ) : (
@@ -2096,10 +2251,8 @@ export default function MainView({
                         gap: 8,
                       }}
                     >
-                      <span style={{ fontSize: 32 }}>🪦</span>
                       <p style={{ fontSize: 12, textAlign: 'center' }}>
-                        You missed a day & it died. It's ok though, keep
-                        juicing! ❤️
+                        Refresh Please 
                       </p>
                     </div>
                   ) : (
@@ -2582,6 +2735,20 @@ export default function MainView({
           />
         )}
 
+        {openWindows.includes('cardCreator') && (
+          <CardCreatorWindow
+            position={cardCreatorPosition}
+            isDragging={isDragging && activeWindow === 'cardCreator'}
+            isActive={windowOrder[windowOrder.length - 1] === 'cardCreator'}
+            handleMouseDown={handleMouseDown}
+            handleDismiss={handleDismiss}
+            handleWindowClick={handleWindowClick}
+            BASE_Z_INDEX={getWindowZIndex('cardCreator')}
+            ACTIVE_Z_INDEX={getWindowZIndex('cardCreator')}
+            userData={userData}
+          />
+        )}
+
         <div
           style={{
             position: 'absolute',
@@ -3043,8 +3210,94 @@ export default function MainView({
             alignItems: 'end',
             bottom: 0,
             right: 16,
+            height: "100%", 
+            justifyContent: "center"
           }}
         >
+          <div 
+            style={{
+              display: "flex",
+              gap: 16,
+              height: 240,
+              transform: "rotate(270deg) scale(0.6) translateY(420px)",
+              position: 'relative',
+            }}
+            onMouseEnter={() => setIsCardsFanned(true)}
+            onMouseLeave={() => setIsCardsFanned(false)}
+          >
+            {/* Action Button - only visible when fanned out */}
+            <div 
+              onClick={handleQuestionClick}
+              style={{
+                position: 'absolute',
+                width: isCardsFanned ? 80 : 0,
+                opacity: isCardsFanned ? 1.0 : 0,
+                height: isCardsFanned ? 80 : 0,
+                borderRadius: '50%',
+                backgroundColor: '#fff',
+                left: '50%',
+                top: "32px",
+                transform: 'translate(-50%, -50%)',
+                zIndex: 2,
+                transition: 'all 0.3s ease-in',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#000',
+                fontSize: '32px',
+                fontWeight: 'bold',
+                pointerEvents: 'auto' // Re-enable pointer events for the button
+              }}
+            >
+              +
+            </div>
+
+            <div style={{
+              transform: isCardsFanned 
+                ? "rotate(-70deg) scale(1.0) translate(120px, -60px)"
+                : "rotate(-15deg) scale(0.8) translateX(65px) translateY(60px)",
+              transition: "all 0.3s ease-out",
+              pointerEvents: 'auto' // Re-enable pointer events for the card
+            }}>
+              <VillagerPokemonCard/>
+            </div>
+
+            <div style={{
+              zIndex: 1,
+              transform: isCardsFanned 
+                ? "translateY(-280px) scale(1.0)"
+                : "translateY(10px) scale(0.9)",
+              transition: "all 0.3s ease-out",
+              pointerEvents: 'auto' // Re-enable pointer events for the card
+            }}>
+              <Win7PokemonCard />
+            </div>
+
+            <div style={{
+              transform: isCardsFanned
+                ? "rotate(70deg) scale(1.0) translate(-120px, -60px)"
+                : "rotate(15deg) scale(0.8) translateX(-65px) translateY(60px)",
+              transition: "all 0.3s ease-out",
+              pointerEvents: 'auto' // Re-enable pointer events for the card
+            }}>
+              <BrucePokemonCard />
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            gap: 8,
+            flexDirection: 'column',
+            alignItems: 'end',
+            bottom: 0,
+            right: 16,
+          }}
+        >
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {/* <div style={{width: 256, backgroundColor: "#fff", borderRadius: 4, padding: 4}}>
             <p>a Hack Clubber published a game on Itch.io 5min ago</p>

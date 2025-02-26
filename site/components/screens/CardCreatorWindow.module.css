@@ -1,0 +1,10 @@
+@keyframes cardJiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-1deg) scale(1.01); }
+    75% { transform: rotate(1deg) scale(1.01); }
+    100% { transform: rotate(0deg); }
+}
+
+.jiggle {
+    animation: cardJiggle 0.2s ease-in-out;
+} 

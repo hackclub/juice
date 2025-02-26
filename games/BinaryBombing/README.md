@@ -1,4 +1,4 @@
-**BinaryBombing**
+**BinaryBlitz**
 
 **Team Members:** Calvin Chang
 **How would you pitch your game in one line?**

@@ -97,7 +97,7 @@ void main() {
 }
 `
 
-export function JuiceShader() {
+export function JuiceShader({ timeScale = 1 }) {
     const mesh = useRef()
     const { size } = useThree()
     
@@ -118,7 +118,7 @@ export function JuiceShader() {
     useFrame((state) => {
         const { clock } = state
         if (mesh.current) {
-            mesh.current.material.uniforms.iTime.value = clock.getElapsedTime()
+            mesh.current.material.uniforms.iTime.value = clock.getElapsedTime() * timeScale
         }
     })
 

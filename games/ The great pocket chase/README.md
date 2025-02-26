@@ -1,5 +1,6 @@
- Team Members: [Mandela Ferede]
-
+ **Team Members**:![Mandela Ferede](href=https://github.com/Mandela362)
+                  ![Ednathegoat](href=https://github.com/Ednathegoat)
+                  ![Mewded](href=https://github.com/Mewded28)
 How would you pitch your game in one line?
 The game is about getting back the wife’s pocket that is stolen by a thief while the husband is talking to her.
 

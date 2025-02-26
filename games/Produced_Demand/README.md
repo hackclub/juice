@@ -1,6 +1,9 @@
 # Produced Demand
 
-**Team Members:** Hamza Nasher-Alneam, Cyril Li
+**Team Members:** 
+- Hamza Nasher-Alneam (https://github.com/hnasheralneam)
+- Cyril Li (https://github.com/CyrilSLi)
+- Jack He (https://github.com/Darkest-Teddy)
 
 **How would you pitch your game in one line?**
 

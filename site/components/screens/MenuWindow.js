@@ -55,24 +55,26 @@ export default function MenuWindow({
       setAcceptedHours(accepted);
       setRejectedHours(rejected);
 
-      // Get moments and sort them with newest first
+      // Transform the stretches into moments
       const allMoments = userData.juiceStretches.reduce((acc, stretch) => {
-        if (stretch.omgMoments) {
-          // Add the stretch reference to each moment
-          const momentsWithStretch = stretch.omgMoments.map(moment => ({
-            ...moment,
-            stretchReview: stretch.Review[0]  // Add the review status directly to the moment
+        if (stretch.omgMoments && stretch.omgMoments.length > 0) {
+          // Create a moment object for each omgMoment in the stretch
+          const stretchMoments = stretch.omgMoments.map((_, index) => ({
+            id: stretch.ID + "-" + index, // Create unique ID
+            description: stretch["description (from omgMoments)"]?.[index] || "",
+            video: stretch["video (from omgMoments)"]?.[index] || "",
+            created_at: stretch.endTime,
+            stretchReview: stretch.Review[0]
           }));
-          return [...acc, ...momentsWithStretch];
+          return [...acc, ...stretchMoments];
         }
         return acc;
       }, []);
 
-      // Sort moments by created_at in descending order (newest first)
-      // Then reverse the array so oldest is on the left
-      const sortedMoments = allMoments
-        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-        .reverse();
+      // Sort moments by created_at in ascending order (oldest first)
+      const sortedMoments = allMoments.sort(
+        (a, b) => new Date(a.created_at) - new Date(b.created_at)
+      );
 
       setMoments(sortedMoments);
       setLoading(false);
@@ -323,7 +325,7 @@ export default function MenuWindow({
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(20, 1fr)",
+                  gridTemplateColumns: "repeat(12, 1fr)",
                   gap: 16,
                   width: "100%",
                 }}

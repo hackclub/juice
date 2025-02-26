@@ -80,6 +80,8 @@ export default function Home() {
         .then((res) => res.json())
         .then((data) => {
           if (data.userData) {
+            data.userData.totalTokens = parseFloat(data.userData.totalTokens).toFixed(2);
+            data.userData.totalRedeemableTokens = parseFloat(data.userData.totalRedeemableTokens).toFixed(2);
             setUserData(data.userData);
             setIsLoggedIn(true);
             setStage("computer");
