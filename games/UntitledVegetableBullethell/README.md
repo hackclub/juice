@@ -1,7 +1,7 @@
 # Untitled Vegetable Bullethell
 > (i dont have name idea yet)
 
-**Team Members:** Cyteon
+**Team Members:** Cyteon, T_Alex
 
 **How would you pitch your game in one line?**
 It's a isometric bullethell but the enemies are vegetables, which want to murder you.

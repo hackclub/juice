@@ -36,3 +36,9 @@ body {
 html {
   color-scheme: light;
 }
+
+@keyframes steamGrantFlash {
+    0% { color: black; }
+    50% { color: red; }
+    100% { color: black; }
+}
