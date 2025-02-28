@@ -12,10 +12,44 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
     const [stopTime, setStopTime] = useState(null);
     const [isPaused, setIsPaused] = useState(false);
     const [totalPauseTimeSeconds, setTotalPauseTimeSeconds] = useState(0)
+    const [isWhisperEnabled, setIsWhisperEnabled] = useState(true);
     const fileInputRef = useRef(null);
     const clickSoundRef = useRef(null);
     const expSoundRef = useRef(null);
     const congratsSoundRef = useRef(null);
+    const whisperAudioRefs = useRef([]);
+    const idleWhisperAudioRefs = useRef([]);
+    const nonWhisperIdleAudioRefs = useRef([]);
+
+    // temporary whisper audio files
+    const whisperAudioFiles = [
+        './whisper1.mp3',
+        './whisper2.mp3',
+        './whisper3.mp3',
+        './whisper4.mp3',
+        './whisper5.mp3',
+        './whisper6.mp3',
+        './whisper7.mp3',
+        './whisper8.mp3',
+        './whisper11.mp3',
+        './whisper12.mp3',
+        './whisper13.mp3',
+        './whisper14.mp3',
+        './whisper15.mp3'
+    ];
+
+    const idleWhisperAudioFiles = [
+        './idleWhisper1.mp3',
+        './idleWhisper2.mp3',
+        './idleWhisper3.mp3',
+    ];
+
+    const nonWhisperIdleAudioFiles = [
+        './nonWhisperIdle1.mp3',
+    ];
+
+    let whisperCount = 0;
+
     const [juicerImage, setJuicerImage] = useState('/juicerRest.png');
 
     // Add play click function
@@ -41,9 +75,58 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
         }
     };
 
+    const toggleWhisper = () => {
+        setIsWhisperEnabled(!isWhisperEnabled);
+    };
+
+    useEffect(() => {
+        whisperAudioRefs.current = whisperAudioFiles.map((file) => {
+            const audio = new Audio(file);
+            audio.volume = 0.5;
+            audio.onerror = (e) => console.error('Error loading whisper audio:', e);
+            return audio;
+        });
+        idleWhisperAudioRefs.current = idleWhisperAudioFiles.map((file) => {
+            const audio = new Audio(file);
+            audio.volume = 0.5;
+            audio.onerror = (e) => console.error('Error loading idle whisper audio:', e);
+            return audio;
+        });
+        nonWhisperIdleAudioRefs.current = nonWhisperIdleAudioFiles.map((file) => {
+            const audio = new Audio(file);
+            audio.volume = 0.5;
+            audio.onerror = (e) => console.error('Error loading non-whisper idle audio:', e);
+            return audio;
+        });
+    }, []);
+
+    const playRandomWhisper = () => {
+        const randomIndex = Math.floor(Math.random() * whisperAudioRefs.current.length);
+        const selectedAudio = whisperAudioRefs.current[randomIndex];
+        selectedAudio.currentTime = 0;
+        selectedAudio.play().catch(e => console.error('Error playing whisper audio (whisper to yourself for now :P) :', e));
+    };
+
+    const playRandomIdleWhisper = () => {
+        if (whisperCount < 3) {
+            const randomIndex = Math.floor(Math.random() * idleWhisperAudioRefs.current.length);
+            const selectedAudio = idleWhisperAudioRefs.current[randomIndex];
+            selectedAudio.currentTime = 0;
+            selectedAudio.play().catch(e => console.error('Error playing idle whisper audio:', e));
+            whisperCount++;
+        } else {
+            const randomIndex = Math.floor(Math.random() * nonWhisperIdleAudioRefs.current.length);
+            const selectedAudio = nonWhisperIdleAudioRefs.current[randomIndex];
+            selectedAudio.currentTime = 0;
+            selectedAudio.play().catch(e => console.error('Error playing non-whisper idle audio:', e));
+            whisperCount = 0;
+        }
+    };
+
     useEffect(() => {
         let interval;
         let saveInterval;
+        let whisperInterval;
         if (isJuicingLocal && startTime && !stopTime && !isPaused) {
             interval = setInterval(() => {
                 const now = new Date();
@@ -73,14 +156,32 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                 } catch (error) {
                     console.error('Error pausing juice stretch:', error);
                 }
-            }, 10000)
+            }, 10000);
+            if (isWhisperEnabled) {
+                whisperInterval = setInterval(() => {
+                    playRandomWhisper();
+                }, 15 * 60 * 1000);
+            }
         }
         }
         return () => {
             clearInterval(interval)
             clearInterval(saveInterval)
+            clearInterval(whisperInterval)
         };
-    }, [isJuicingLocal, startTime, stopTime, isPaused]);
+    }, [isJuicingLocal, startTime, stopTime, isPaused, isWhisperEnabled]);
+
+    useEffect(() => {
+        let idleWhisperInterval;
+        if (!isJuicingLocal && isWhisperEnabled || isPaused && isWhisperEnabled) {
+            idleWhisperInterval = setInterval(() => {
+                playRandomIdleWhisper();
+            }, 5 * 60 * 1000);
+        }
+        return () => {
+            clearInterval(idleWhisperInterval);
+        };
+    }, [isJuicingLocal, isPaused, isWhisperEnabled]);
 
     // Load data
     useEffect(() => {
@@ -195,6 +296,7 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             formData.append('token', userData.token);
             formData.append('stretchId', currentStretchId);
             formData.append('stopTime', stopTime.toISOString());
+            formData.append("isJuice", true);
 
             const uploadResponse = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/video/upload', {
                 method: 'POST',
@@ -221,7 +323,6 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                     throw new Error('Failed to resume juice stretch');
                 }
                 const data = await response.json();
-                console.log(data.newPauseTime)
                 setTotalPauseTimeSeconds(data.newPauseTime)
                 setIsPaused(false);
             } catch (error) {
@@ -229,7 +330,7 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             }
 
             // Fetch updated user data to get new total time
-            const userResponse = await fetch('/api/user', {
+            const userResponse = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user', {
                 headers: {
                     'Authorization': `Bearer ${userData.token}`
                 }
@@ -407,8 +508,8 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                             }
                             <div style={{display: "flex", flexDirection: "column", gap: 4}}>
                                 <p>Current Session: {timeJuiced}</p>
-                                <p>Total Time Juiced: {userData?.totalStretchHours ? 
-                                    `${Math.floor(userData.totalStretchHours)} hours ${Math.round((userData.totalStretchHours % 1) * 60)} min` : 
+                                <p>Total Time Juiced: {userData?.totalJuiceHours ? 
+                                    `${Math.floor(userData.totalJuiceHours)} hours ${Math.round((userData.totalJuiceHours % 1) * 60)} min` : 
                                     "0 hours 0 min"}</p>
                             </div>
                             
@@ -516,6 +617,15 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
                                         Cancel Juice Stretch
                                     </button>
                                 </div>
+                                <button 
+                                    onClick={() => {
+                                        playClick();
+                                        toggleWhisper();
+                                    }}
+                                    style={{width: "100%", marginTop: 8}}
+                                >
+                                    {isWhisperEnabled ? 'Disable Whisper Audio' : 'Enable Whisper Audio'}
+                                </button>
                             </div>
                             }
                         </>
@@ -534,4 +644,4 @@ export default function JuiceWindow({ position, isDragging, isActive, handleMous
             </div>
         </div>
     );
-} 
+}

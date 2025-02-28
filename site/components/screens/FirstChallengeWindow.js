@@ -110,7 +110,7 @@ export default function FirstChallengeWindow({ position, isDragging, isActive, h
                     <p>Your first challenge, should you choose to accept it, is to come up with your idea & add it to Juice repo games folder.</p>
                     <ol>
                         <li>write your idea in a markdown file <a target="_blank" href="https://github.com/hackclub/juice/blob/main/games/template/README.md">(template)</a></li>
-                        <li>open a PR to the <a target="_blank" href="https://github.com/hackclub/juice">Juice repo</a> & add your idea <a target="_blank" href="https://github.com/hackclub/juice/blob/main/games/README.md">(guide)</a></li>
+                        <li>open a PR to the <a target="_blank" href="https://github.com/hackclub/juice">Juice repo</a> & add your idea <a target="_blank" href="https://youtu.be/7O4qYoWU54M?si=kyA3mdGAJMZnBbZe">(guide)</a></li>
                     </ol>
                     <p>Here's <a target="_blank" href="https://github.com/hackclub/juice/tree/main/games/mountainVille">the markdown file that Paolo & I made for our game</a>.</p>
                     <div>
