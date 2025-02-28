@@ -1,6 +1,7 @@
 # AngleScape
 
 **Team Members:** Vedant
+
 **Pitch:**  
 A 3D platformer that uses three simultaneous camera views—front, left, and top—to challenge players' spatial awareness. Navigate levels by integrating clues from every angle, all without any text.
 
