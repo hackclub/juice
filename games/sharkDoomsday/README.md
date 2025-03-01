@@ -1,6 +1,6 @@
 # Shark Doomsday
 
-**Team Members:** @tttripleaxel, @Candy, @Violetz & @DJ_Laser
+**Team Members:** @tttripleaxel, @Candy, @Violetz
 
 **How would you pitch your game in one line?**
 It's like Minecraft but it's underwater and 2D (& pixelart), focused around a shark that had lost its kingdom.

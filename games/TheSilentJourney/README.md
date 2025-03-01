@@ -1,6 +1,6 @@
 # The Silent Journey
 
-**Team Members:** @radeeyate and @LolzTheDev
+**Team Members:** @radeeyate and @Dreadrook
 
 **How would you pitch your game in one line?**
 

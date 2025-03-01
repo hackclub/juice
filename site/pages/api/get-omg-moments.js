@@ -10,25 +10,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Calculate timestamp for 24 hours ago
+    // Calculate the timestamp for 24 hours ago
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-    // Fetch records from the past 24 hours
     const records = await base('omgMoments')
       .select({
-        filterByFormula: `IS_AFTER({created_at}, '${twentyFourHoursAgo}')`,
-        sort: [{ field: 'created_at', direction: 'desc' }]
+        sort: [{ field: 'created_at', direction: 'desc' }],
+        filterByFormula: `IS_AFTER({created_at}, "${twentyFourHoursAgo}")`
       })
       .all();
 
     const moments = records.map(record => ({
       id: record.id,
-      description: record.fields.description,
-      video: record.fields.video,
+      description: record.fields.description || "",
+      video: record.fields.video || "",
       created_at: record.fields.created_at,
-      // email: record.fields.email,
-      slackId: record.fields["Slack ID"],
-      kudos: record.fields.kudos || 0
+      kudos: record.fields.kudos || 0,
+      slackId: record.fields["Slack ID"] || null
     }));
 
     res.status(200).json(moments);

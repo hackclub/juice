@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export default function LoadingScreen() {
+export default function LoadingScreen({isJungle}) {
   const textRef = useRef(null);
   const [barColor, setBarColor] = useState('#E31E60');
 
@@ -68,7 +68,7 @@ export default function LoadingScreen() {
           transition: 'opacity 0.1s linear'
         }}
       >
-        Juice
+        Juice & Jungle
       </div>
       <div style={{
         width: '300px',

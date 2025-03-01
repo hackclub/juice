@@ -1,6 +1,6 @@
 # Cat-astrophic World Tour
 
-**Team Members:** Michał Nowacki (https://github.com/TheZebix), Klaudiusz Janik (https://github.com/klup11), Grzegorz Żochowski (https://github.com/Kevizo), Marcin Piszczatowski
+**Team Members:** Michał Nowacki (https://github.com/TheZebix), Klaudiusz Janik (https://github.com/klup11), Grzegorz Żochowski (https://github.com/Kevizo), Marcin Piszczatowski (https://github.com/AshWaker)
 
 **How would you pitch your game in one line?**
 "It's like Angry Birds meets Worms but with cats, quirky physics, and a global yarn-chasing adventure!"

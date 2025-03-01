@@ -2,18 +2,26 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Canvas } from '@react-three/fiber';
 import { AchievementsShader } from '../shaders/AchievementsShader';
+import { WaterWavesShader } from '../shaders/WaterWavesShader';
 
 export default function AchievementsWindow({ position, isDragging, isActive, handleMouseDown, handleDismiss, handleWindowClick, selectedRank, setSelectedRank, BASE_Z_INDEX, ACTIVE_Z_INDEX, userData }) {
     const hasPRSubmitted = userData?.achievements?.includes('pr_submitted');
     const audioRef = useRef(null);
 
     useEffect(() => {
-        if (hasPRSubmitted) {
+        // If they've unlocked rank 3, default to that
+        if (userData?.achievements?.includes('poc_submitted')) {
+            setSelectedRank(3);
+        }
+        // Otherwise if they've submitted PR, default to rank 2
+        else if (hasPRSubmitted) {
             setSelectedRank(2);
-        } else {
+        } 
+        // Otherwise default to rank 1
+        else {
             setSelectedRank(1);
         }
-    }, [hasPRSubmitted, setSelectedRank]);
+    }, [hasPRSubmitted, userData?.achievements, setSelectedRank]);
 
     // Handle rank switching sound
     const handleRankSwitch = (newRank) => {
@@ -22,6 +30,20 @@ export default function AchievementsWindow({ position, isDragging, isActive, han
             audioRef.current.play().catch(console.error);
         }
         setSelectedRank(newRank);
+    };
+
+    // Get the correct fruit image based on rank
+    const getFruitImage = (rank) => {
+        switch(rank) {
+            case 1:
+                return "/apple.png";
+            case 2:
+                return "/orange.png";
+            case 3:
+                return "/lemon.png";
+            default:
+                return "/apple.png";
+        }
     };
 
     return (
@@ -71,14 +93,21 @@ export default function AchievementsWindow({ position, isDragging, isActive, han
                             style={{ width: '100%', height: '100%' }}
                             camera={{ position: [0, 0, 1] }}
                         >
-                            <AchievementsShader key={selectedRank} selectedRank={selectedRank} />
+                            {selectedRank === 3 ? (
+                                <WaterWavesShader />
+                            ) : (
+                                <AchievementsShader key={selectedRank} selectedRank={selectedRank} />
+                            )}
                         </Canvas>
                     </div>
                     <div style={{position: "relative", zIndex: 1}}>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: 160}}>
                             <div style={{position: "relative", width: 160, height: 160}}>
                                 <Image
-                                    src={selectedRank === 1 ? "/apple.png" : "/orange.png"}
+                                    src={selectedRank === 1 ? "/apple.png" : 
+                                         selectedRank === 2 ? "/orange.png" : 
+                                         selectedRank === 3 ? "/pineapple.png" :
+                                         "/apple.png"}
                                     fill
                                     style={{imageRendering: "pixelated", marginTop: 24, objectFit: "contain"}}
                                     alt={`Rank ${selectedRank} fruit`}
@@ -89,16 +118,26 @@ export default function AchievementsWindow({ position, isDragging, isActive, han
                     <div style={{position: "relative", zIndex: 1}}>
                         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", color: "black", textShadow: "0 0 2px white"}}>
                             <p>Challenge Progress</p>
-                            <p>{selectedRank === 2 ? 
-                                `${userData?.totalJuiceHours?.toFixed(2) || "0.00"}/15` : 
-                                (hasPRSubmitted ? "1/1" : "0/1")}</p>
+                            <p>{
+                                selectedRank === 1 ? 
+                                    (hasPRSubmitted ? "1/1" : "0/1") :
+                                selectedRank === 2 ? 
+                                    `${Math.min(userData?.totalJuiceHours || 0, 15).toFixed(2)}/15` :
+                                selectedRank === 3 ? 
+                                    `${Math.max(0, (userData?.totalJuiceHours || 0) - 15).toFixed(2)}/30` :
+                                    "0/1"
+                            }</p>
                         </div>
-                        <div style={{width: "100%", backgroundColor: "#000", height: 1, marginTop: 4, marginBottom: 4}}>
-                        </div>
-                        {selectedRank === 2 ? (
+                        <div style={{width: "100%", backgroundColor: "#000", height: 1, marginTop: 4, marginBottom: 4}}></div>
+                        {selectedRank === 1 ? (
+                            <p style={{color: "black", textShadow: "0 0 2px white"}}>Add your game idea to the<br/> <a target="_blank" href="https://github.com/hackclub/juice" style={{color: "black", textShadow: "0 0 2px white"}}>Juice repo</a>, here's <a target="_blank" href="https://github.com/hackclub/juice/blob/main/games/README.md" style={{color: "black", textShadow: "0 0 2px white"}}>a guide</a></p>
+                        ) : selectedRank === 2 ? (
                             <p style={{color: "black", textShadow: "0 0 2px white"}}>Spend 15+ hours building your proof of concept and then <a target="_blank" href="https://hackclub.slack.com/archives/C0M8PUPU6" style={{color: "black", textShadow: "0 0 2px white"}}>#ship</a> it</p>
                         ) : (
-                            <p style={{color: "black", textShadow: "0 0 2px white"}}>Add your game idea to the<br/> <a target="_blank" href="https://github.com/hackclub/juice" style={{color: "black", textShadow: "0 0 2px white"}}>Juice repo</a>, here's <a target="_blank" href="https://github.com/hackclub/juice/blob/main/games/README.md" style={{color: "black", textShadow: "0 0 2px white"}}>a guide</a></p>
+                            <div style={{color: "black", textShadow: "0 0 2px white"}}>
+                                <p>1. Create 30min of playable content</p>
+                                <p style={{marginTop: "4px"}}>2. Take a vertical slice and increase its fidelity</p>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -142,23 +181,24 @@ export default function AchievementsWindow({ position, isDragging, isActive, han
                         <p>Make a proof of concept with no art just the core gameplay loop</p>
                     </div>
                     <div 
+                        onClick={() => hasPRSubmitted && handleRankSwitch(3)}
                         style={{
                             flex: 1,
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
                             padding: "0 12px",
-                            border: "none",
+                            border: selectedRank === 3 ? "1px solid #000" : "none",
                             borderRadius: 2,
                             backgroundColor: "transparent",
-                            opacity: 0.5,
-                            cursor: "default"
+                            opacity: hasPRSubmitted ? 1 : 0.5,
+                            cursor: hasPRSubmitted ? "pointer" : "default"
                         }}>
                         <div style={{display: "flex", alignItems: "center", gap: 8}}>
                             <p>Rank 3</p>
-                            <Image src="/lock.svg" width={16} height={16} alt="locked" />
+                            {!hasPRSubmitted && <Image src="/lock.svg" width={16} height={16} alt="locked" />}
                         </div>
-                        <p>Take a vertical slice of your game and make it great</p>
+                        <p>More content + increase fidelity</p>
                     </div>
                     <div 
                         style={{

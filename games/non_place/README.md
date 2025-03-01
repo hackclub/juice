@@ -1,6 +1,6 @@
 # ***non_place***
 
-## **Team Members:** Sri Vaishnavi Boppana
+## **Team Members:** Sri Vaishnavi Boppana, Navya Dhar 
 
 ### **How would you pitch your game in one line?**
 

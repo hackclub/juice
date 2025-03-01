@@ -3,8 +3,7 @@
 ###  **Team Members:**  
 - 0xDracula (Abdallah Ebrahim)
 - Mohamed Ayman  
-- Mina Emil
-- Mostafa Mohamed
+- Anas Ramadan
 
 ---
 

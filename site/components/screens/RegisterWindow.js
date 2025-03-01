@@ -69,7 +69,7 @@ export default function RegisterWindow({ position, isDragging, isActive, handleM
         try {
             const text = await file.text();
             // Validate the token first
-            const response = await fetch('/api/user', {
+            const response = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user', {
                 headers: {
                     'Authorization': `Bearer ${text.trim()}`
                 }
@@ -118,7 +118,7 @@ export default function RegisterWindow({ position, isDragging, isActive, handleM
         try {
             const text = await file.text();
             // Validate the token first
-            const response = await fetch('/api/user', {
+            const response = await fetch('https://sww48o88cs88sg8k84g4s4kg.a.selfhosted.hackclub.com/api/user', {
                 headers: {
                     'Authorization': `Bearer ${text.trim()}`
                 }
