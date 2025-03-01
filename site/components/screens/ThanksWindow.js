@@ -54,7 +54,7 @@ export default function ThanksWindow({ position, isDragging, isActive, handleMou
                     cursor: "text"
                 }}>
                     <p style={{fontSize: 24, lineHeight: 1}}>Thanks to:</p>
-                    <p>AdventureX - China Distribution Partner</p>
+                    <a href="https://github.com/AdventureX-RGE">AdventureX - China Distribution Partner</a>
                     <a><img src="./AdventureX.png" style={{width: 150}}/></a>
                 </div>
             </div>
