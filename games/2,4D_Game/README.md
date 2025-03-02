@@ -1,6 +1,6 @@
 # 2,4D Game
 
-**Team Members:** Leon Gohn, Maximilian Zhu, Nico Scholl
+**Team Members:** Leon Gohn, Maximilian Zhu
 
 **How would you pitch your game in one line?**
 "It's like Mario Bros. meets Design from Terraria but with the 2,4D (switching between layers in front and behind)" 
