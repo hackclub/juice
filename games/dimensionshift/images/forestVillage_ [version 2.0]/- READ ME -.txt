@@ -1,0 +1,28 @@
+
+                                                              - READ ME -  
+
+Thank you for using forestVillage_...part of the fantasy_ series' of assets on itch.io!
+
+Stuff to know - Tilesets
+
+- Each tile is 16x16 pixels...although some objects/structures are 16x32/32x16/32x32...[e.g. buildings, well & tables]
+- Each tileset has a 1 tile [16x16 pixels] border (some objects/structures actually go into the border)
+- Fence gates have a closed, open one-way & open other-way states [horizontal and vertical]
+- Item tiles (wine bottles, books...) are designed to go on-top of other tiles (this way they can be used with more tiles)
+
+Stuff to know - Animations
+
+- Each animation is 8 frames
+
+Future updates - 
+
+- More interior decorations
+- Windmill
+
+If you have any questions or requests you can contact me at analogstudios.inc@gmail.com
+
+
+
+
+
+                                                             
