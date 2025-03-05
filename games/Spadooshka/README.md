@@ -1,6 +1,6 @@
 # Spadooshka
 
-**Team Members:** Justin, Guangxiu, Wes
+**Team Members:** Justin, Guangxiu, Wes, Daylin
 
 **How would you pitch your game in one line?**
 - It's a 1v1 low-poly anime style PvP shooting game with randomly generated items around the map.

@@ -30,6 +30,7 @@ import BrucePokemonCard from '../BrucePokemonCard';
 import Win7PokemonCard from '../Win7PokemonCard';
 import CardCreatorWindow from './CardCreatorWindow';
 import RabbitMessage from '../RabbitMessage';
+import V1Challenge from './V1Challenge';
 
 export default function MainView({
   isLoggedIn,
@@ -1971,7 +1972,7 @@ export default function MainView({
     >
       {/* Add a new wrapper div for the zoom effect */}
       <div style={{
-        transform: isZoomedToRabbit ? 'scale(4.0) translateY(-6px)' : 'scale(1) translateY(0)',
+        transform: isZoomedToRabbit ? 'scale(5.0) translateY(-6px)' : 'scale(1) translateY(0)',
         transition: isZoomedToRabbit 
           ? 'all 8.9s cubic-bezier(0.34, 1.56, 0.64, 1)' // Bouncy transition when zooming in
           : 'all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)', // Smooth transition when zooming out
@@ -3568,7 +3569,17 @@ export default function MainView({
               )}
 
             {isLoggedIn &&
+              userData?.achievements?.includes('poc_submitted') &&
+              !isJungle && (
+                <V1Challenge 
+                  userData={userData}
+                  handleThirdChallengeOpen={console.log("ok")}
+                />
+              )}
+
+            {isLoggedIn &&
               userData?.achievements?.includes('pr_submitted') &&
+              !userData?.achievements?.includes('poc_submitted') && 
               !isJungle && (
                 <div
                   className="panel-pop rainbow-glass-panel"

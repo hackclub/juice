@@ -21,7 +21,7 @@ export async function uploadVideo(req, res) {
     const token = Array.isArray(fields.token) ? fields.token[0] : fields.token;
     const description = Array.isArray(fields.description) ? fields.description[0] : fields.description;
     const stretchId = Array.isArray(fields.stretchId) ? fields.stretchId[0] : fields.stretchId;
-    const stopTime = Array.isArray(fields.stopTime) ? fields.stopTime[0] : fields.stopTime;
+    const stopTime = new Date().toISOString();
     const isJuice = Array.isArray(fields.isJuice) ? fields.isJuice[0] : fields.isJuice;
     
     if (!files.video) {

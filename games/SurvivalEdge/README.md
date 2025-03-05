@@ -1,7 +1,7 @@
 # ***Survival’s Edge***
 
 
-## **Team Members:** Sai Charan
+## **Team Members:** Sai Charan, Sri Vaishnavi Boppana, Navya Dhar
 
 ### How would you pitch your game in one line?
 It's like an escape room game where players are trapped in a location and must complete various levels to break free.
