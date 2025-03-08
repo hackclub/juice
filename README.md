@@ -74,7 +74,7 @@ Lily Ding ([@Lily-D-coder](https://github.com/Lily-D-coder))
 + YOU if you'd like (we would love more help)!!!
 
 ## Distribution Partner
-Thanks to Ryan @ [AdventureX](adventure-x.org) for sharing the Juice event with his community of hackers in China
+Thanks to Ryan @ [AdventureX](adventure-x.org) for sharing the Juice event with his community of hackers in China and for being the host organization inviting Hack Clubbers to China
 
 <img src="https://github.com/hackclub/juice/blob/main/AdventureX.png" height="50">
 
