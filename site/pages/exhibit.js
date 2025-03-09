@@ -1,6 +1,137 @@
 import Head from 'next/head';
 import { useState } from 'react';
 
+// TopBar component that stays fixed at the top
+const TopBar = ({ exhibitStage, handleNavClick, toggleLanguage, t }) => {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: '#fff',
+      zIndex: 100,
+      display: 'flex',
+      flexDirection: 'column',
+      maxWidth: 500,
+      margin: '0 auto',
+      width: '100%'
+          }}>
+      {/* Language and open source text */}
+      <div style={{
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: "center", 
+        padding: "8px 8px 4px",
+      }}>
+        <a style={{
+          fontSize: 14,
+          margin: 0,
+          color: "#000"
+        }}
+        href="http://github.com/hackclub/juice"
+        >
+          {t.openSourceText}
+        </a>
+        <button 
+          onClick={toggleLanguage}
+          style={{
+            padding: "5px 10px",
+            backgroundColor: "#fff",
+            border: "1px solid #000",
+            cursor: "pointer",
+            borderRadius: "4px",
+            color: "#000"
+          }}
+        >
+          {t.toggleLanguage}
+        </button>
+      </div>
+      
+      {/* Navigation tabs */}
+      <div style={{
+        display: "flex", 
+        paddingLeft: 8, 
+        paddingTop: 8, 
+        paddingBottom: 8, 
+        borderBottom: "1px solid #000", 
+        paddingRight: 8, 
+        alignItems: "center", 
+        flexDirection: "row"
+      }}>
+        <div 
+          style={{
+            display: "flex", 
+            alignItems: "center", 
+            flexDirection: "column", 
+            opacity: exhibitStage === 0 ? 1.0 : 0.5,
+            cursor: "pointer"
+          }}
+          onClick={() => handleNavClick(0)}
+        >
+          <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
+          </div>
+          <p style={{fontSize: 14, marginTop: 2,}}>{t.navExplore}</p>
+        </div>
+
+        <div style={{height: '0.2px', marginBottom: 16, borderTop: "0.4px solid #000", borderBottom: "0.4px solid #000", width: "100%"}}>
+        </div>
+
+        <div 
+          style={{
+            display: "flex", 
+            alignItems: "center", 
+            flexDirection: "column", 
+            opacity: exhibitStage === 1 ? 1.0 : 0.5,
+            cursor: "pointer"
+          }}
+          onClick={() => handleNavClick(1)}
+        >
+          <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
+          </div>
+          <p style={{fontSize: 14, marginTop: 2,}}>{t.navRsvp}</p>
+        </div>
+
+        <div style={{height: '0.2px', marginBottom: 16, borderTop: "0.4px solid #000", borderBottom: "0.4px solid #000", width: "100%"}}>
+        </div>
+
+        <div 
+          style={{
+            display: "flex", 
+            alignItems: "center", 
+            flexDirection: "column", 
+            opacity: exhibitStage === 2 ? 1.0 : 0.5,
+            cursor: "pointer"
+          }}
+          onClick={() => handleNavClick(2)}
+        >
+          <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
+          </div>
+          <p style={{fontSize: 14, marginTop: 2,}}>{t.navTicket}</p>
+        </div>
+
+        <div style={{height: '0.2px', marginBottom: 16, borderTop: "0.4px solid #000", borderBottom: "0.4px solid #000", width: "100%"}}>
+        </div>
+        
+        <div 
+          style={{
+            display: "flex", 
+            alignItems: "center", 
+            flexDirection: "column", 
+            opacity: exhibitStage === 3 ? 1.0 : 0.5,
+            cursor: "pointer"
+          }}
+          onClick={() => handleNavClick(3)}
+        >
+          <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
+          </div>
+          <p style={{fontSize: 14, marginTop: 2,}}>{t.navFriends}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Exhibit() {
   const [exhibitStage, setExhibitStage] = useState(0); // 0 = explore, 1 = rsvp, 2 = ticket, 3 = friends
   const [hasRSVPed, setHasRSVPed] = useState(false); // Track if user has RSVPed
@@ -72,165 +203,79 @@ export default function Exhibit() {
     // Additional RSVP logic would go here
   };
   
+  // Calculate the height of the top bar (approximately)
+  // This is a rough estimate: language bar + nav height + padding
+  const topBarHeight = 32 + 80 + 16; // in pixels
+  
   return (
     <>
       <Head>
         <title>{t.title}</title>
         <meta name="description" content={t.description} />
       </Head>
-      <main style={{width: "100vw", display: "flex", justifyContent: "center", alignItems: "center"}}>
+      
+      {/* Fixed Top Bar Component */}
+      <TopBar 
+        exhibitStage={exhibitStage} 
+        handleNavClick={handleNavClick} 
+        toggleLanguage={toggleLanguage} 
+        t={t} 
+      />
+      
+      <main style={{
+        width: "100vw", 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center",
+        marginTop: `${topBarHeight}px` // Add margin to offset the fixed top bar
+      }}>
         <div style={{maxWidth: 500, width: "100%"}}>
-          {/* Top bar with text and language toggle button */}
-          <div style={{
-            display: "flex", 
-            justifyContent: "space-between", 
-            alignItems: "center", 
-            marginBottom: 10,
-            paddingLeft: 8,
-            paddingRight: 8,
-            paddingTop: 4
-          }}>
-            <a style={{
-              fontSize: 14,
-              margin: 0,
-              color: "#000"
-            }}
-            href="http://github.com/hackclub/juice"
-            >
-              {t.openSourceText}
-            </a>
-            <button 
-              onClick={toggleLanguage}
-              style={{
-                padding: "5px 10px",
-                backgroundColor: "#fff",
-                border: "1px solid #000",
-                cursor: "pointer",
-                borderRadius: "4px",
-                color: "#000"
-              }}
-            >
-              {t.toggleLanguage}
-            </button>
-          </div>
-        
-          <div style={{display: "flex", paddingLeft: 8, paddingTop: 8, paddingBottom: 8, borderBottom: "1px solid #000", paddingRight: 8, alignItems: "center", flexDirection: "row"}}>
-            <div 
-              style={{
-                display: "flex", 
-                alignItems: "center", 
-                flexDirection: "column", 
-                opacity: exhibitStage === 0 ? 1.0 : 0.5,
-                cursor: "pointer"
-              }}
-              onClick={() => handleNavClick(0)}
-            >
-            <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
-            </div>
-            <p style={{fontSize: 14, marginTop: 2,}}>{t.navExplore}</p>
-            </div>
-
-            <div style={{height: '0.2px', marginBottom: 16, borderTop: "0.4px solid #000", borderBottom: "0.4px solid #000", width: "100%"}}>
-            </div>
-
-            <div 
-              style={{
-                display: "flex", 
-                alignItems: "center", 
-                flexDirection: "column", 
-                opacity: exhibitStage === 1 ? 1.0 : 0.5,
-                cursor: "pointer"
-              }}
-              onClick={() => handleNavClick(1)}
-            >
-            <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
-            </div>
-            <p style={{fontSize: 14, marginTop: 2,}}>{t.navRsvp}</p>
-            </div>
-
-            <div style={{height: '0.2px', marginBottom: 16, borderTop: "0.4px solid #000", borderBottom: "0.4px solid #000", width: "100%"}}>
-            </div>
-
-            <div 
-              style={{
-                display: "flex", 
-                alignItems: "center", 
-                flexDirection: "column", 
-                opacity: exhibitStage === 2 ? 1.0 : 0.5,
-                cursor: "pointer"
-              }}
-              onClick={() => handleNavClick(2)}
-            >
-            <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
-            </div>
-            <p style={{fontSize: 14, marginTop: 2,}}>{t.navTicket}</p>
-            </div>
-
-            <div style={{height: '0.2px', marginBottom: 16, borderTop: "0.4px solid #000", borderBottom: "0.4px solid #000", width: "100%"}}>
-            </div>
+          {/* Content area based on selected stage */}
+          <div style={{marginTop: 20, padding: 8}}>
+            {exhibitStage === 0 && (
+              <div>
+                <h1>{t.exploreTitle}</h1>
+                {/* Explore content */}
+              </div>
+            )}
             
-            <div 
-              style={{
-                display: "flex", 
-                alignItems: "center", 
-                flexDirection: "column", 
-                opacity: exhibitStage === 3 ? 1.0 : 0.5,
-                cursor: "pointer"
-              }}
-              onClick={() => handleNavClick(3)}
-            >
-            <div style={{width: 52, height: 52, backgroundColor: "#fff", border: "1px solid #000"}}>
-            </div>
-            <p style={{fontSize: 14, marginTop: 2,}}>{t.navFriends}</p>
-            </div>
-        </div>
-
-        {/* Content area based on selected stage */}
-        <div style={{marginTop: 20, padding: 8}}>
-          {exhibitStage === 0 && (
-            <div>
-              <h1>{t.exploreTitle}</h1>
-              {/* Explore content */}
-            </div>
-          )}
-          
-          {exhibitStage === 1 && (
-            <div style={{padding: 8}}>
-              <h1>{t.rsvpTitle}</h1>
-              {/* RSVP form would go here */}
-              <button 
-                onClick={completeRSVP}
-                style={{
-                  marginTop: 20,
-                  padding: "10px 20px",
-                  backgroundColor: "#000",
-                  color: "#fff",
-                  border: "none",
-                  cursor: "pointer"
-                }}
-              >
-                {t.rsvpButton}
-              </button>
-              {hasRSVPed && (
-                <p style={{color: "green", marginTop: 10}}>{t.rsvpSuccess}</p>
-              )}
-            </div>
-          )}
-          
-          {exhibitStage === 2 && hasRSVPed && (
-            <div>
-              <h1>{t.ticketTitle}</h1>
-              {/* Ticket content */}
-            </div>
-          )}
-          
-          {exhibitStage === 3 && hasRSVPed && (
-            <div>
-              <h1>{t.friendsTitle}</h1>
-              {/* Friends content */}
-            </div>
-          )}
-        </div>
+            {exhibitStage === 1 && (
+              <div style={{padding: 8}}>
+                <h1>{t.rsvpTitle}</h1>
+                {/* RSVP form would go here */}
+                <button 
+                  onClick={completeRSVP}
+                  style={{
+                    marginTop: 20,
+                    padding: "10px 20px",
+                    backgroundColor: "#000",
+                    color: "#fff",
+                    border: "none",
+                    cursor: "pointer"
+                  }}
+                >
+                  {t.rsvpButton}
+                </button>
+                {hasRSVPed && (
+                  <p style={{color: "green", marginTop: 10}}>{t.rsvpSuccess}</p>
+                )}
+              </div>
+            )}
+            
+            {exhibitStage === 2 && hasRSVPed && (
+              <div>
+                <h1>{t.ticketTitle}</h1>
+                {/* Ticket content */}
+              </div>
+            )}
+            
+            {exhibitStage === 3 && hasRSVPed && (
+              <div>
+                <h1>{t.friendsTitle}</h1>
+                {/* Friends content */}
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </>
