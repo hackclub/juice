@@ -186,7 +186,7 @@ export default function Exhibit() {
         </div>
 
         {/* Content area based on selected stage */}
-        <div style={{marginTop: 20, padding: 16}}>
+        <div style={{marginTop: 20, padding: 8}}>
           {exhibitStage === 0 && (
             <div>
               <h1>{t.exploreTitle}</h1>
@@ -195,7 +195,7 @@ export default function Exhibit() {
           )}
           
           {exhibitStage === 1 && (
-            <div style={{padding: 16,}}>
+            <div style={{padding: 8}}>
               <h1>{t.rsvpTitle}</h1>
               {/* RSVP form would go here */}
               <button 
