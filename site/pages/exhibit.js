@@ -106,7 +106,8 @@ export default function Exhibit() {
                 backgroundColor: "#fff",
                 border: "1px solid #000",
                 cursor: "pointer",
-                borderRadius: "4px"
+                borderRadius: "4px",
+                color: "#000"
               }}
             >
               {t.toggleLanguage}
