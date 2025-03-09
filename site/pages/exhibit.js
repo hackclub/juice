@@ -21,7 +21,7 @@ export default function Exhibit() {
       rsvpSuccess: "You have successfully RSVPed!",
       ticketTitle: "Your Tickets",
       friendsTitle: "Friends",
-      rsvpAlert: "Please RSVP first before accessing tickets or inviting your friends!",
+      rsvpAlert: "Please RSVP first before accessing this section of the site",
       toggleLanguage: "中文",
       openSourceText: "open-sourced free event made with <3"
     },
@@ -186,7 +186,7 @@ export default function Exhibit() {
         </div>
 
         {/* Content area based on selected stage */}
-        <div style={{marginTop: 20}}>
+        <div style={{marginTop: 20, padding: 16}}>
           {exhibitStage === 0 && (
             <div>
               <h1>{t.exploreTitle}</h1>
@@ -195,7 +195,7 @@ export default function Exhibit() {
           )}
           
           {exhibitStage === 1 && (
-            <div>
+            <div style={{padding: 16,}}>
               <h1>{t.rsvpTitle}</h1>
               {/* RSVP form would go here */}
               <button 
