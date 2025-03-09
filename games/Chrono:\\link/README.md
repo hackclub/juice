@@ -1,10 +1,10 @@
-##Chrono:\\Link##
+**Chrono:\\Link**
 
 Team Members: Hannah (hisverysquare) && Aisha (witchhazelz)
 
 "Here lies two souls, trapped in different timelines, must solve puzzles, leave clues, and alter fate before time runs out."
 
-###Overview###
+**Overview**
 Chrono:\Link is a time-bending puzzle game where two characters, trapped in different timelines, must solve puzzles, leave clues, and alter fate before time runs out.
 Every action in one world impacts the other, and mistakes cause glitches that distort reality.
 
@@ -13,7 +13,7 @@ Every action in one world impacts the other, and mistakes cause glitches that di
 ⟢ No dialogue—characters "speak" through pixelated, distorted sounds.
 ⟢ Failing puzzles causes glitches, leading to timeline corruption.
 
-###Core Gameplay Loop###
+**Core Gameplay Loop**
 ⟢ Solve a puzzle before time runs out.
 ⟡ Each puzzle is timed. Solving it correctly reveals more clues about the other character, connecting the timelines.
 ⟡ Running out of time or failing introduces glitches, distorting the next sequence.
@@ -31,13 +31,13 @@ Every action in one world impacts the other, and mistakes cause glitches that di
 ⟡ Too many glitches lead to a fail-state timeline where puzzles become significantly harder.
 ⟡ The final sequence forces players to fix the timeline before it collapses completely.
 
-###Key Mechanics###
+**Key Mechanics**
 ⟢ Time-Switching Puzzle Solving – Solving a puzzle in one timeline provides clues that connect it to the other.
 ⟢ Glitch & Consequence System – Mistakes introduce corruption, making the game progressively harder.
 ⟢ Clue-Relay Communication – Players must leave messages for their counterpart through environmental changes.
 ⟢ Distorted Speech System – No spoken dialogue—characters communicate through pixelated sounds that degrade as glitches increase.
 
-###Scope and Engagement###
+**Scope and Engagement**
 ⟢ Timed puzzles create urgency and force quick thinking.
 ⟢ Early puzzles introduce mechanics, while later ones increase difficulty with shorter timers and more layered interactions.
 ⟢ The glitch system acts as a soft difficulty curve, making failure an evolving challenge rather than a simple game-over.
