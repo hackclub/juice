@@ -1,5 +1,7 @@
 # Juice! 🧃
 
+Hackathon organized by AdventureX that's inviting folks from Hack Club!
+
 *There's never been anything like this before*
 
 ![background](https://github.com/user-attachments/assets/156b45a9-25bd-4808-9fca-456a66d2cd93)
@@ -63,13 +65,6 @@ pnpm run dev
 ```
 
 & make a PR!
-
-## some folks helping us make this :)
-Thomas Stubblefield ([@SerenityUX](https://github.com/SerenityUX)),
-Thomas Wu ([@TakumiBC](https://github.com/TakumiBC)),
-Paolo Carino ([paoloaverycarino.com](https://www.paoloaverycarino.com)),
-Estella Gu ([@themagicfrog](https://github.com/themagicfrog)) (credit to her for making all the epic art on the site), &
-Lily Ding ([@Lily-D-coder](https://github.com/Lily-D-coder))
 
 + YOU if you'd like (we would love more help)!!!
 
