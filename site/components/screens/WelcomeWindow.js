@@ -331,7 +331,7 @@ export default function WelcomeWindow({ position, isDragging, isActive, handleMo
                 }}>
                     <span>{isJungle ? "Start building your game" : "build a game in 2 months"}</span>
                     <span>{isJungle ? "earn fruit in the jungle" : "then run in-person popup"}</span>
-                    <span>{isJungle ? "turn that fruit into money" : "game cafe in China"}</span>
+                    <span>{isJungle ? "turn that fruit into money" : "game exhibit in China"}</span>
                     <i>{isJungle ? "To get assets and licenses" : "(Flight Stipends Available)"}</i>
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12, fontFamily: "monospace", fontSize: "28px", marginTop: 'auto' }}>
