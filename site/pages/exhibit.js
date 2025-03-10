@@ -154,7 +154,10 @@ export default function Exhibit() {
       friendsTitle: "Friends",
       rsvpAlert: "Please RSVP first before accessing this section of the site",
       toggleLanguage: "中文",
-      openSourceText: "open-sourced free event made with <3"
+      openSourceText: "open-sourced free event made with <3",
+      exploreDescription: "30 high school indie game developers from 10+ countries are coming to Shanghai to make you free fresh juice and let you try their game",
+      claimTicket: "claim free juice ticket",
+      eventDateLocation: "April 5th - 10th @ BottleDream & SparkLabs"
     },
     zh: {
       title: "果汁快闪咖啡馆展览",
@@ -171,7 +174,10 @@ export default function Exhibit() {
       friendsTitle: "朋友",
       rsvpAlert: "请先预约，然后再访问门票或邀请朋友！",
       toggleLanguage: "English",
-      openSourceText: "开源免费活动，用❤️制作"
+      openSourceText: "开源免费活动，用❤️制作",
+      exploreDescription: "来自10多个国家的30位高中生独立游戏开发者将来到上海，为您提供免费新鲜果汁，并让您尝试他们的游戏",
+      claimTicket: "领取免费果汁券",
+      eventDateLocation: "4月5日至10日 @ BottleDream & SparkLabs"
     }
   };
   
@@ -231,11 +237,19 @@ export default function Exhibit() {
       }}>
         <div style={{maxWidth: 500, width: "100%"}}>
           {/* Content area based on selected stage */}
-          <div style={{marginTop: 20, padding: 8}}>
+          <div style={{marginTop: 6, padding: 8}}>
             {exhibitStage === 0 && (
               <div>
-                <h1>{t.exploreTitle}</h1>
+                <h1 style={{fontSize: 48}}>{t.exploreTitle}</h1>
+                <p style={{marginTop: 12, fontSize: 18}}>{t.exploreDescription}</p>
+                <div 
+                onClick={() => setExhibitStage(1)}
+                style={{width: "100%", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 16, backgroundColor: "#000", color: "#fff", padding: 12, fontSize: 32}}>
+                    <p>{t.claimTicket}</p>
+                </div>
+                <p style={{width: "100%", textAlign: "center", marginTop: 8}}>{t.eventDateLocation}</p>
                 {/* Explore content */}
+                
               </div>
             )}
             

@@ -111,7 +111,7 @@ export default function SecondChallengeWindow({ position, isDragging, isActive, 
                     <div></div>
                 </div>
                 <div style={{display: "flex", flexDirection: "column", gap: 12, padding: 16}}>
-                    <p>Hey, Thomas here!</p>
+                    <p>Hey,</p>
                     <p>Your challenge this week is to make a proof of concept for the core mechanic of your game. Your game doesn't have to look beautiful, have any assets, or even a start/stop menu. All you need is a little bit of playable content for the core mechanic of your game.</p>
                     <p>Once you have that core game play, you can ship it to <a href="https://itch.io/developers" target="_blank" rel="noopener noreferrer">itch.io</a> & then your game will be reviewed & if it works you'll get the 2nd achievement. Deploy to as many platforms as you'd like</p>
                     {!hasCompleted && !isInReview && (
