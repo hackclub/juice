@@ -1,6 +1,6 @@
 # Juice! 🧃
 
-Hackathon organized by AdventureX that's inviting folks from Hack Club!
+Hackathon hosted by AdventureX that's inviting folks from Hack Club!
 
 *There's never been anything like this before*
 
