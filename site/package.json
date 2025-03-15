@@ -29,6 +29,7 @@
     "react-confetti": "^6.2.2",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
     "react-parallax-tilt": "^1.7.284",
     "sharp": "^0.32.6",
     "three": "^0.172.0",

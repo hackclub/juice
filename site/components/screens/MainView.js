@@ -32,6 +32,7 @@ import CardCreatorWindow from './CardCreatorWindow';
 import RabbitMessage from '../RabbitMessage';
 import V1Challenge from './V1Challenge';
 import WutIsBubbleathonWindow from './WutIsBubbleathonWindow';
+import ItineraryWindow from './ItineraryWindow';
 
 export default function MainView({
   isLoggedIn,
@@ -108,6 +109,10 @@ export default function MainView({
       x: 400,
       y: 150,
     });
+  const [itineraryPosition, setItineraryPosition] = React.useState({
+    x: 400,
+    y: 150,
+  });
 
   const [wutIsBubbleathonWindowPosition, setWutIsBubbleathonWindowPosition] =
     React.useState({
@@ -543,7 +548,27 @@ export default function MainView({
             'zero',
           ]);
         }
-      }
+      } else if (fileId === 'itinerary') {
+        if (e.detail === 2) { // Double click
+          if (!openWindows.includes('itineraryWindow')) {
+            setOpenWindows((prev) => [...prev, 'itineraryWindow']);
+            setWindowOrder((prev) => [
+              ...prev.filter((w) => w !== 'itineraryWindow'),
+              'itineraryWindow',
+            ]);
+            setActiveWindow('itineraryWindow');
+            document.getElementById('windowOpenAudio').currentTime = 0;
+            document.getElementById('windowOpenAudio').play();
+          } else {
+            setWindowOrder((prev) => [
+              ...prev.filter((w) => w !== 'itineraryWindow'),
+              'itineraryWindow',
+            ]);
+            setActiveWindow('itineraryWindow');
+          }
+        }
+        setSelectedFile('itinerary');
+      } 
     }
     setSelectedFile(fileId);
   };
@@ -633,7 +658,10 @@ export default function MainView({
         break;
       case 'wutIsBubbleathon':
         position = wutIsBubbleathonWindowPosition;
-        break
+        break;
+      case 'itineraryWindow':
+        position = itineraryPosition;
+        break;
       default:
         console.log('Unknown window name:', windowName);
         position = { x: 0, y: 0 };
@@ -716,6 +744,8 @@ export default function MainView({
         setCardCreatorPosition(newPosition);
       } else if (activeWindow === 'wutIsBubbleathon') {
         setWutIsBubbleathonWindowPosition(newPosition);
+      } else if (activeWindow === 'itineraryWindow') {
+        setItineraryPosition(newPosition);
       }
     }
   }; // Add closing brace here
@@ -1979,6 +2009,17 @@ export default function MainView({
     setIsRabbitMessageVisible(false);
     // Reset the zoom state
     setIsZoomedToRabbit(false);
+  };
+
+  const handleItineraryOpen = () => {
+    if (!openWindows.includes('itineraryWindow')) {
+      setOpenWindows([...openWindows, 'itineraryWindow']);
+      setWindowOrder([...windowOrder.filter(w => w !== 'itineraryWindow'), 'itineraryWindow']);
+      setActiveWindow('itineraryWindow');
+    } else {
+      setWindowOrder([...windowOrder.filter(w => w !== 'itineraryWindow'), 'itineraryWindow']);
+      setActiveWindow('itineraryWindow');
+    }
   };
 
   return (
@@ -3401,6 +3442,18 @@ export default function MainView({
             />
           )}
 
+          {openWindows.includes('itineraryWindow') && (
+            <ItineraryWindow
+              position={itineraryPosition}
+              isDragging={isDragging && activeWindow === 'itineraryWindow'}
+              isActive={windowOrder[windowOrder.length - 1] === 'itineraryWindow'}
+              handleMouseDown={handleMouseDown}
+              handleDismiss={handleDismiss}
+              handleWindowClick={handleWindowClick}
+              BASE_Z_INDEX={getWindowZIndex('itineraryWindow')}
+              ACTIVE_Z_INDEX={getWindowZIndex('itineraryWindow')}
+            />
+          )}
 
           <div
             style={{
@@ -3550,6 +3603,17 @@ export default function MainView({
                   delay={0}
                   data-file-id="tamagotchiNotes"
                 />
+                                {isLoggedIn && !isJungle && (
+
+                <FileIcon
+                  text="itinerary.csv"
+                  icon="./greenIcon.png"
+                  isSelected={selectedFile === 'itinerary'}
+                  onClick={handleFileClick('itinerary')}
+                  delay={0}
+                  data-file-id="itinerary"
+                />
+                                )}
               </div>
               <div>
                 <FileIcon
