@@ -46,6 +46,7 @@ export default function MainView({
 
   const [time, setTime] = React.useState(new Date());
   const [timeRemaining, setTimeRemaining] = React.useState('');
+  const [activeJuicersCount, setActiveJuicersCount] = React.useState(0);
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const [activeWindow, setActiveWindow] = React.useState(null);
@@ -1024,11 +1025,33 @@ export default function MainView({
   React.useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
-    }, 20000); // Update every second
+    }, 20000); // Update every 20 seconds
 
     return () => clearInterval(timer);
   }, []);
 
+  // Fetch active juicers count
+  React.useEffect(() => {
+    const fetchActiveJuicersCount = async () => {
+      try {
+        const response = await fetch('/api/get-active-juicers');
+        if (response.ok) {
+          const data = await response.json();
+          setActiveJuicersCount(data.count);
+        }
+      } catch (error) {
+        console.error('Error fetching active juicers count:', error);
+      }
+    };
+
+    // Fetch immediately
+    fetchActiveJuicersCount();
+
+    // Set up interval to fetch every 20 seconds
+    const interval = setInterval(fetchActiveJuicersCount, 20000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -2441,7 +2464,7 @@ export default function MainView({
                 fontWeight: 500,
               }}
             >
-              Juice
+              Juice {activeJuicersCount > 0 && (`(${activeJuicersCount} online juicers)`)}
             </p>
 
             <div style={{position: 'relative'}} data-rabbit-component="true">
