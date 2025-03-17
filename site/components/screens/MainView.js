@@ -2087,7 +2087,7 @@ export default function MainView({
         }}
       >
         <div style={{ borderBottom: '1px solid rgba(255, 160, 60, 0.3)', paddingBottom: 8, marginBottom: 8 }}>
-          <h3 style={{ margin: 0, fontSize: 16, color: 'rgba(0, 0, 0, 0.8)' }}>Active Juicers</h3>
+          <h3 style={{ margin: 0, fontSize: 16, color: 'rgba(0, 0, 0, 0.8)' }}>Currently Juicing:</h3>
         </div>
         {juicers.length === 0 ? (
           <p style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: 14, margin: '8px 0' }}>No active juicers right now</p>
