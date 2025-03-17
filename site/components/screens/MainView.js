@@ -1064,10 +1064,6 @@ export default function MainView({
     // Fetch immediately
     fetchActiveJuicersCount();
 
-    // Set up interval to fetch every 20 seconds
-    const interval = setInterval(fetchActiveJuicersCount, 20000);
-
-    return () => clearInterval(interval);
   }, []);
 
   React.useEffect(() => {
@@ -2157,10 +2153,6 @@ export default function MainView({
     // Fetch immediately
     fetchActiveJuicersCount();
 
-    // Set up interval to fetch every 20 seconds
-    const interval = setInterval(fetchActiveJuicersCount, 200000);
-
-    return () => clearInterval(interval);
   }, []);
 
 
