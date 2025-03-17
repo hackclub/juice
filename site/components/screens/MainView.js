@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useRef } from 'react';
 import FileIcon from '../FileIcon';
 import WelcomeWindow from './WelcomeWindow';
 import AchievementsWindow from './AchievementsWindow';
@@ -47,6 +47,8 @@ export default function MainView({
   const [time, setTime] = React.useState(new Date());
   const [timeRemaining, setTimeRemaining] = React.useState('');
   const [activeJuicersCount, setActiveJuicersCount] = React.useState(0);
+  const [activeJuicers, setActiveJuicers] = React.useState([]);
+  const [isActiveJuicersVisible, setIsActiveJuicersVisible] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const [activeWindow, setActiveWindow] = React.useState(null);
@@ -271,7 +273,7 @@ export default function MainView({
   React.useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
-      setTime(now);
+      // setTime(now);
 
       const kickoffDate = new Date('2025-02-01T19:30:00-05:00'); // EST time
       const diff = kickoffDate - now;
@@ -308,6 +310,8 @@ export default function MainView({
 
   const handleFileClick = (fileId) => (e) => {
     e.stopPropagation();
+    setSelectedFile(fileId);
+
     if (selectedFile === fileId) {
       if (fileId === 'Achievements') {
         if (!openWindows.includes('achievements')) {
@@ -569,9 +573,17 @@ export default function MainView({
           }
         }
         setSelectedFile('itinerary');
-      } 
+      } else if (fileId === 'wutIsJuice.txt') {
+        if (!openWindows.includes('welcomeWindow')) {
+          handleWelcomeOpen();
+        } else {
+          setWindowOrder((prev) => [
+            ...prev.filter((w) => w !== 'welcomeWindow'),
+            'welcomeWindow',
+          ]);
+        }
+      }
     }
-    setSelectedFile(fileId);
   };
 
   const handleMouseDown = (windowName) => (e) => {
@@ -781,6 +793,10 @@ export default function MainView({
   };
 
   const handleJuiceClick = () => {
+    setIsActiveJuicersVisible(!isActiveJuicersVisible);
+  };
+
+  const handleWelcomeOpen = () => {
     if (!openWindows.includes('welcomeWindow')) {
       setOpenWindows((prev) => [...prev, 'welcomeWindow']);
       setWelcomePosition({ x: 0, y: 0 });
@@ -1025,7 +1041,7 @@ export default function MainView({
   React.useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
-    }, 20000); // Update every 20 seconds
+    }, 20000000); // Update every 20 seconds
 
     return () => clearInterval(timer);
   }, []);
@@ -1038,6 +1054,7 @@ export default function MainView({
         if (response.ok) {
           const data = await response.json();
           setActiveJuicersCount(data.count);
+          setActiveJuicers(data.activeJuicers || []);
         }
       } catch (error) {
         console.error('Error fetching active juicers count:', error);
@@ -1056,7 +1073,7 @@ export default function MainView({
   React.useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date());
-    }, 20000); // Update every second
+    }, 2000000); // Update every second
 
     return () => clearInterval(timer);
   }, []);
@@ -2018,11 +2035,15 @@ export default function MainView({
 
   // Update the handleGlobalClick function
   const handleGlobalClick = (e) => {
-    const isRabbitClick = e.target.closest('[data-rabbit-component="true"]');
-
-    if (!isRabbitClick) {
+    // Close the active juicers tab if clicking outside
+    if (!e.target.closest('[data-active-juicers-container="true"]') && 
+        !e.target.closest('[data-juice-text="true"]')) {
+      setIsActiveJuicersVisible(false);
+    }
+    
+    // Existing code
+    if (!e.target.closest('[data-rabbit-component="true"]')) {
       setIsRabbitMessageVisible(false);
-      setIsZoomedToRabbit(false);
     }
   };
 
@@ -2044,6 +2065,135 @@ export default function MainView({
       setActiveWindow('itineraryWindow');
     }
   };
+
+  // Component for active juicers dropdown - moved outside the render cycle using React.memo
+  const ActiveJuicersTab = React.memo(({ isVisible, juicers }) => {
+    if (!isVisible) return null;
+    
+    return (
+      <div 
+        style={{
+          position: 'absolute',
+          top: TOP_BAR_HEIGHT,
+          left: 16,
+          zIndex: 100,
+          backgroundColor: 'rgba(255, 245, 230, 0.95)',
+          border: '1px solid rgba(255, 160, 60, 0.5)',
+          borderRadius: '0 0 8px 8px',
+          padding: '12px',
+          width: 240,
+          // maxHeight: 300,
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          boxShadow: '0 4px 15px rgba(255, 160, 60, 0.2)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
+        }}
+      >
+        <div style={{ borderBottom: '1px solid rgba(255, 160, 60, 0.3)', paddingBottom: 8, marginBottom: 8 }}>
+          <h3 style={{ margin: 0, fontSize: 16, color: 'rgba(0, 0, 0, 0.8)' }}>Active Juicers</h3>
+        </div>
+        {juicers.length === 0 ? (
+          <p style={{ color: 'rgba(0, 0, 0, 0.6)', fontSize: 14, margin: '8px 0' }}>No active juicers right now</p>
+        ) : (
+          <div style={{ overflowY: 'auto', paddingRight: 4 }}>
+            {juicers.map((juicer, index) => (
+              <div 
+                style={{ 
+                  padding: '6px 0',
+                  borderBottom: index < juicers.length - 1 ? '1px solid rgba(255, 160, 60, 0.15)' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div>
+                  <p style={{ margin: 0, fontWeight: 500, fontSize: 14 }}>{juicer.slackHandle}</p>
+                </div>
+                <div 
+                  style={{ 
+                    width: 8, 
+                    height: 8, 
+                    borderRadius: '50%', 
+                    backgroundColor: '#4CAF50',
+                    marginLeft: 4
+                  }} 
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  });
+
+  // Cache the activeJuicers and isActiveJuicersVisible states using useRef to prevent re-renders
+  const activeJuicersRef = React.useRef(activeJuicers);
+  const isActiveJuicersVisibleRef = React.useRef(isActiveJuicersVisible);
+
+  // Update the refs when the state changes
+
+  React.useEffect(() => {
+    isActiveJuicersVisibleRef.current = isActiveJuicersVisible;
+  }, [isActiveJuicersVisible]);
+
+ 
+
+  // Fetch active juicers count
+  React.useEffect(() => {
+    const fetchActiveJuicersCount = async () => {
+      try {
+        const response = await fetch('/api/get-active-juicers');
+        if (response.ok) {
+          const data = await response.json();
+          setActiveJuicersCount(data.count);
+          setActiveJuicers(data.activeJuicers || []);
+        }
+      } catch (error) {
+        console.error('Error fetching active juicers count:', error);
+      }
+    };
+
+    // Fetch immediately
+    fetchActiveJuicersCount();
+
+    // Set up interval to fetch every 20 seconds
+    const interval = setInterval(fetchActiveJuicersCount, 200000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+            <p
+              onClick={handleJuiceClick}
+              data-juice-text="true"
+              style={{
+                cursor: 'pointer',
+                width: 225,
+                color: 'rgba(0, 0, 0, 0.8)',
+                fontWeight: 500,
+                position: 'relative',
+              }}
+            >
+              Juice {activeJuicersCount > 0 && (`(${activeJuicersCount} online juicers)`)}
+              {isActiveJuicersVisible && (
+                <span style={{ 
+                  position: 'absolute', 
+                  bottom: -8, 
+                  left: '50%', 
+                  transform: 'translateX(-50%)',
+                  width: 0,
+                  height: 0,
+                  borderLeft: '8px solid transparent',
+                  borderRight: '8px solid transparent',
+                  borderBottom: '8px solid rgba(255, 245, 230, 0.95)',
+                  zIndex: 101
+                }} />
+              )}
+            </p>
+            
+            {/* Add the Active Juicers Tab with memoized component */}
+            <ActiveJuicersTab isVisible={isActiveJuicersVisible} juicers={activeJuicers} />
 
   return (
     <div
@@ -2457,15 +2607,34 @@ export default function MainView({
           >
             <p
               onClick={handleJuiceClick}
+              data-juice-text="true"
               style={{
                 cursor: 'pointer',
                 width: 225,
                 color: 'rgba(0, 0, 0, 0.8)',
                 fontWeight: 500,
+                position: 'relative',
               }}
             >
               Juice {activeJuicersCount > 0 && (`(${activeJuicersCount} online juicers)`)}
+              {isActiveJuicersVisible && (
+                <span style={{ 
+                  position: 'absolute', 
+                  bottom: -8, 
+                  left: '50%', 
+                  transform: 'translateX(-50%)',
+                  width: 0,
+                  height: 0,
+                  borderLeft: '8px solid transparent',
+                  borderRight: '8px solid transparent',
+                  borderBottom: '8px solid rgba(255, 245, 230, 0.95)',
+                  zIndex: 101
+                }} />
+              )}
             </p>
+            
+            {/* Add the Active Juicers Tab with memoized component */}
+            <ActiveJuicersTab isVisible={isActiveJuicersVisible} juicers={activeJuicers} />
 
             <div style={{position: 'relative'}} data-rabbit-component="true">
               <RabbitMessage

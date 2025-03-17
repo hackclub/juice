@@ -30,6 +30,7 @@ export default async function handler(req, res) {
     // Calculate total time worked across all ACTIVE stretches
     let totalTimeWorkedSeconds = 0;
     const stretches = [];
+    const activeJuicers = [];
     
     console.log('--- Active Stretch Details ---');
     
@@ -67,8 +68,20 @@ export default async function handler(req, res) {
           
           stretches.push(stretchInfo);
           
+          // Extract SlackHandle or use "Juicer" as fallback
+          const slackHandle = fields.SlackHandle || "Juicer";
+          
+          // Add to active juicers list with slack handle
+          activeJuicers.push({
+            slackHandle,
+            startTime: startTime.toISOString(),
+            lastActive: fields.pauseTimeStart,
+            timeWorkedHours: workTimeHours.toFixed(2)
+          });
+          
           // Log each active stretch individually without any identifiable information
           console.log(`Stretch #${index + 1}`);
+          console.log(`  User: ${slackHandle}`);
           console.log(`  Time worked: ${workTimeHours.toFixed(2)} hours (${workTimeSeconds.toFixed(0)} seconds)`);
           console.log(`  Start time: ${startTime.toISOString()}`);
           console.log(`  Last active: ${fields.pauseTimeStart}`);
@@ -92,11 +105,12 @@ export default async function handler(req, res) {
     console.log(`Total active time worked: ${totalTimeWorkedHours.toFixed(2)} hours (${totalTimeWorkedSeconds.toFixed(0)} seconds)`);
     console.log(`Total active stretches: ${stretches.length}`);
 
-    // Return only the aggregate data, not individual stretch details
+    // Return the aggregate data along with active juicers info
     res.status(200).json({ 
       count: activeJuicersCount,
       totalActiveTimeWorkedSeconds: totalTimeWorkedSeconds,
-      totalActiveTimeWorkedHours: totalTimeWorkedHours
+      totalActiveTimeWorkedHours: totalTimeWorkedHours,
+      activeJuicers // Include the list of active juicers with their slack handles
     });
   } catch (error) {
     console.error('Error getting active juicers count:', error);
