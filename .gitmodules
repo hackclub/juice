@@ -1,0 +1,3 @@
+[submodule "games/GoC"]
+	path = games/GoC
+	url = https://github.com/Ghostboo-124/GoC.git
