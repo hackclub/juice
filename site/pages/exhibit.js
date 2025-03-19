@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// TopBar component that stays fixed at the top
+// TopBar component (unchanged)
 const TopBar = ({ exhibitStage, handleNavClick, toggleLanguage, t }) => {
   return (
     <div style={{
@@ -16,7 +16,7 @@ const TopBar = ({ exhibitStage, handleNavClick, toggleLanguage, t }) => {
       maxWidth: 500,
       margin: '0 auto',
       width: '100%'
-          }}>
+    }}>
       {/* Language and open source text */}
       <div style={{
         display: "flex", 
@@ -132,12 +132,106 @@ const TopBar = ({ exhibitStage, handleNavClick, toggleLanguage, t }) => {
   );
 };
 
+// Game Carousel Component
+const GameCarousel = ({ games, t }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Function to handle next slide
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % games.length);
+  };
+
+  // Automatically cycle through games every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 3000);
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [currentIndex]);
+
+  return (
+    <div style={{ marginTop: 20, textAlign: 'center', overflow: 'hidden' }}>
+      <h2>{t.gameShowcaseTitle}</h2>
+      <div style={{ 
+        display: 'flex', 
+        transition: 'transform 0.5s ease-in-out', 
+        transform: `translateX(-${currentIndex * 100}%)`
+      }}>
+        {games.map((game, index) => (
+          <div 
+            key={index} 
+            style={{ 
+              flex: '0 0 100%', 
+              width: '100%', 
+              textAlign: 'center', 
+              padding: '0 10px',
+              boxSizing: 'border-box'
+            }}
+          >
+            <div style={{ width: '100%', height: 100, border: '1px solid #000' }}>
+              {game}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Other components (unchanged)
+const PostcardsSection = ({ t }) => (
+  <div style={{ marginTop: 20, textAlign: 'center' }}>
+    <h2>{t.postcardsTitle}</h2>
+    <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10 }}>
+      <div style={{ width: 100, height: 100, border: '1px solid #000', textAlign: 'center' }}>BottleDream Postcard</div>
+      <div style={{ width: 100, height: 100, border: '1px solid #000', textAlign: 'center' }}>SparkLabs Postcard</div>
+    </div>
+  </div>
+);
+
+const FlightMapSection = ({ t }) => (
+  <div style={{ marginTop: 20, textAlign: 'center' }}>
+    <h2>{t.flightMapTitle}</h2>
+    <p>{t.flightMapDescription}</p>
+    <div style={{ width: '100%', height: 200, border: '1px solid #000', marginTop: 10 }}>Animated Flight Map</div>
+  </div>
+);
+
+const VideoShowcaseSection = ({ t }) => (
+  <div style={{ marginTop: 20, textAlign: 'center' }}>
+    <h2>{t.videoShowcaseTitle}</h2>
+    <p>{t.videoShowcaseDescription}</p>
+    <div style={{ width: '100%', height: 200, border: '1px solid #000', marginTop: 10 }}>Showcase Video</div>
+  </div>
+);
+
+const FinalCTASection = ({ t }) => (
+  <div style={{ marginTop: 20, textAlign: 'center' }}>
+    <button style={{ padding: '10px 20px', backgroundColor: '#000', color: '#fff', border: 'none', cursor: 'pointer' }}>
+      {t.claimTicket}
+    </button>
+    <p>{t.eventDateLocation}</p>
+  </div>
+);
+
+const Footer = ({ t }) => (
+  <footer style={{ marginTop: 20, textAlign: 'center', padding: '20px 0', borderTop: '1px solid #000' }}>
+    <p>{t.openSourceText}</p>
+    <p>{t.footerText}</p>
+  </footer>
+);
+
 export default function Exhibit() {
   const [exhibitStage, setExhibitStage] = useState(0); // 0 = explore, 1 = rsvp, 2 = ticket, 3 = friends
   const [hasRSVPed, setHasRSVPed] = useState(false); // Track if user has RSVPed
   const [language, setLanguage] = useState('en'); // 'en' for English, 'zh' for Mandarin
+
+  // List of 15 games
+  const games = [
+    "Game 1", "Game 2", "Game 3", "Game 4", "Game 5", 
+    "Game 6", "Game 7", "Game 8", "Game 9", "Game 10", 
+    "Game 11", "Game 12", "Game 13", "Game 14", "Game 15"
+  ];
   
-  // Translations
+  // Translations (unchanged)
   const translations = {
     en: {
       title: "Juice Popup Cafe Exhibit",
@@ -157,7 +251,15 @@ export default function Exhibit() {
       openSourceText: "open-sourced free event made with <3",
       exploreDescription: "30 high school indie game developers from 10+ countries are coming to Shanghai to make you free fresh juice and let you try their game",
       claimTicket: "claim free juice ticket",
-      eventDateLocation: "April 5th - 10th @ BottleDream & SparkLabs"
+      eventDateLocation: "April 5th - 10th @ BottleDream & SparkLabs",
+      postcardsTitle: "Postcards from Our Partners",
+      gameShowcaseTitle: "Games by Developers",
+      flightMapTitle: "Global Flight Map",
+      flightMapDescription: "High schoolers from around the world spent the past couple months making their own games and launched them to Steam.",
+      videoShowcaseTitle: "Showcase Video",
+      videoShowcaseDescription: "Now they all flew to Shanghai to run a popup cafe displaying their games and giving free juice to people who come visit.",
+      finalCTAText: "Claim your free juice ticket now!",
+      footerText: "© 2025 Juice Popup Cafe. All rights reserved."
     },
     zh: {
       title: "果汁快闪咖啡馆展览",
@@ -177,7 +279,15 @@ export default function Exhibit() {
       openSourceText: "开源免费活动，用❤️制作",
       exploreDescription: "来自10多个国家的30位高中生独立游戏开发者将来到上海，为您提供免费新鲜果汁，并让您尝试他们的游戏",
       claimTicket: "领取免费果汁券",
-      eventDateLocation: "4月5日至10日 @ BottleDream & SparkLabs"
+      eventDateLocation: "4月5日至10日 @ BottleDream & SparkLabs",
+      postcardsTitle: "合作伙伴的明信片",
+      gameShowcaseTitle: "开发者制作的游戏",
+      flightMapTitle: "全球飞行地图",
+      flightMapDescription: "来自世界各地的高中生们花了几个月的时间制作了自己的游戏，并将它们发布到Steam上。",
+      videoShowcaseTitle: "展示视频",
+      videoShowcaseDescription: "现在他们都飞到了上海，经营一个快闪咖啡馆，展示他们的游戏，并为来访的人提供免费果汁。",
+      finalCTAText: "立即领取您的免费果汁券！",
+      footerText: "© 2025 果汁快闪咖啡馆。保留所有权利。"
     }
   };
   
@@ -248,8 +358,14 @@ export default function Exhibit() {
                     <p>{t.claimTicket}</p>
                 </div>
                 <p style={{width: "100%", textAlign: "center", marginTop: 8}}>{t.eventDateLocation}</p>
-                {/* Explore content */}
                 
+                {/* New sections */}
+                <PostcardsSection t={t} />
+                <GameCarousel games={games} t={t} />
+                <FlightMapSection t={t} />
+                <VideoShowcaseSection t={t} />
+                <FinalCTASection t={t} />
+                <Footer t={t} />
               </div>
             )}
             
