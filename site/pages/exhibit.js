@@ -431,7 +431,7 @@ export default function Exhibit() {
         width: 250,
         height: 250,
         data: ticketUrl,
-        image: "/download.png",
+        image: "/juicebigimage.png",
         dotsOptions: {
           color: "#28a745",
           type: "rounded"
