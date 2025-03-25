@@ -81,9 +81,9 @@ export default function WutIsJuiceWindow({ position, isDragging, isActive, handl
                     }}
                 >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                        <p>Hello,</p>
+                        <p>Hello, Thomas here</p>
                         <p>Every year, we organize wild adventures at Hack Club (see <a target="_blank" href="https://youtu.be/ufMUJ9D1fi8?feature=shared">Trail</a>, <a target="_blank" href="https://www.youtube.com/watch?v=KLx4NZZPzMc">Epoch</a>, <a target="_blank" href="https://youtu.be/2BID8_pGuqA?feature=shared">Zephyr</a>, etc).</p>
-                        <p>This year AdventureX is organizing a wild adventure (and inviting Hack Clubbers). We will be working together online for two months, making our own games, shipping our games to the steam store, and then getting together in-person in Shanghai, China to run a popup exhibit (cafe where we give free beverages) for people to come and play our games.</p>
+                        <p>This year Hack Club is organizing a wild adventure. We will be working together online for two months, making our own games, shipping our games to the steam store, and then getting together in-person in Shanghai, China to run a popup exhibit (cafe where we give free beverages) for people to come and play our games.</p>
                         <p>Every week we will get together on call, gain achievements, and play eachother's games. I'll be making my first real video game alongside all of you for these two months, and we'll learn together in the <a target="_blank" href="https://hackclub.slack.com/archives/C088UF12N1Z">#juice</a>.</p>
                         <p>We have travel stipends available to game devs who:</p>
                         <ul style={{marginLeft: 16}}>
