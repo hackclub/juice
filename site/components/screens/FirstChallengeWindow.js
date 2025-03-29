@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import * as THREE from 'three';
 
 export default function FirstChallengeWindow({ position, isDragging, isActive, handleMouseDown, handleDismiss, handleWindowClick, BASE_Z_INDEX, ACTIVE_Z_INDEX, userData, setUserData }) {
     const [prLink, setPrLink] = useState('');
@@ -7,6 +8,77 @@ export default function FirstChallengeWindow({ position, isDragging, isActive, h
     const [token, setToken] = useState(null);
     const [isSuccess, setIsSuccess] = useState(false);
     const audioRef = useRef(null);
+    const canvasRef = useRef(null);
+    const sceneRef = useRef(null);
+
+    useEffect(() => {
+        // Three.js setup
+        if (!canvasRef.current) return;
+
+        const scene = new THREE.Scene();
+        // Remove scene background color to make it transparent
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: canvasRef.current,
+            antialias: false,
+            alpha: true // This enables transparency
+        });
+
+        renderer.setClearColor(0x000000, 0); // Set clear color to transparent
+        
+        // A4 proportions (1:√2)
+        const width = 200;
+        const height = width * 1.4142;
+        renderer.setSize(width, height);
+        camera.position.z = 5;
+
+        // Create magazine geometry (A4 proportions)
+        const geometry = new THREE.BoxGeometry(2.8, 4, 0.4);
+        
+        // Load textures
+        const textureLoader = new THREE.TextureLoader();
+        const frontTexture = textureLoader.load('/MagazineFront.png');
+        const backTexture = textureLoader.load('/MagazineBack.png');
+        
+        // Configure textures for pixelated rendering
+        [frontTexture, backTexture].forEach(texture => {
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
+            texture.generateMipmaps = false;
+        });
+        
+        // Create materials with spine color
+        const spineColor = new THREE.Color('#e0e0e0');
+        const materials = [
+            new THREE.MeshBasicMaterial({ color: spineColor }), // right
+            new THREE.MeshBasicMaterial({ color: spineColor }), // left
+            new THREE.MeshBasicMaterial({ color: spineColor }), // top
+            new THREE.MeshBasicMaterial({ color: spineColor }), // bottom
+            new THREE.MeshBasicMaterial({ map: frontTexture }), // front
+            new THREE.MeshBasicMaterial({ map: backTexture }), // back
+        ];
+
+        const magazine = new THREE.Mesh(geometry, materials);
+        scene.add(magazine);
+
+        // Animation
+        const animate = () => {
+            requestAnimationFrame(animate);
+            magazine.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        sceneRef.current = { scene, camera, renderer, magazine };
+
+        return () => {
+            scene.remove(magazine);
+            geometry.dispose();
+            materials.forEach(material => material.dispose());
+            renderer.dispose();
+        };
+    }, []);
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -87,8 +159,8 @@ export default function FirstChallengeWindow({ position, isDragging, isActive, h
                     display: "flex", 
                     width: 500,
                     color: 'black',
-                    height: 300,
-                    backgroundColor: "#fff", 
+                    height: 500,
+                    backgroundColor: "#F4E753", 
                     border: "1px solid #000", 
                     borderRadius: 4,
                     flexDirection: "column",
@@ -99,14 +171,32 @@ export default function FirstChallengeWindow({ position, isDragging, isActive, h
                 <audio ref={audioRef} src="/collect.mp3" />
                 <div 
                     onMouseDown={handleMouseDown('firstChallenge')}
-                    style={{display: "flex", borderBottom: "1px solid #000", padding: 8, flexDirection: "row", justifyContent: "space-between", cursor: isDragging ? 'grabbing' : 'grab'}}>
+                    style={{
+                        display: "flex", 
+                        borderBottom: "1px solid #000", 
+                        padding: 8, 
+                        flexDirection: "row", 
+                        justifyContent: "space-between", 
+                        cursor: isDragging ? 'grabbing' : 'grab',
+                        backgroundColor: "#fff"
+                    }}>
                     <div style={{display: "flex", flexDirection: "row", gap: 8}}>
                         <button onClick={(e) => { e.stopPropagation(); handleDismiss('firstChallenge'); }}>x</button>
                     </div>
                     <p>FirstChallenge.txt</p>
                     <div></div>
                 </div>
-                <div style={{display: "flex", flexDirection: "column", gap: 12, padding: 16}}>
+                <div style={{
+                    display: "flex", 
+                    flexDirection: "column", 
+                    gap: 12, 
+                    padding: 16, 
+                    alignItems: "center",
+                    backgroundColor: "#F4E753"
+                }}>
+                    <div style={{ width: 200, height: 282.84 }}> {/* A4 proportions container (200 * 1.4142) */}
+                        <canvas ref={canvasRef} style={{ width: '100%', height: '100%', imageRendering: 'pixelated' }} />
+                    </div>
                     <p>Your first challenge, should you choose to accept it, is to come up with your idea & add it to Juice repo games folder.</p>
                     <ol>
                         <li>write your idea in a markdown file <a target="_blank" href="https://github.com/hackclub/juice/blob/main/games/template/README.md">(template)</a></li>
@@ -114,8 +204,8 @@ export default function FirstChallengeWindow({ position, isDragging, isActive, h
                     </ol>
                     <p>Here's <a target="_blank" href="https://github.com/hackclub/juice/tree/main/games/mountainVille">the markdown file that Paolo & I made for our game</a>.</p>
                     <div>
-                    <p>~Thomas Stubblefield</p>
-                    <i>In life we are always learning</i>
+                        <p>~Thomas Stubblefield</p>
+                        <i>In life we are always learning</i>
                     </div>
                     <div style={{display: "flex", width: "100%", backgroundColor: "#000", height: 1}}></div>
                     {!hasPRSubmitted && (

@@ -33,6 +33,7 @@ import RabbitMessage from '../RabbitMessage';
 import V1Challenge from './V1Challenge';
 import WutIsBubbleathonWindow from './WutIsBubbleathonWindow';
 import ItineraryWindow from './ItineraryWindow';
+import FinalChallengeWindow from './FinalChallengeWindow';
 
 export default function MainView({
   isLoggedIn,
@@ -81,6 +82,10 @@ export default function MainView({
   const [firstChallengePosition, setFirstChallengePosition] = React.useState({
     x: 300,
     y: 300,
+  });
+  const [finalChallengePosition, setFinalChallengePosition] = React.useState({
+    x: 350,
+    y: 100,
   });
   const [juiceWindowPosition, setJuiceWindowPosition] = React.useState({
     x: 0,
@@ -620,6 +625,9 @@ export default function MainView({
       case 'firstChallenge':
         position = firstChallengePosition;
         break;
+      case 'finalChallenge':
+        position = finalChallengePosition;
+        break;
       case 'juiceWindow':
         position = juiceWindowPosition;
         break;
@@ -722,7 +730,10 @@ export default function MainView({
         setFactionPosition(newPosition);
       } else if (activeWindow === 'firstChallenge') {
         setFirstChallengePosition(newPosition);
-      } else if (activeWindow === 'juiceWindow') {
+      } else if (activeWindow === 'finalChallenge') {
+        setFinalChallengePosition(newPosition);
+      }
+      else if (activeWindow === 'juiceWindow') {
         setJuiceWindowPosition(newPosition);
       } else if (activeWindow === 'fortuneBasket') {
         console.log('Setting new fortune basket position:', newPosition);
@@ -2186,6 +2197,8 @@ export default function MainView({
             
             {/* Add the Active Juicers Tab with memoized component */}
             <ActiveJuicersTab isVisible={isActiveJuicersVisible} juicers={activeJuicers} />
+
+
 
   return (
     <div
@@ -3817,7 +3830,61 @@ export default function MainView({
               zIndex: 101,
               top: TOP_BAR_HEIGHT + 8, right: 8 }}
           >
-            {isLoggedIn &&
+
+          {isLoggedIn &&
+              !userData?.achievements?.includes('final_ship') &&
+              !isJungle && (
+                <div
+                  className="panel-pop"
+                  style={{
+                    width: 332,
+                    marginTop: 8,
+                    backgroundColor: 'rgba(255, 220, 180, 0.8)',
+                    backdropFilter:
+                      'blur(8px) saturate(200%) sepia(50%) hue-rotate(-15deg) brightness(1.1)',
+                    WebkitBackdropFilter:
+                      'blur(8px) saturate(200%) sepia(50%) hue-rotate(-15deg) brightness(1.1)',
+                    border: '1px solid rgba(255, 220, 180, 0.4)',
+                    borderRadius: 8,
+                    padding: 12,
+                    boxShadow: '0 1px 25px rgba(255, 160, 60, 0.3)',
+                  }}
+                >
+                  <p style={{ color: 'rgba(0, 0, 0, 0.8)', margin: '0 0 8px 0' }}>
+                    Final Ship (add to our magazine)
+                  </p>
+                  <button
+                    onClick={() => {
+                      if (!openWindows.includes('finalChallenge')) {
+                        setOpenWindows((prev) => [...prev, 'finalChallenge']);
+                        setWindowOrder((prev) => [
+                          ...prev.filter((w) => w !== 'finalChallenge'),
+                          'finalChallenge',
+                        ]);
+                        document.getElementById('windowOpenAudio').currentTime = 0;
+                        document.getElementById('windowOpenAudio').play();
+                      } else {
+                        setWindowOrder((prev) => [
+                          ...prev.filter((w) => w !== 'finalChallenge'),
+                          'finalChallenge',
+                        ]);
+                      }
+                    }}
+                    style={{
+                      padding: '4px 12px',
+                      backgroundColor: '#FF4002',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: 4,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Submit to Magazine
+                  </button>
+                </div>
+              )}
+
+            {/* {isLoggedIn &&
               !userData?.achievements?.includes('pr_submitted') &&
               !isJungle && (
                 <div
@@ -4073,7 +4140,7 @@ export default function MainView({
                   🏃‍♂️
                 </div>
               </div>
-            )}
+            )} */}
 
             {isLoggedIn && tickets.some((t) => !t.used) && (
               <div
@@ -4296,6 +4363,20 @@ export default function MainView({
           <audio id="mailAudio" src="/youGotMail.mp3" />
         </div>
       </div>
+      {openWindows.includes('finalChallenge') && (
+        <FinalChallengeWindow
+          position={finalChallengePosition}
+          isDragging={isDragging && activeWindow === 'finalChallenge'}
+          isActive={windowOrder[windowOrder.length - 1] === 'finalChallenge'}
+          handleMouseDown={handleMouseDown}
+          handleDismiss={handleDismiss}
+          handleWindowClick={handleWindowClick}
+          BASE_Z_INDEX={getWindowZIndex('finalChallenge')}
+          ACTIVE_Z_INDEX={getWindowZIndex('finalChallenge')}
+          userData={userData}
+          setUserData={setUserData}
+        />
+      )}
     </div>
   );
 }

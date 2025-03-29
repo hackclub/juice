@@ -1,4 +1,3 @@
-import AWS from 'aws-sdk';
 import formidable from 'formidable';
 import fs from 'fs';
 
@@ -8,45 +7,30 @@ export const config = {
     },
 };
 
-const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION
-});
-
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
+        return res.status(405).json({ message: 'Method not allowed' });
     }
 
     try {
-        const form = new formidable.IncomingForm();
-        const { fields, files } = await new Promise((resolve, reject) => {
-            form.parse(req, (err, fields, files) => {
-                if (err) reject(err);
-                resolve({ fields, files });
-            });
+        const form = formidable({});
+        const [fields, files] = await form.parse(req);
+
+        if (!files.file || !files.file[0]) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        const file = files.file[0];
+        const fileData = fs.readFileSync(file.filepath);
+        const base64Data = fileData.toString('base64');
+
+        // Return the base64 data that can be used in Airtable
+        return res.status(200).json({ 
+            url: `data:${file.mimetype};base64,${base64Data}`
         });
 
-        const file = files.file;
-        const fileContent = fs.readFileSync(file.filepath);
-
-        const params = {
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `card-images/${Date.now()}-${file.originalFilename}`,
-            Body: fileContent,
-            ContentType: file.mimetype,
-            ACL: 'public-read'
-        };
-
-        const uploadResult = await s3.upload(params).promise();
-
-        // Clean up temp file
-        fs.unlinkSync(file.filepath);
-
-        res.status(200).json({ url: uploadResult.Location });
     } catch (error) {
-        console.error('Error uploading to S3:', error);
-        res.status(500).json({ error: 'Failed to upload image' });
+        console.error('Upload error:', error);
+        return res.status(500).json({ error: 'Error uploading file' });
     }
 } 
