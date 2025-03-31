@@ -80,40 +80,59 @@ export default async function handler(req, res) {
       });
     }
 
-    // Create new record in YSWS Project Submission table
-    const record = await base('YSWS Project Submission').create([
-      {
-        fields: {
-          'Code URL': codeUrl,
-          'Playable URL': playableUrl,
-          'videoURL': videoURL,
-          'First Name': firstName,
-          'Last Name': lastName,
-          'Email': email,
-          'Screenshot': screenshot ? [{
-            url: screenshot
-          }] : undefined,
-          'Description': description,
-          'GitHub Username': githubUsername,
-          'Address (Line 1)': addressLine1,
-          'Address (Line 2)': addressLine2,
-          'City': city,
-          'State / Province': stateProvince,
-          'Country': country,
-          'ZIP / Postal Code': zipPostalCode,
-          'Birthday': birthday,
-          'Optional - Override Hours Spent': hoursSpent,
-          'Optional - Override Hours Spent Justification': hoursSpentJustification,
-          'How did you hear about this?': howDidYouHear,
-          'What are we doing well?': whatAreWeDoingWell,
-          'How can we improve?': howCanWeImprove
-        }
+    // Check for existing record with the same email
+    const existingRecords = await base('YSWS Project Submission').select({
+      filterByFormula: `{Email} = '${email}'`,
+      maxRecords: 1
+    }).firstPage();
+
+    const submissionData = {
+      fields: {
+        'Code URL': codeUrl,
+        'Playable URL': playableUrl,
+        'videoURL': videoURL,
+        'First Name': firstName,
+        'Last Name': lastName,
+        'Email': email,
+        'Screenshot': screenshot ? [{
+          url: screenshot
+        }] : undefined,
+        'Description': description,
+        'GitHub Username': githubUsername,
+        'Address (Line 1)': addressLine1,
+        'Address (Line 2)': addressLine2,
+        'City': city,
+        'State / Province': stateProvince,
+        'Country': country,
+        'ZIP / Postal Code': zipPostalCode,
+        'Birthday': birthday,
+        'Optional - Override Hours Spent': hoursSpent,
+        'Optional - Override Hours Spent Justification': hoursSpentJustification,
+        'How did you hear about this?': howDidYouHear,
+        'What are we doing well?': whatAreWeDoingWell,
+        'How can we improve?': howCanWeImprove
       }
-    ]);
+    };
+
+    let record;
+    if (existingRecords && existingRecords.length > 0) {
+      // Update existing record
+      record = await base('YSWS Project Submission').update([
+        {
+          id: existingRecords[0].id,
+          ...submissionData
+        }
+      ]);
+    } else {
+      // Create new record
+      record = await base('YSWS Project Submission').create([submissionData]);
+    }
 
     return res.status(200).json({ 
       success: true,
-      message: "Project submitted successfully!",
+      message: existingRecords && existingRecords.length > 0 ? 
+        "Project updated successfully!" : 
+        "Project submitted successfully!",
       record: record[0]
     });
 
