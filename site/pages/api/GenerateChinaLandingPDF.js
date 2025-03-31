@@ -168,6 +168,20 @@ async function getRoommateData(email) {
         const roommateName = records[0].fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'];
         console.log('Found roommate name:', roommateName);
         
+        // First fetch the Roommate Pairing record using the Roommate Pairing 2 ID directly
+        const pairingQuery = base('Roommate Pairing').select({
+          filterByFormula: `RECORD_ID() = '${roommateId}'`
+        });
+        const pairings = await pairingQuery.all();
+        console.log('Found pairings:', pairings.length);
+        
+        if (pairings.length > 0) {
+          result.hotelSelection = pairings[0].fields['Hotel Selection For Second Half'];
+          console.log('Found hotel selection:', result.hotelSelection);
+        } else {
+          console.log('No pairing found with ID:', roommateId);
+        }
+        
         if (roommateName) {
           // Fetch the roommate's complete data from RawRoommateData using their name
           const roommateQuery = base('RawRoommateData').select({
@@ -193,6 +207,9 @@ async function getRoommateData(email) {
 
       if (pairings.length > 0) {
         const pairing = pairings[0];
+        result.hotelSelection = pairing.fields['Hotel Selection For Second Half'];
+        console.log('Found hotel selection:', result.hotelSelection);
+        
         const isRoommateA = pairing.fields['Roommate A'][0] === records[0].id;
         const roommateId = isRoommateA ? pairing.fields['Roommate B'][0] : pairing.fields['Roommate A'][0];
 
@@ -308,15 +325,21 @@ Address: Building 1, No. 1119 Yan'an West Road, Changning District, Shanghai, Ch
 
 Phone Number: +86-21-55698889
 
-Room: under reservation of Thomas Stubblefield (double twin)
+Room: under reservation of Thomas Stubblefield 
 
-The Hotel you are staying in for April 8 - 11 is Yiju Hotel (Shanghai Caohejing Development Zone Subway Station Branch)
+${roommateData.hotelSelection === 'Huana Hotel' ? 
+`The Hotel you are staying in for April 8 - 11 is Huana Hotel
+
+Address: No. 1733 Lianhua Road, Minhang District, Shanghai, 201103, China
+
+Phone Number: +86-21-61205666` :
+`The Hotel you are staying in for April 8 - 11 is Yiju Hotel (Shanghai Caohejing Development Zone Subway Station Branch)
 
 Address: No.3 Building, 2007 Hongmei Road (Hongmei Lu), Xuhui District, Shanghai, 201103, China
 
-Phone Number: +86-18917738737
+Phone Number: +86-18917738737`}
 
-Room: under reservation of Thomas Stubblefield (double twin)
+Room: under reservation of Thomas Stubblefield
 
 You will have the same roommate for your time at this hotel as listed on the previous page. Please below have your parents sign and provide phone number giving you permission to check yourself into the Hotel during your academic exchange in China
 
