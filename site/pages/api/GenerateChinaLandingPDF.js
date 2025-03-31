@@ -158,40 +158,76 @@ async function getRoommateData(email) {
       id: records[0].id
     };
 
-    // Get roommate information if we have a Roommate Pairing 2 ID
-    if (records[0].fields['Roommate Pairing 2'] && records[0].fields['Roommate Pairing 2'].length > 0) {
-      const roommateId = records[0].fields['Roommate Pairing 2'][0];
-      console.log('Found roommate ID in Roommate Pairing 2:', roommateId);
+    // Check both Roommate Pairing and Roommate Pairing 2 fields
+    const roommateId = records[0].fields['Roommate Pairing 2'] && records[0].fields['Roommate Pairing 2'].length > 0 
+      ? records[0].fields['Roommate Pairing 2'][0]  // For Roommate B
+      : (records[0].fields['Roommate Pairing'] && records[0].fields['Roommate Pairing'].length > 0 
+        ? records[0].fields['Roommate Pairing'][0]  // For Roommate A
+        : null);
 
+    console.log('Checking for roommate ID:', roommateId);
+    
+    if (roommateId) {
       try {
-        // Get the roommate's name from the record
-        const roommateName = records[0].fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'];
-        console.log('Found roommate name:', roommateName);
-        
-        // First fetch the Roommate Pairing record using the Roommate Pairing 2 ID directly
+        // First check if we're Roommate A or B in any pairing
         const pairingQuery = base('Roommate Pairing').select({
-          filterByFormula: `RECORD_ID() = '${roommateId}'`
+          filterByFormula: `OR(RECORD_ID() = '${roommateId}', {Roommate A} = '${records[0].id}', {Roommate B} = '${records[0].id}')`
         });
         const pairings = await pairingQuery.all();
         console.log('Found pairings:', pairings.length);
         
         if (pairings.length > 0) {
-          result.hotelSelection = pairings[0].fields['Hotel Selection For Second Half'];
+          const pairing = pairings[0];
+          result.hotelSelection = pairing.fields['Hotel Selection For Second Half'];
           console.log('Found hotel selection:', result.hotelSelection);
-        } else {
-          console.log('No pairing found with ID:', roommateId);
-        }
-        
-        if (roommateName) {
-          // Fetch the roommate's complete data from RawRoommateData using their name
-          const roommateQuery = base('RawRoommateData').select({
-            filterByFormula: `{Full Name} = '${roommateName}'`
-          });
-          const roommateRecords = await roommateQuery.all();
+
+          // Get the other roommate's ID based on whether we're A or B
+          const isRoommateA = pairing.fields['Roommate A'] && pairing.fields['Roommate A'][0] === records[0].id;
+          const otherRoommateId = isRoommateA ? 
+            (pairing.fields['Roommate B'] ? pairing.fields['Roommate B'][0] : null) : 
+            (pairing.fields['Roommate A'] ? pairing.fields['Roommate A'][0] : null);
+
+          console.log('Is Roommate A:', isRoommateA);
+          console.log('Other Roommate ID:', otherRoommateId);
           
-          if (roommateRecords.length > 0) {
-            console.log('Found roommate record in RawRoommateData:', JSON.stringify(roommateRecords[0].fields, null, 2));
-            result.roommate = roommateRecords[0].fields;
+          if (otherRoommateId) {
+            // Get the other roommate's details
+            const otherRoommateQuery = base('RawRoommateData').select({
+              filterByFormula: `RECORD_ID() = '${otherRoommateId}'`
+            });
+            const otherRoommateRecords = await otherRoommateQuery.all();
+            
+            if (otherRoommateRecords.length > 0) {
+              console.log('Found other roommate in RawRoommateData:', otherRoommateRecords[0].fields['Full Name']);
+              result.roommate = otherRoommateRecords[0].fields;
+            }
+          }
+        } else {
+          // If no pairing found, try to get roommate by name
+          const roommateName = records[0].fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'];
+          console.log('No pairing found, trying by roommate name:', roommateName);
+          
+          if (roommateName) {
+            const roommateQuery = base('RawRoommateData').select({
+              filterByFormula: `{Full Name} = '${roommateName}'`
+            });
+            const roommateRecords = await roommateQuery.all();
+            
+            if (roommateRecords.length > 0) {
+              console.log('Found roommate by name:', roommateRecords[0].fields['Full Name']);
+              result.roommate = roommateRecords[0].fields;
+              
+              // Now try to get the hotel selection from their pairing
+              const otherPairingQuery = base('Roommate Pairing').select({
+                filterByFormula: `OR({Roommate A} = '${roommateRecords[0].id}', {Roommate B} = '${roommateRecords[0].id}')`
+              });
+              const otherPairings = await otherPairingQuery.all();
+              
+              if (otherPairings.length > 0) {
+                result.hotelSelection = otherPairings[0].fields['Hotel Selection For Second Half'];
+                console.log('Found hotel selection from roommate pairing:', result.hotelSelection);
+              }
+            }
           }
         }
       } catch (error) {
