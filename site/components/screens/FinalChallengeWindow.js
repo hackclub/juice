@@ -501,7 +501,7 @@ export default function FinalChallengeWindow({ position, isDragging, isActive, h
                             {isActive && <ThreeScene />}
                         </div>
                         <p style={{ fontSize: '16px', lineHeight: '1.5', maxWidth: '500px', margin: 0 }}>
-                            We're making a 150 page magazine! You can get a free copy by shipping your game to add it to the magazine <i>(100h not required)</i>! SHIP BY SUNDAY 
+                            We're making a 150 page magazine! You can get a free copy by shipping your game to add it to the magazine <i>(100h not required)</i>! SUBMISSIONS CLOSE SOON 
                         </p>
                     </div>
                 );

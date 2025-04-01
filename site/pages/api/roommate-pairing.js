@@ -109,7 +109,8 @@ export default async function handler(req, res) {
           namesMatch(r.fields['Full Name'], pref)
         );
 
-        if (!roommateB || processedIds.has(roommateB.id)) continue;
+        // Skip if no match found, already processed, or trying to pair with self
+        if (!roommateB || processedIds.has(roommateB.id) || roommateB.id === roommateA.id) continue;
 
         // Check if B also preferred A
         const bPreferredName = roommateB.fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'];
@@ -241,9 +242,7 @@ export default async function handler(req, res) {
     console.log('\n=== REMAINING UNPAIRED PEOPLE ===');
     remainingUnpaired.forEach(roommate => {
       console.log(`\nName: ${roommate.fields['Full Name']}`);
-      console.log(`Gender: ${roommate.fields['Gender']}`);
-      console.log(`Age: ${roommate.fields['Age']}`);
-      console.log(`Comfortable with queen bed: ${isComfortableWithQueenBed(roommate) ? 'Yes' : 'No'}`);
+      console.log(`Intends to room with: ${roommate.fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'] || 'No preference specified'}`);
       console.log('----------------------------------------');
     });
     console.log(`Total remaining unpaired: ${remainingUnpaired.length}`);
@@ -254,25 +253,19 @@ export default async function handler(req, res) {
         roommateA: {
           name: pair.roommateA.fields['Full Name'],
           email: pair.roommateA.fields['Email Address'],
-          gender: pair.roommateA.fields['Gender'],
-          age: pair.roommateA.fields['Age'],
-          comfortableWithQueenBed: pair.roommateA.fields['Comfortable with queen bed sharing']
+          intendsToRoomWith: pair.roommateA.fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'] || 'No preference specified'
         },
         roommateB: {
           name: pair.roommateB.fields['Full Name'],
           email: pair.roommateB.fields['Email Address'],
-          gender: pair.roommateB.fields['Gender'],
-          age: pair.roommateB.fields['Age'],
-          comfortableWithQueenBed: pair.roommateB.fields['Comfortable with queen bed sharing']
+          intendsToRoomWith: pair.roommateB.fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'] || 'No preference specified'
         },
         isMadeByPairingAlgo: pair.isMadeByPairingAlgo
       })),
       unpaired: remainingUnpaired.map(roommate => ({
         name: roommate.fields['Full Name'],
         email: roommate.fields['Email Address'],
-        gender: roommate.fields['Gender'],
-        age: roommate.fields['Age'],
-        comfortableWithQueenBed: roommate.fields['Comfortable with queen bed sharing']
+        intendsToRoomWith: roommate.fields['Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)'] || 'No preference specified'
       }))
     });
 
