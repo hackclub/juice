@@ -199,6 +199,7 @@ export default function Home() {
           <div className={styles.timerContainer}>
             <div className={styles.timer}>{formatTime(timeLeft)}</div>
             {showHint && <div className={styles.spacebarHint}>Press Space to Start</div>}
+            <p>Wifi - basecamp. Password: dogoodhavefun</p>
           </div>
         </main>
       </div>
