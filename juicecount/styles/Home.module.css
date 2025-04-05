@@ -1,0 +1,178 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/background.gif');
+  background-size: cover;
+  background-position: center;
+  image-rendering: pixelated;
+  z-index: -1;
+  opacity: 0.9;
+}
+
+.page {
+  display: grid;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+  font-family: var(--font-geist-sans);
+  position: relative;
+  overflow: hidden;
+  color: #47251D;
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    color: #fff;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  z-index: 10;
+}
+
+.timerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  min-width: 300px;
+  position: relative;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.timer {
+  font-family: var(--font-geist-mono);
+  font-size: 7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #47251D;
+}
+
+.spacebarHint {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  color: #47251D;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .timerContainer {
+    background-color: rgba(20, 20, 20, 0.8);
+  }
+  
+  .timer {
+    color: #fff;
+  }
+  
+  .spacebarHint {
+    color: #fff;
+  }
+}
+
+.commitBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.commitMessage {
+  position: absolute;
+  animation: simpleFloatAcross 30s linear infinite;
+  max-width: 300px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 200px;
+  z-index: 1;
+}
+
+.commitContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.commitFruit {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.gameNameText {
+  font-size: 16px;
+  text-align: center;
+  color: #47251D;
+  font-family: var(--font-geist-mono);
+  word-break: break-word;
+  font-weight: 600;
+}
+
+@keyframes simpleFloatAcross {
+  0% {
+    transform: translateX(-300px);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(10vw);
+    opacity: 1;
+  }
+  90% {
+    transform: translateX(90vw);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .commitMessage {
+    background-color: rgba(50, 50, 50, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .gameNameText {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .commitFruit {
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+}
