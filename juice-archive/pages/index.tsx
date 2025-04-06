@@ -1,19 +1,9 @@
-import { Geist, Geist_Mono } from "next/font/google"
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { jersey25 } from "@/lib/fonts";
 
 export default function Home() {
   return (
-    <>
-      <h1 className={`${geistMono.variable} ${geistSans.variable}`}>Hello, Juice Archive!</h1>
-    </>
+    <div className={`${jersey25.variable}`}>
+      <h1>Hello, Juice Archive!</h1>
+    </div>
   );
 }
