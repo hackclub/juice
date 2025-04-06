@@ -10,10 +10,10 @@ export default async function handler(req, res) {
   }
 
   // Check if the password is provided and correct
-  const { password } = req.query;
-  if (!password || password !== process.env.MAGAZINE_API_PASSWORD) {
-    return res.status(401).json({ message: 'Unauthorized: Invalid or missing password' });
-  }
+//   const { password } = req.query;
+//   if (!password || password !== process.env.MAGAZINE_API_PASSWORD) {
+//     return res.status(401).json({ message: 'Unauthorized: Invalid or missing password' });
+//   }
 
   try {
     // Fetch records from the YSWS Project Submission table
