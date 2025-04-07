@@ -26,10 +26,7 @@ export default function FruitBasketWindow({ position, isDragging, isActive, hand
         if(!hasClickedRedeem)
             setHasClickedRedeem(true);
         else 
-            if(userData.totalRedeemableTokens == 0)
-                alert("You have to fight the next boss to redeem your tokens!")
-            else
-                window.location.replace("https://airtable.com/appHyfZjPXrRXxVGl/pagm3aJtiGwB7NfJl/form")
+            window.location.replace("https://airtable.com/appHyfZjPXrRXxVGl/pagm3aJtiGwB7NfJl/form")
     }
 
     // Load data
