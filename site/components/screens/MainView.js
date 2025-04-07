@@ -3674,16 +3674,6 @@ export default function MainView({
               }}
             >
               <div>
-                {isLoggedIn && (
-                  <FileIcon
-                    text="Jungle"
-                    icon="./jungle/jungleicon.png"
-                    isSelected={selectedFile === 'Jungle'}
-                    onClick={handleFileClick('Jungle')}
-                    delay={0.5}
-                    data-file-id="Jungle"
-                  />
-                )}
                 {isJungle || (
                   <FileIcon
                     text="Achievements"
@@ -3712,14 +3702,6 @@ export default function MainView({
                     data-file-id="FruitBasket"
                   />
                 )}
-                <FileIcon
-                  text="Cosmin's Jungle Shop"
-                  icon="./jungle/goldToken.png"
-                  isSelected={selectedFile === 'JungleShop'}
-                  onClick={handleFileClick('JungleShop')}
-                  delay={0.5}
-                  data-file-id="JungleShop"
-                />
               </div>
               <div>
                 <FileIcon
