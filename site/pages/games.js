@@ -13,7 +13,8 @@ export default function Games() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const response = await fetch('/api/get-magazine');
+        const storedToken = localStorage.getItem('token');
+        const response = await fetch(`/api/get-magazine?token=${storedToken || ''}`);
         const data = await response.json();
         console.log('Screenshot format example:', data[0]?.Screenshot);
         setGames(data);
@@ -29,9 +30,7 @@ export default function Games() {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
-    } else {
-      alert('Please log in on the main juice.hackclub.com website and come back.');
-    }
+    } 
   }, []);
 
   const handleHackerClick = (hacker) => {
@@ -184,7 +183,7 @@ export default function Games() {
                 >
                   ← Back
                 </button>
-                {!isEditing && (
+                {(!isEditing && selectedHacker.IsOwnedByMe) && (
                   <button 
                     onClick={handleEditClick}
                     style={{
