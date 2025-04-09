@@ -125,6 +125,19 @@ export default function Games() {
     setEditMessage('');
   };
 
+  // Format date to a readable string
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   return (
     <>
       <Head>
@@ -147,6 +160,74 @@ export default function Games() {
               width: 100%;
               height: auto;
             }
+            .video-grid {
+              grid-template-columns: 1fr !important;
+            }
+          }
+          @media (min-width: 769px) and (max-width: 1024px) {
+            .video-grid {
+              grid-template-columns: 1fr 1fr !important;
+            }
+          }
+          .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+          }
+          .video-card {
+            border: 1px solid #000;
+            padding: 10px;
+            background-color: #FFF600;
+            height: 320px;
+            display: flex;
+            flex-direction: column;
+          }
+          .video-card video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            margin-bottom: 6px;
+            background: #000;
+          }
+          .video-card video::-webkit-media-controls-panel {
+            display: none !important;
+          }
+          @media (max-width: 768px) {
+            .video-card video::-webkit-media-controls-panel {
+              display: flex !important;
+            }
+          }
+          .video-card h3 {
+            margin: 0 0 4px 0;
+            font-size: 16px;
+            font-weight: bold;
+          }
+          .video-card .description-container {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 4px;
+            padding-right: 8px;
+          }
+          .video-card .description-container::-webkit-scrollbar {
+            width: 6px;
+          }
+          .video-card .description-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+          }
+          .video-card .description-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 3px;
+          }
+          .video-card p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
+          }
+          .video-card .date {
+            font-size: 12px;
+            color: #666;
+            margin-top: auto;
           }
         `}</style>
       </Head>
@@ -357,15 +438,15 @@ export default function Games() {
                 <>
                   {selectedHacker["Description"] && (
                     <div style={{color: '#000', marginBottom: 20}}>
-                      <h2 style={{fontSize: 24, marginBottom: 12}}>About the Game</h2>
+                      {/* <h2 style={{fontSize: 24, marginBottom: 12}}>About the Game</h2> */}
                       <p style={{
                         lineHeight: 1.6,
                         whiteSpace: 'pre-wrap'
                       }}>{selectedHacker["Description"]}</p>
                     </div>
                   )}
-                  <div style={{color: '#000'}}>
-                    <h2 style={{fontSize: 24, marginBottom: 12}}>Links</h2>
+                  <div style={{color: '#000', marginBottom: 20}}>
+                    {/* <h2 style={{fontSize: 24, marginBottom: 12}}>Links</h2> */}
                     <p>Code URL: <a href={selectedHacker["Code URL"]} style={{color: '#000'}}>{selectedHacker["Code URL"]}</a></p>
                     <p>Playable URL: <a href={selectedHacker["Playable URL"]} style={{color: '#000'}}>{selectedHacker["Playable URL"]}</a></p>
                     <p>Video: {selectedHacker["videoURL"] === "--" ? (
@@ -378,6 +459,53 @@ export default function Games() {
                       <p>Slack: <a href={`https://hackclub.slack.com/team/${selectedHacker["SlackID"]}`} style={{color: '#000'}}>{selectedHacker["SlackHandle"]}</a></p>
                     )}
                   </div>
+                  
+                  {/* Dev Log Progress Videos Section */}
+                  {selectedHacker["juiceStretches"] && selectedHacker["juiceStretches"].length > 0 && (
+                    <div style={{color: '#000', marginBottom: 20}}>
+                      <h2 style={{fontSize: 24, marginBottom: 12}}>Dev Log Progress Videos</h2>
+                      <div className="video-grid">
+                        {selectedHacker["juiceStretches"]
+                          .filter(stretch => stretch.video && !stretch.isCancelled)
+                          .map((stretch, index) => (
+                            <div key={index} className="video-card">
+                              <video 
+                                controls
+                                playsInline
+                                onMouseEnter={(e) => e.target.play()}
+                                onMouseLeave={(e) => {
+                                  e.target.pause();
+                                  e.target.currentTime = 0;
+                                }}
+                                onClick={(e) => {
+                                  if (e.target.requestFullscreen) {
+                                    e.target.requestFullscreen();
+                                  } else if (e.target.webkitRequestFullscreen) {
+                                    e.target.webkitRequestFullscreen();
+                                  } else if (e.target.msRequestFullscreen) {
+                                    e.target.msRequestFullscreen();
+                                  }
+                                }}
+                                style={{ cursor: 'pointer' }}
+                              >
+                                <source src={stretch.video} type="video/mp4" />
+                                Your browser does not support the video tag.
+                              </video>
+                              <h3>Hours Spent: {(stretch.timeWorkedHours || 0).toFixed(1)}</h3>
+                              <div className="description-container">
+                                <p>{stretch.description || 'No description available'}</p>
+                              </div>
+                              <p style={{fontSize: 12}}>
+                                {formatDate(stretch.createdTime)}
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+                      {selectedHacker["juiceStretches"].filter(stretch => stretch.video && !stretch.isCancelled).length === 0 && (
+                        <p>No dev log videos available for this game.</p>
+                      )}
+                    </div>
+                  )}
                 </>
               )}
             </>
