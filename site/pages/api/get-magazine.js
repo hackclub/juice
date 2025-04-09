@@ -1,8 +1,4 @@
-import Airtable from 'airtable';
-
-const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY,
-}).base(process.env.AIRTABLE_BASE_ID);
+import { base } from "@/lib/airtable";
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -19,22 +15,27 @@ export default async function handler(req, res) {
     // Fetch records from the YSWS Project Submission table
     const records = await base('YSWS Project Submission')
       .select({
+        filterByFormula: "NOT({DoNotIncludeOnWebsite})"
       })
       .all();
 
-    // Return the complete record data with sensitive fields filtered out
+    // Return only the specified fields
     const submissions = records.map(record => {
-      // Create a copy of the fields
-      const fields = { ...record.fields };
-      
-      // Remove sensitive fields
-      delete fields['Email'];
-      delete fields['Address 1'];
-      delete fields['Address 2'];
-      delete fields['Zach (Temp) - Juice Invitee'];
+      const fields = record.fields;
       return {
         id: record.id,
-        ...fields
+        "Code URL": fields["Code URL"] || null,
+        "Playable URL": fields["Playable URL"] || null,
+        "videoURL": fields["videoURL"] || null,
+        "First Name": fields["First Name"] || null,
+        "Last Name": fields["Last Name"] || null,
+        "Github Username": fields["GitHub Username"] || null,
+        "Description": fields["Description"] || null,
+        "Screenshot": fields["Screenshot"] || null,
+        "OMGMoments": fields["juiceStretches"] || null,
+
+
+
       };
     });
 

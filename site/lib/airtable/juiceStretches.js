@@ -39,3 +39,8 @@ export const rejected = "Rejected";
  * @type {import('airtable').Table<JuiceStretchesFieldSet>}
  */
 export const juiceStretchesTable = base('juiceStretches');
+
+
+const x = juiceStretchesTable.select()
+
+
