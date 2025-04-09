@@ -240,7 +240,7 @@ export default function FinalChallengeWindow({ position, isDragging, isActive, h
         };
     }, [currentPage, isActive]);
 
-    // Extract GitHub username from URL if possible
+    // Extract GitHub Username from URL if possible
     const extractGithubUsername = useCallback((url) => {
         try {
             if (!url) return '';
@@ -575,7 +575,7 @@ export default function FinalChallengeWindow({ position, isDragging, isActive, h
                             name="githubUsername" 
                             value={formData.githubUsername}
                             onChange={handleInputChange}
-                            placeholder="Your GitHub username (without @)"
+                            placeholder="Your GitHub Username (without @)"
                         />
                         <InputField 
                             label="Email" 

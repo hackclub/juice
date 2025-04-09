@@ -7,6 +7,8 @@ export default function Games() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedFields, setEditedFields] = useState({});
   const [editMessage, setEditMessage] = useState('');
+  const [token, setToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -21,6 +23,15 @@ export default function Games() {
     };
 
     fetchGames();
+  }, []);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    } else {
+      alert('Please log in on the main juice.hackclub.com website and come back.');
+    }
   }, []);
 
   const handleHackerClick = (hacker) => {
@@ -40,17 +51,13 @@ export default function Games() {
 
   const handleEditClick = () => {
     const token = localStorage.getItem("token");
-    console.log('Token:', token);
-    if (!token) {
-      alert('You must be logged in. Login on the main juice.hackclub.com site');
-      return;
-    }
+
     setIsEditing(true);
     setEditedFields({
       "Code URL": selectedHacker["Code URL"] || '',
       "Playable URL": selectedHacker["Playable URL"] || '',
       "videoURL": selectedHacker["videoURL"] || '',
-      "Github Username": selectedHacker["Github Username"] || '',
+      "GitHub Username": selectedHacker["GitHub Username"] || '',
       "Description": selectedHacker["Description"] || '',
     });
   };
@@ -63,13 +70,12 @@ export default function Games() {
   };
 
   const handleSave = async () => {
+    if (!token) {
+      setEditMessage('Error: Token is required to save changes');
+      return;
+    }
+    setIsLoading(true);
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setEditMessage('Error: You must be logged in to edit');
-        return;
-      }
-
       const response = await fetch('/api/edit-magazine', {
         method: 'PUT',
         headers: {
@@ -109,6 +115,8 @@ export default function Games() {
     } catch (error) {
       console.error('Error saving changes:', error);
       setEditMessage('Error: Failed to save changes');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -303,11 +311,11 @@ export default function Games() {
                     />
                   </div>
                   <div style={{marginBottom: 16}}>
-                    <label style={{display: 'block', marginBottom: 4}}>Github Username:</label>
+                    <label style={{display: 'block', marginBottom: 4}}>GitHub Username:</label>
                     <input 
                       type="text"
-                      value={editedFields["Github Username"] || ''}
-                      onChange={(e) => handleInputChange("Github Username", e.target.value)}
+                      value={editedFields["GitHub Username"] || ''}
+                      onChange={(e) => handleInputChange("GitHub Username", e.target.value)}
                       style={{
                         width: '100%',
                         padding: '8px',
@@ -351,7 +359,10 @@ export default function Games() {
                   {selectedHacker["Description"] && (
                     <div style={{color: '#000', marginBottom: 20}}>
                       <h2 style={{fontSize: 24, marginBottom: 12}}>About the Game</h2>
-                      <p style={{lineHeight: 1.6}}>{selectedHacker["Description"]}</p>
+                      <p style={{
+                        lineHeight: 1.6,
+                        whiteSpace: 'pre-wrap'
+                      }}>{selectedHacker["Description"]}</p>
                     </div>
                   )}
                   <div style={{color: '#000'}}>
@@ -363,7 +374,7 @@ export default function Games() {
                     ) : (
                       <a href={selectedHacker["videoURL"]} style={{color: '#000'}}>{selectedHacker["videoURL"]}</a>
                     )}</p>
-                    <p>Github Username: {selectedHacker["Github Username"]}</p>
+                    <p>GitHub Username: {selectedHacker["GitHub Username"]}</p>
                     {selectedHacker["SlackHandle"] && (
                       <p>Slack: <a href={`https://hackclub.slack.com/team/${selectedHacker["SlackID"]}`} style={{color: '#000'}}>{selectedHacker["SlackHandle"]}</a></p>
                     )}
@@ -421,6 +432,24 @@ export default function Games() {
                }
               </div>
             </>
+          )}
+          {isEditing && (
+            <div style={{color: '#000', marginBottom: 20}}>
+              <h2 style={{fontSize: 24, marginBottom: 12}}>Enter Token</h2>
+              <input 
+                type="text"
+                value={token}
+                onChange={(e) => setToken(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px',
+                  border: '1px solid #000',
+                  borderRadius: '4px',
+                  backgroundColor: '#FFF600',
+                  marginBottom: '16px'
+                }}
+              />
+            </div>
           )}
         </div>
       </div>
