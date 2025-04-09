@@ -29,13 +29,12 @@ export default async function handler(req, res) {
         "videoURL": fields["videoURL"] || null,
         "First Name": fields["First Name"] || null,
         "Last Name": fields["Last Name"] || null,
-        "Github Username": fields["GitHub Username"] || null,
+        "GitHub Username": fields["GitHub Username"] || null,
         "Description": fields["Description"] || null,
         "Screenshot": fields["Screenshot"] || null,
         "OMGMoments": fields["juiceStretches"] || null,
-
-
-
+        "SlackHandle": fields["SlackHandle"] || null,
+        "SlackID": fields["SlackID"] || null
       };
     });
 

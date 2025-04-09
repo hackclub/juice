@@ -4,6 +4,9 @@ import Head from 'next/head';
 export default function Games() {
   const [games, setGames] = useState([]);
   const [selectedHacker, setSelectedHacker] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedFields, setEditedFields] = useState({});
+  const [editMessage, setEditMessage] = useState('');
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -23,10 +26,91 @@ export default function Games() {
   const handleHackerClick = (hacker) => {
     console.log('Selected hacker screenshot:', hacker.Screenshot);
     setSelectedHacker(hacker);
+    setIsEditing(false);
+    setEditedFields({});
+    setEditMessage('');
   };
 
   const handleBack = () => {
     setSelectedHacker(null);
+    setIsEditing(false);
+    setEditedFields({});
+    setEditMessage('');
+  };
+
+  const handleEditClick = () => {
+    const token = localStorage.getItem("token");
+
+    setIsEditing(true);
+    setEditedFields({
+      "Code URL": selectedHacker["Code URL"] || '',
+      "Playable URL": selectedHacker["Playable URL"] || '',
+      "videoURL": selectedHacker["videoURL"] || '',
+      "GitHub Username": selectedHacker["GitHub Username"] || '',
+      "Description": selectedHacker["Description"] || '',
+    });
+  };
+
+  const handleInputChange = (field, value) => {
+    setEditedFields({
+      ...editedFields,
+      [field]: value
+    });
+  };
+
+  const handleSave = async () => {
+    const email = prompt('Please enter your email to save changes:');
+    if (!email) {
+      setEditMessage('Error: Email is required to save changes');
+      return;
+    }
+    try {
+      const response = await fetch('/api/edit-magazine', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: selectedHacker.id,
+          email: email,
+          fields: editedFields
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Update the local state with the edited data
+        setSelectedHacker({
+          ...selectedHacker,
+          ...data
+        });
+        
+        // Update the games list
+        setGames(games.map(game => 
+          game.id === selectedHacker.id ? { ...game, ...data } : game
+        ));
+        
+        setIsEditing(false);
+        setEditMessage('Changes saved successfully!');
+        
+        // Clear the success message after 3 seconds
+        setTimeout(() => {
+          setEditMessage('');
+        }, 3000);
+      } else {
+        setEditMessage(`Error: ${data.message || 'Failed to save changes'}`);
+      }
+    } catch (error) {
+      console.error('Error saving changes:', error);
+      setEditMessage('Error: Failed to save changes');
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditedFields({});
+    setEditMessage('');
   };
 
   return (
@@ -73,65 +157,214 @@ export default function Games() {
         }}>
           {selectedHacker ? (
             <>
-              <button 
-                onClick={handleBack}
-                style={{
-                  alignSelf: 'flex-start',
-                  marginBottom: '20px',
-                  padding: '8px 16px',
-                  backgroundColor: '#000',
-                  color: '#FFF600',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer'
-                }}
-              >
-                ← Back
-              </button>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
+                <button 
+                  onClick={handleBack}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#000',
+                    color: '#FFF600',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  ← Back
+                </button>
+                {!isEditing && (
+                  <button 
+                    onClick={handleEditClick}
+                    style={{
+                      padding: '8px 16px',
+                      backgroundColor: '#000',
+                      color: '#FFF600',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
               <h1 style={{color: '#000', fontSize: 32, marginBottom: 16}}>
                 {selectedHacker["First Name"]} {selectedHacker["Last Name"]}'s Game
               </h1>
-              {selectedHacker["Screenshot"]?.[0]?.url ? (
-                <img 
-                  src={selectedHacker["Screenshot"][0].url} 
-                  alt={`${selectedHacker["First Name"]}'s game screenshot`}
-                  style={{
+              <div style={{
+                width: '100%',
+                maxWidth: 700,
+                aspectRatio: '16/9',
+                marginBottom: 20,
+                border: '1px solid #000',
+                overflow: 'hidden'
+              }}>
+                {selectedHacker["Screenshot"]?.[0]?.url ? (
+                  <img 
+                    src={selectedHacker["Screenshot"][0].url} 
+                    alt={`${selectedHacker["First Name"]}'s game screenshot`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                ) : (
+                  <div style={{
                     width: '100%',
-                    maxWidth: 700,
-                    marginBottom: 20,
-                    border: '1px solid #000'
-                  }}
-                />
-              ) : (
-                <div style={{
-                  width: '100%',
-                  maxWidth: 700,
-                  aspectRatio: '16/9',
-                  backgroundColor: '#000',
-                  marginBottom: 20,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '1px solid #000'
-                }}>
-                  <p style={{color: '#FFF600', margin: 0, fontSize: 18}}>Image Missing...</p>
-                </div>
-              )}
-              {selectedHacker["Description"] && (
-                <div style={{color: '#000', marginBottom: 20}}>
-                  <h2 style={{fontSize: 24, marginBottom: 12}}>About the Game</h2>
-                  <p style={{lineHeight: 1.6}}>{selectedHacker["Description"]}</p>
-                </div>
-              )}
-              <div style={{color: '#000'}}>
-                <h2 style={{fontSize: 24, marginBottom: 12}}>Links</h2>
-                <p>Code URL: <a href={selectedHacker["Code URL"]} style={{color: '#000'}}>{selectedHacker["Code URL"]}</a></p>
-                <p>Playable URL: <a href={selectedHacker["Playable URL"]} style={{color: '#000'}}>{selectedHacker["Playable URL"]}</a></p>
-                {selectedHacker["videoURL"] && (
-                  <p>Video: <a href={selectedHacker["videoURL"]} style={{color: '#000'}}>{selectedHacker["videoURL"]}</a></p>
+                    height: '100%',
+                    backgroundColor: '#000',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <p style={{color: '#FFF600', margin: 0, fontSize: 18}}>Image Missing...</p>
+                  </div>
                 )}
-                <p>Github Username: {selectedHacker["Github Username"]}</p>
               </div>
+              {editMessage && (
+                <div style={{
+                  padding: '10px',
+                  marginBottom: '20px',
+                  backgroundColor: '#FFF600',
+                  color: '#000',
+                  border: '1px solid #000',
+                  borderRadius: '4px',
+                  textAlign: 'center'
+                }}>
+                  {editMessage}
+                </div>
+              )}
+              {isEditing ? (
+                <div style={{color: '#000', marginBottom: 20}}>
+                  <h2 style={{fontSize: 24, marginBottom: 12}}>Edit Game Details</h2>
+                  <div style={{marginBottom: 16}}>
+                    <label style={{display: 'block', marginBottom: 4}}>Description:</label>
+                    <textarea 
+                      value={editedFields["Description"] || ''}
+                      onChange={(e) => handleInputChange("Description", e.target.value)}
+                      style={{
+                        width: '100%',
+                        minHeight: '100px',
+                        padding: '8px',
+                        border: '1px solid #000',
+                        borderRadius: '4px',
+                        backgroundColor: '#FFF600'
+                      }}
+                    />
+                  </div>
+                  <div style={{marginBottom: 16}}>
+                    <label style={{display: 'block', marginBottom: 4}}>Code URL:</label>
+                    <input 
+                      type="text"
+                      value={editedFields["Code URL"] || ''}
+                      onChange={(e) => handleInputChange("Code URL", e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #000',
+                        borderRadius: '4px',
+                        backgroundColor: '#FFF600'
+                      }}
+                    />
+                  </div>
+                  <div style={{marginBottom: 16}}>
+                    <label style={{display: 'block', marginBottom: 4}}>Playable URL:</label>
+                    <input 
+                      type="text"
+                      value={editedFields["Playable URL"] || ''}
+                      onChange={(e) => handleInputChange("Playable URL", e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #000',
+                        borderRadius: '4px',
+                        backgroundColor: '#FFF600'
+                      }}
+                    />
+                  </div>
+                  <div style={{marginBottom: 16}}>
+                    <label style={{display: 'block', marginBottom: 4}}>Video URL:</label>
+                    <input 
+                      type="text"
+                      value={editedFields["videoURL"] || ''}
+                      onChange={(e) => handleInputChange("videoURL", e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #000',
+                        borderRadius: '4px',
+                        backgroundColor: '#FFF600'
+                      }}
+                    />
+                  </div>
+                  <div style={{marginBottom: 16}}>
+                    <label style={{display: 'block', marginBottom: 4}}>GitHub Username:</label>
+                    <input 
+                      type="text"
+                      value={editedFields["GitHub Username"] || ''}
+                      onChange={(e) => handleInputChange("GitHub Username", e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        border: '1px solid #000',
+                        borderRadius: '4px',
+                        backgroundColor: '#FFF600'
+                      }}
+                    />
+                  </div>
+                  <div style={{display: 'flex', gap: '10px', justifyContent: 'flex-end'}}>
+                    <button 
+                      onClick={handleCancel}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: '#FFF600',
+                        color: '#000',
+                        border: '1px solid #000',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      onClick={handleSave}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: '#000',
+                        color: '#FFF600',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {selectedHacker["Description"] && (
+                    <div style={{color: '#000', marginBottom: 20}}>
+                      <h2 style={{fontSize: 24, marginBottom: 12}}>About the Game</h2>
+                      <p style={{lineHeight: 1.6}}>{selectedHacker["Description"]}</p>
+                    </div>
+                  )}
+                  <div style={{color: '#000'}}>
+                    <h2 style={{fontSize: 24, marginBottom: 12}}>Links</h2>
+                    <p>Code URL: <a href={selectedHacker["Code URL"]} style={{color: '#000'}}>{selectedHacker["Code URL"]}</a></p>
+                    <p>Playable URL: <a href={selectedHacker["Playable URL"]} style={{color: '#000'}}>{selectedHacker["Playable URL"]}</a></p>
+                    <p>Video: {selectedHacker["videoURL"] === "--" ? (
+                      <span style={{color: '#000'}}>--</span>
+                    ) : (
+                      <a href={selectedHacker["videoURL"]} style={{color: '#000'}}>{selectedHacker["videoURL"]}</a>
+                    )}</p>
+                    <p>GitHub Username: {selectedHacker["GitHub Username"]}</p>
+                    {selectedHacker["SlackHandle"] && (
+                      <p>Slack: <a href={`https://hackclub.slack.com/team/${selectedHacker["SlackID"]}`} style={{color: '#000'}}>{selectedHacker["SlackHandle"]}</a></p>
+                    )}
+                  </div>
+                </>
+              )}
             </>
           ) : (
             <>
