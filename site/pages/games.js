@@ -40,13 +40,17 @@ export default function Games() {
 
   const handleEditClick = () => {
     const token = localStorage.getItem("token");
-
+    console.log('Token:', token);
+    if (!token) {
+      alert('You must be logged in. Login on the main juice.hackclub.com site');
+      return;
+    }
     setIsEditing(true);
     setEditedFields({
       "Code URL": selectedHacker["Code URL"] || '',
       "Playable URL": selectedHacker["Playable URL"] || '',
       "videoURL": selectedHacker["videoURL"] || '',
-      "GitHub Username": selectedHacker["GitHub Username"] || '',
+      "Github Username": selectedHacker["Github Username"] || '',
       "Description": selectedHacker["Description"] || '',
     });
   };
@@ -59,12 +63,13 @@ export default function Games() {
   };
 
   const handleSave = async () => {
-    const email = prompt('Please enter your email to save changes:');
-    if (!email) {
-      setEditMessage('Error: Email is required to save changes');
-      return;
-    }
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setEditMessage('Error: You must be logged in to edit');
+        return;
+      }
+
       const response = await fetch('/api/edit-magazine', {
         method: 'PUT',
         headers: {
@@ -72,7 +77,7 @@ export default function Games() {
         },
         body: JSON.stringify({
           id: selectedHacker.id,
-          email: email,
+          token: token,
           fields: editedFields
         }),
       });
@@ -298,11 +303,11 @@ export default function Games() {
                     />
                   </div>
                   <div style={{marginBottom: 16}}>
-                    <label style={{display: 'block', marginBottom: 4}}>GitHub Username:</label>
+                    <label style={{display: 'block', marginBottom: 4}}>Github Username:</label>
                     <input 
                       type="text"
-                      value={editedFields["GitHub Username"] || ''}
-                      onChange={(e) => handleInputChange("GitHub Username", e.target.value)}
+                      value={editedFields["Github Username"] || ''}
+                      onChange={(e) => handleInputChange("Github Username", e.target.value)}
                       style={{
                         width: '100%',
                         padding: '8px',
@@ -358,7 +363,7 @@ export default function Games() {
                     ) : (
                       <a href={selectedHacker["videoURL"]} style={{color: '#000'}}>{selectedHacker["videoURL"]}</a>
                     )}</p>
-                    <p>GitHub Username: {selectedHacker["GitHub Username"]}</p>
+                    <p>Github Username: {selectedHacker["Github Username"]}</p>
                     {selectedHacker["SlackHandle"] && (
                       <p>Slack: <a href={`https://hackclub.slack.com/team/${selectedHacker["SlackID"]}`} style={{color: '#000'}}>{selectedHacker["SlackHandle"]}</a></p>
                     )}
@@ -383,7 +388,8 @@ export default function Games() {
                 gap: '20px',
                 marginTop: '20px'
               }}>
-                {games.map((game, index) => (
+              {games.length != 0 ? 
+                games.map((game, index) => (
                   <div 
                     key={game.id} 
                     style={{
@@ -409,7 +415,10 @@ export default function Games() {
                       {game["First Name"]} {game["Last Name"]}
                     </p>
                   </div>
-                ))}
+                )) 
+                : 
+                <p>Loading Games...</p>
+               }
               </div>
             </>
           )}
