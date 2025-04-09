@@ -434,7 +434,7 @@ export default function Games() {
           )}
           {isEditing && (
             <div style={{color: '#000', marginBottom: 20}}>
-              <h2 style={{fontSize: 24, marginBottom: 12}}>Enter Token</h2>
+              {/* <h2 style={{fontSize: 24, marginBottom: 12}}>Enter Token</h2>
               <input 
                 type="text"
                 value={token}
@@ -447,7 +447,7 @@ export default function Games() {
                   backgroundColor: '#FFF600',
                   marginBottom: '16px'
                 }}
-              />
+              /> */}
             </div>
           )}
         </div>
