@@ -432,24 +432,7 @@ export default function Games() {
               </div>
             </>
           )}
-          {isEditing && (
-            <div style={{color: '#000', marginBottom: 20}}>
-              {/* <h2 style={{fontSize: 24, marginBottom: 12}}>Enter Token</h2>
-              <input 
-                type="text"
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '8px',
-                  border: '1px solid #000',
-                  borderRadius: '4px',
-                  backgroundColor: '#FFF600',
-                  marginBottom: '16px'
-                }}
-              /> */}
-            </div>
-          )}
+
         </div>
       </div>
     </>
