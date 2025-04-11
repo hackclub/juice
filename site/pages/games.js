@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export default function Games() {
+  const router = useRouter();
   const [games, setGames] = useState([]);
   const [selectedHacker, setSelectedHacker] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -26,6 +28,17 @@ export default function Games() {
     fetchGames();
   }, []);
 
+  // Effect to handle URL parameters
+  useEffect(() => {
+    if (games.length > 0 && router.query.hackerId) {
+      const hackerId = router.query.hackerId;
+      const hacker = games.find(game => game.id === hackerId);
+      if (hacker) {
+        setSelectedHacker(hacker);
+      }
+    }
+  }, [games, router.query.hackerId]);
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
@@ -39,6 +52,12 @@ export default function Games() {
     setIsEditing(false);
     setEditedFields({});
     setEditMessage('');
+    
+    // Update URL with hacker ID
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, hackerId: hacker.id }
+    }, undefined, { shallow: true });
   };
 
   const handleBack = () => {
@@ -46,6 +65,13 @@ export default function Games() {
     setIsEditing(false);
     setEditedFields({});
     setEditMessage('');
+    
+    // Remove hacker ID from URL
+    const { hackerId, ...query } = router.query;
+    router.push({
+      pathname: router.pathname,
+      query
+    }, undefined, { shallow: true });
   };
 
   const handleEditClick = () => {
