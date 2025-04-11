@@ -542,7 +542,7 @@ export default function Games() {
                 <h1 style={{fontSize: 24, marginTop: 8, marginBottom: 8}}>Shanghai, China</h1> 
               </div> 
               <img className="main-image" style={{width: "100%", maxWidth: 700}} src="./JuiceArchive.png"/>
-              <p style={{marginTop: 16}}>The Juice popup cafe was a two month online game jam followed by an in-person popup hacker cafe in Shanghai, China. Over 90 teenagers from 20+ countries flew to Shanghai, China to present their games in our popup cafe and juice a bunch of fruits to give to the locals as they tried their game</p>
+              <p style={{marginTop: 16}}>The Juice popup cafe was a two month online game jam followed by an in-person popup hacker cafe in Shanghai, China. Over 90 teenagers from 23 countries flew to Shanghai, China to present their games in our popup cafe and juice a bunch of fruits to give to the locals as they tried their game</p>
               <p style={{marginTop: 12}}>Paolo made a video series telling the story of Juice. Here's <a style={{color: "#000"}} href="https://youtu.be/fuTlToZ1SX8?feature=shared">episode one of Juice</a></p>
               <p style={{marginTop: 12}}>Below are the Hack Clubbers that participated in Juice and you can tap on them to see the game that they made & their journey making it</p>
               
