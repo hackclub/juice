@@ -208,12 +208,16 @@ export default function Games() {
             height: 320px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
           }
           .video-card video {
             width: 100%;
             aspect-ratio: 16/9;
             margin-bottom: 6px;
             background: #000;
+            object-fit: cover;
+            max-width: 100%;
+            display: block;
           }
           .video-card video::-webkit-media-controls-panel {
             display: none !important;
@@ -493,39 +497,48 @@ export default function Games() {
                       <div className="video-grid">
                         {selectedHacker["juiceStretches"]
                           .filter(stretch => stretch.video && !stretch.isCancelled)
-                          .map((stretch, index) => (
-                            <div key={index} className="video-card">
-                              <video 
-                                controls
-                                playsInline
-                                onMouseEnter={(e) => e.target.play()}
-                                onMouseLeave={(e) => {
-                                  e.target.pause();
-                                  e.target.currentTime = 0;
-                                }}
-                                onClick={(e) => {
-                                  if (e.target.requestFullscreen) {
-                                    e.target.requestFullscreen();
-                                  } else if (e.target.webkitRequestFullscreen) {
-                                    e.target.webkitRequestFullscreen();
-                                  } else if (e.target.msRequestFullscreen) {
-                                    e.target.msRequestFullscreen();
-                                  }
-                                }}
-                                style={{ cursor: 'pointer' }}
-                              >
-                                <source src={stretch.video} type="video/mp4" />
-                                Your browser does not support the video tag.
-                              </video>
-                              <h3>Hours Spent: {(stretch.timeWorkedHours || 0).toFixed(1)}</h3>
-                              <div className="description-container">
-                                <p>{stretch.description || 'No description available'}</p>
+                          .sort((a, b) => new Date(a.createdTime) - new Date(b.createdTime))
+                          .map((stretch, index, array) => {
+                            const cumulativeHours = array
+                              .slice(0, index + 1)
+                              .reduce((sum, s) => sum + (s.timeWorkedHours || 0), 0);
+                            return (
+                              <div key={index} className="video-card">
+                                <video 
+                                  controls
+                                  playsInline
+                                  onMouseEnter={(e) => e.target.play()}
+                                  onMouseLeave={(e) => {
+                                    e.target.pause();
+                                    e.target.currentTime = 0;
+                                  }}
+                                  onClick={(e) => {
+                                    if (e.target.requestFullscreen) {
+                                      e.target.requestFullscreen();
+                                    } else if (e.target.webkitRequestFullscreen) {
+                                      e.target.webkitRequestFullscreen();
+                                    } else if (e.target.msRequestFullscreen) {
+                                      e.target.msRequestFullscreen();
+                                    }
+                                  }}
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <source src={stretch.video} type="video/mp4" />
+                                  Your browser does not support the video tag.
+                                </video>
+                                <h3>Hours Spent: {(stretch.timeWorkedHours || 0).toFixed(1)}</h3>
+                                <div style={{ fontSize: '14px', marginTop: '-5px', marginBottom: '5px' }}>
+                                  {cumulativeHours.toFixed(1)} Hours In
+                                </div>
+                                <div className="description-container">
+                                  <p>{stretch.description || 'No description available'}</p>
+                                </div>
+                                <p style={{fontSize: 12}}>
+                                  {formatDate(stretch.createdTime)}
+                                </p>
                               </div>
-                              <p style={{fontSize: 12}}>
-                                {formatDate(stretch.createdTime)}
-                              </p>
-                            </div>
-                          ))}
+                            );
+                          })}
                       </div>
                       {selectedHacker["juiceStretches"].filter(stretch => stretch.video && !stretch.isCancelled).length === 0 && (
                         <p>No dev log videos available for this game.</p>
