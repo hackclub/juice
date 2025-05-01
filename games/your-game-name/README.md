@@ -18,3 +18,5 @@ As the players make their way through the levels they will unlock new monsters a
 
 ---
 *Remember: Focus on gameplay mechanics and player experience. Save the details about story, art style, sound design, UI flowcharts, marketing plans, or achievements for later.*
+
+.

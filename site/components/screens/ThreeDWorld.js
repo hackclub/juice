@@ -92,7 +92,7 @@ export default function ThreeDWorld({ onDiskInserted }) {
             />
             <BrightnessContrast
               brightness={0.2}
-              contrast={0.4}
+              contrast={0.40}
             />
           </EffectComposer>
         </Suspense>
