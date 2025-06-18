@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: db8aedf6f6cf2734cb24c49646427e96
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Examples/Scripts/Editor/PathSceneToolEditor.cs
+  uploadId: 317492

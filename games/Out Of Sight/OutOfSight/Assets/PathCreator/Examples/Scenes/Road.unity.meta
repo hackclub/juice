@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8f020cfa1fb7ded47926b050b82adbe6
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Examples/Scenes/Road.unity
+  uploadId: 317492

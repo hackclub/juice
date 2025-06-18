@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 804ddb43548540a4ca3b0a534a75c4b3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Core/Editor/Helper/PathHandle.cs
+  uploadId: 317492
