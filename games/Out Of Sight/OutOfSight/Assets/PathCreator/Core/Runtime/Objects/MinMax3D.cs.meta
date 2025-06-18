@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 194e1b7893dcbf940a71eb507d8b10f3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Core/Runtime/Objects/MinMax3D.cs
+  uploadId: 317492

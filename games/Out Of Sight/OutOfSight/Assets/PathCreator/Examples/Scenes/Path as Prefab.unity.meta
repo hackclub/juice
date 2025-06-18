@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 7c3960531f0fd44beaacc5037d708071
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Examples/Scenes/Path as Prefab.unity
+  uploadId: 317492

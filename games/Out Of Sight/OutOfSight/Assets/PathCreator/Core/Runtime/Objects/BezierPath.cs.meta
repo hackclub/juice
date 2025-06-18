@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 756209f371f304fb1920c53a8a25a5e2
+timeCreated: 1516786483
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Core/Runtime/Objects/BezierPath.cs
+  uploadId: 317492

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: f9d700f5f914447f48566abe5b02d921
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Examples/Scenes/Object Placement.unity
+  uploadId: 317492

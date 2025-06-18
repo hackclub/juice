@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 35fab21375bf12f4b96eba4dafa4ad30
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136082
+  packageName: "B\xE9zier Path Creator"
+  packageVersion: 1.2
+  assetPath: Assets/PathCreator/Core/Settings/GlobalDisplaySettings.asset
+  uploadId: 317492
