@@ -1,7 +1,5 @@
 # Juice! 🧃
 
-Hackathon hosted by AdventureX that's inviting folks from Hack Club!
-
 *There's never been anything like this before*
 
 ![background](https://github.com/user-attachments/assets/156b45a9-25bd-4808-9fca-456a66d2cd93)
