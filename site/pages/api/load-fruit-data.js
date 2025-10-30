@@ -1,38 +1,26 @@
 import Airtable from 'airtable';
 import { v4 as uuidv4 } from 'uuid';
+import { withAuth } from './_middleware';
 
-const base = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process.env.AIRTABLE_BASE_ID);
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+  process.env.AIRTABLE_BASE_ID,
+);
 
-export default async function handler(req, res) {
+export default withAuth(async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   try {
-    const { token } = req.body;
-    
-    // Get user's email from Signups table
-    const signupRecords = await base('Signups').select({
-      filterByFormula: `{token} = '${token}'`,
-      maxRecords: 1
-    }).firstPage();
-
-    if (!signupRecords || signupRecords.length === 0) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    const signupRecord = signupRecords[0];
-    
-    
     const jungleStretches = (await base('jungleStretches').select({
-        filterByFormula: `
+          filterByFormula: `
             AND(
-            {email (from Signups)} = '${signupRecord.fields.email}',
+            {email (from Signups)} = '${req.user.email}',
             ({endtime}),
             NOT({isCanceled})
             )
         `,
-      }).firstPage()).map((record) => record.fields);
+        }).firstPage()).map((record) => record.fields);
 
     if(jungleStretches.length === 0) {
       res.status(200).json({});
@@ -59,4 +47,4 @@ export default async function handler(req, res) {
     console.error('Error loading jungle stretch:', error);
     res.status(500).json({ message: 'Error loading jungle stretch' });
   }
-} 
+});

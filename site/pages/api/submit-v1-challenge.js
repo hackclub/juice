@@ -1,11 +1,13 @@
 import Airtable from 'airtable';
+import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
 
-// Initialize Airtable
+
 const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY
+  apiKey: process.env.AIRTABLE_API_KEY,
 }).base(process.env.AIRTABLE_BASE_ID);
 
-export default async function handler(req, res) {
+export default withAuth(async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -21,8 +23,12 @@ export default async function handler(req, res) {
     }
 
     // First find user by token
+    const sanitisedToken = escapeAirtableString(token);
+    const sanitisedGameWebsiteUrl = escapeAirtableString(gameWebsiteUrl);
+    const sanitisedGithubLink = escapeAirtableString(githubLink);
+
     const userRecords = await base('Signups').select({
-      filterByFormula: `{token} = '${token}'`,
+      filterByFormula: `{token} = '${sanitisedToken}'`,
       maxRecords: 1
     }).firstPage();
 
@@ -46,7 +52,7 @@ export default async function handler(req, res) {
     const shipRecord = await base('Ships').create([
       {
         fields: {
-          Link: gameWebsiteUrl,
+          Link: sanitisedGameWebsiteUrl,
           user: [userRecord.id],
           Type: 'v1',
           omgMomentsThatWentIntoThis: omgMoments.map(record => record.id)
@@ -60,7 +66,7 @@ export default async function handler(req, res) {
         id: userRecord.id,
         fields: {
           achievements: [...(userRecord.fields.achievements || []), 'v1_submitted'],
-          GitHubLink: githubLink
+          GitHubLink: sanitisedGithubLink
         }
       }
     ]);
@@ -79,4 +85,4 @@ export default async function handler(req, res) {
       error: error.error || 'UNKNOWN_ERROR'
     });
   }
-} 
+});

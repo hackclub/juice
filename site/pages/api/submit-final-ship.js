@@ -1,8 +1,9 @@
 import Airtable from 'airtable';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
 
-// Initialize Airtable
+
 const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY
+  apiKey: process.env.AIRTABLE_API_KEY,
 }).base(process.env.AIRTABLE_BASE_ID);
 
 export default async function handler(req, res) {
@@ -11,7 +12,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { 
+    const {
       codeUrl,
       playableUrl,
       videoURL,
@@ -64,7 +65,6 @@ export default async function handler(req, res) {
       }));
 
     if (missingFields.length > 0) {
-      // Group missing fields by page
       const groupedByPage = missingFields.reduce((acc, field) => {
         if (!acc[field.page]) {
           acc[field.page] = [];
@@ -73,18 +73,17 @@ export default async function handler(req, res) {
         return acc;
       }, {});
 
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
         message: 'Required fields are missing',
         missingFields: groupedByPage
       });
     }
 
-    // Check for existing record with the same email
     const existingRecords = await base('YSWS Project Submission').select({
-      filterByFormula: `{Email} = '${email}'`,
-      maxRecords: 1
-    }).firstPage();
+        filterByFormula: `{Email} = '${email}'`,
+        maxRecords: 1
+      }).firstPage();
 
     const submissionData = {
       fields: {
@@ -116,7 +115,6 @@ export default async function handler(req, res) {
 
     let record;
     if (existingRecords && existingRecords.length > 0) {
-      // Update existing record
       record = await base('YSWS Project Submission').update([
         {
           id: existingRecords[0].id,
@@ -124,24 +122,24 @@ export default async function handler(req, res) {
         }
       ]);
     } else {
-      // Create new record
       record = await base('YSWS Project Submission').create([submissionData]);
     }
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       success: true,
-      message: existingRecords && existingRecords.length > 0 ? 
-        "Project updated successfully!" : 
-        "Project submitted successfully!",
-      record: record[0]
+      message:
+        existingRecords && existingRecords.length > 0
+          ? "Project updated successfully!"
+          : "Project submitted successfully!",
+      record: record[0],
     });
 
   } catch (error) {
     console.error('YSWS submission error:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       success: false,
       message: error.message || 'Error processing submission',
       error: error.error || 'UNKNOWN_ERROR'
     });
   }
-} 
+}

@@ -4,6 +4,7 @@ import { text, multiVariableText, image, table } from '@pdfme/schemas';
 import Airtable from 'airtable';
 import fs from 'fs';
 import path from 'path';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
 
 /*
  * RawRoommateData Schema from Airtable:

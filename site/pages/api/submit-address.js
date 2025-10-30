@@ -1,17 +1,21 @@
 import Airtable from 'airtable';
+import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
 
-// Initialize Airtable
+
 const base = new Airtable({
-  apiKey: process.env.AIRTABLE_API_KEY
+  apiKey: process.env.AIRTABLE_API_KEY,
 }).base(process.env.AIRTABLE_BASE_ID);
 
-export default async function handler(req, res) {
+export default withAuth(async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
   try {
     const { token, mailingAddress } = req.body;
+    const sanitisedToken = escapeAirtableString(token);
+    const sanitisedMailingAddress = escapeAirtableString(mailingAddress);
 
     if (!token || !mailingAddress) {
       return res.status(400).json({ message: 'Token and mailing address are required' });
@@ -19,7 +23,7 @@ export default async function handler(req, res) {
 
     // Find user by token
     const records = await base("Signups").select({
-      filterByFormula: `{token} = '${token}'`,
+      filterByFormula: `{token} = '${sanitisedToken}'`,
       maxRecords: 1
     }).firstPage();
 
@@ -34,7 +38,7 @@ export default async function handler(req, res) {
       {
         id: record.id,
         fields: {
-          Address: mailingAddress
+          Address: sanitisedMailingAddress
         }
       }
     ]);
@@ -52,4 +56,4 @@ export default async function handler(req, res) {
       error: error.error || 'UNKNOWN_ERROR'
     });
   }
-} 
+});

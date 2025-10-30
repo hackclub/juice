@@ -1,11 +1,11 @@
 import Airtable from 'airtable';
+import { withAuth } from './_middleware';
 
-// Initialize Airtable
 const base = new Airtable({
   apiKey: process.env.AIRTABLE_API_KEY,
 }).base(process.env.AIRTABLE_BASE_ID);
 
-export default async function handler(req, res) {
+export default withAuth(async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -14,8 +14,8 @@ export default async function handler(req, res) {
     // Get all records from RawRoommateData including bed sharing preference
     const allRoommatesQuery = base('RawRoommateData').select({
       fields: [
-        'Email Address', 
-        'Full Name', 
+        'Email Address',
+        'Full Name',
         'Name of person you are sharing room (they must indicate you on the form for it to be a match) (FULL NAME)',
         'Gender',
         'Age',
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       fields: ['Roommate A', 'Roommate B']
     });
     const existingPairs = await existingPairsQuery.all();
-    
+
     // Track people who already have rooms
     const peopleWithRooms = new Set();
     existingPairs.forEach(pair => {
@@ -64,10 +64,10 @@ export default async function handler(req, res) {
       if (!name1 || !name2) return false;
       const n1 = normalizeName(name1);
       const n2 = normalizeName(name2);
-      
+
       // Exact match
       if (n1 === n2) return true;
-      
+
       // Handle common variations
       const variations1 = [
         n1,
@@ -75,14 +75,14 @@ export default async function handler(req, res) {
         n1.split(' ').filter(n => n.length > 1).join(' '), // Remove single letters
         n1.split(' ').map(n => n[0]).join('') // Initials
       ];
-      
+
       const variations2 = [
         n2,
         n2.replace(/\s+/g, ' '),
         n2.split(' ').filter(n => n.length > 1).join(' '),
         n2.split(' ').map(n => n[0]).join('')
       ];
-      
+
       return variations1.some(v1 => variations2.some(v2 => v1 === v2));
     }
 
@@ -99,7 +99,7 @@ export default async function handler(req, res) {
 
       // Handle multiple preferences
       const preferences = preferredName.split(/[,/]/).map(p => p.trim()).filter(p => p);
-      
+
       for (const pref of preferences) {
         // Skip invalid preferences
         if (pref.length > 100 || /[<>{}]/.test(pref)) continue;
@@ -117,12 +117,12 @@ export default async function handler(req, res) {
         if (!bPreferredName) continue;
 
         const bPreferences = bPreferredName.split(/[,/]/).map(p => p.trim()).filter(p => p);
-        
+
         // Check if B has A in their preferences
         const isMutualMatch = bPreferences.some(bPref => 
           namesMatch(bPref, roommateA.fields['Full Name'])
         );
-        
+
         if (isMutualMatch) {
           pairs.push({
             roommateA: roommateA,
@@ -167,7 +167,7 @@ export default async function handler(req, res) {
         if (queenA !== queenB) {
           return queenB - queenA; // Put comfortable people first
         }
-        
+
         // Then sort by age
         const ageA = parseInt(a.fields['Age']) || 0;
         const ageB = parseInt(b.fields['Age']) || 0;
@@ -180,7 +180,7 @@ export default async function handler(req, res) {
 
         const age1 = parseInt(roommates[i].fields['Age']) || 0;
         const queen1 = isComfortableWithQueenBed(roommates[i]);
-        
+
         for (let j = i + 1; j < roommates.length; j++) {
           if (processedIds.has(roommates[j].id)) continue;
 
@@ -276,4 +276,4 @@ export default async function handler(req, res) {
       error: error.message
     });
   }
-} 
+});

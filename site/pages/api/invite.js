@@ -1,15 +1,13 @@
 import Airtable from 'airtable';
+import { withAuth } from './_middleware';
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+  process.env.AIRTABLE_BASE_ID,
+);
 
-export default async function handler(req, res) {
+export default withAuth(async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
-  }
-
-  const authToken = req.headers.authorization?.split(' ')[1];
-  if (!authToken) {
-    return res.status(401).json({ message: 'No auth token provided' });
   }
 
   try {
@@ -19,21 +17,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Email and flavor are required' });
     }
 
-    // First, get the sender's record from their auth token
-    const userRecords = await base('signups').select({
-      filterByFormula: `{token} = '${authToken}'`,
-      maxRecords: 1
-    }).firstPage();
+    const senderEmail = req.user.email || "";
+    const invitesAvailable = req.user.invitesAvailable || [];
 
-    if (userRecords.length === 0) {
-      return res.status(404).json({ message: `Sender not found, ${authToken}` });
-    }
-
-    const userRecord = userRecords[0];
-    const senderEmail = userRecord.fields.email || "";
-    const invitesAvailable = userRecord.fields.invitesAvailable || [];
-
-    // Check if user has the specified flavor invite available
+        // Check if user has the specified flavor invite available
     if (!invitesAvailable.includes(flavor)) {
       return res.status(400).json({ message: 'Invite flavor not available' });
     }
@@ -44,14 +31,14 @@ export default async function handler(req, res) {
     // Update the user's record with remaining invites
     await base('signups').update([
       {
-        id: userRecord.id,
+        id: req.userId,
         fields: {
           invitesAvailable: updatedInvites
         }
       }
     ]);
 
-    // Create the invite record
+        // Create the invite record
     const record = await base('Invites').create([
       {
         fields: {
@@ -62,16 +49,16 @@ export default async function handler(req, res) {
       }
     ]);
 
-    return res.status(200).json({ 
-      success: true, 
+    return res.status(200).json({
+      success: true,
       record,
-      remainingInvites: updatedInvites 
+      remainingInvites: updatedInvites
     });
   } catch (error) {
     console.error('Invite creation error:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       message: error.message || 'Error creating invite',
       error: error.error || 'UNKNOWN_ERROR'
     });
   }
-} 
+});
