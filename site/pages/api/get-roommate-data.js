@@ -33,10 +33,38 @@ export default withAuth(async function handler(req, res) {
       })
       .all();
 
+    const allowedKeys = [
+      'Submission ID',
+      'Last updated',
+      'Submission started',
+      'Status',
+      'Current step',
+      'Full Name',
+      'Email Address',
+      'Age',
+      'Gender',
+      "Country you're from",
+      'Short catch phrase that embodies your vibe (for others to see)',
+      'Your Phone Number',
+      "WeChat Contact (put - if you do not have one yet or INDIA if you're in India)",
+      'Slack Handle',
+      'Favorite Game',
+      'Favorite Food',
+      'Favorite Flavor of Juice',
+      'Mandarin speaking ability',
+      "Name of the game you're making",
+      'Link to your game'
+    ];
+
     const roommateData = records.map(record => {
       const fields = record.fields || {};
-      const { ['Flight Receipt']: _, ...filtered } = fields;
-      return filtered;
+      const out = {};
+      for (const k of allowedKeys) {
+        if (Object.prototype.hasOwnProperty.call(fields, k)) {
+          out[k] = fields[k];
+        }
+      }
+      return out;
     });
 
     res.status(200).json(roommateData);
