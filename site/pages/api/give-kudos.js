@@ -5,6 +5,8 @@ const base = new Airtable({apiKey: process.env.AIRTABLE_API_KEY}).base(process.e
 const KUDOS_LIMIT = 100;
 
 export default async function handler(req, res) {
+    return res.status(403).end();
+
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
