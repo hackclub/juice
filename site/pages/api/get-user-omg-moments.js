@@ -1,8 +1,11 @@
 import Airtable from 'airtable';
+import { withAuth } from './_middleware';
 
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID);
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+  process.env.AIRTABLE_BASE_ID,
+);
 
-export default async function handler(req, res) {
+export default withAuth(async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -35,4 +38,4 @@ export default async function handler(req, res) {
     console.error('Error fetching moments:', error);
     return res.status(500).json({ message: 'Error fetching moments' });
   }
-}
+});

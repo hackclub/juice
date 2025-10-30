@@ -17,7 +17,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Email is required' });
     }
 
-    // Normalize email to lowercase for consistent comparison
+        // Normalize email to lowercase for consistent comparison
     const normalizedEmail = email.toLowerCase();
 
     // Check if email exists in Signups table
@@ -44,34 +44,26 @@ export default async function handler(req, res) {
         ]);
       }
 
-      return res.status(200).json({ 
-        success: true, 
+      return res.status(200).json({
+        success: true,
         message: 'Token resend requested',
-        isResend: true 
+        isResend: true
       });
     }
 
-    // Create new signup record if email doesn't exist
-    const record = await base("Signups").create([
-      {
-        fields: {
-          email: normalizedEmail
-        }
-      }
-    ]);
-
-    return res.status(200).json({ 
-      success: true, 
-      record,
-      isResend: false
+    return res.status(403).json({
+      success: false,
+      message:
+        'New signups are disabled. If you already have an account, please check your email spelling.',
+      error: 'SIGNUPS_DISABLED',
     });
   } catch (error) {
     console.error('Registration error:', error);
     // Send more specific error message back to client
-    return res.status(500).json({ 
+    return res.status(500).json({
       success: false,
       message: error.message || 'Error processing registration',
       error: error.error || 'UNKNOWN_ERROR'
     });
   }
-} 
+}
