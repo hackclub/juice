@@ -25,6 +25,8 @@ console.log('S3 upload handler initialized with:', {
 });
 
 export default async function handler(req, res) {
+  return res.status(403).end();
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
