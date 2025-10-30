@@ -15,17 +15,29 @@ export default withAuth(async function handler(req, res) {
   if (!email) {
     return res.status(400).json({ message: 'Email parameter is required' });
   }
+  const rawEmail = Array.isArray(email) ? email[0] : email;
+  const normalizedEmail = String(rawEmail || '').trim().toLowerCase();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(normalizedEmail)) {
+    return res.status(400).json({ message: 'Invalid email parameter' });
+  }
+  const escapeAirtableString = str =>
+    String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+
+  const escaped = escapeAirtableString(normalizedEmail);
 
   try {
     const records = await base('RawRoommateData')
       .select({
-        filterByFormula: `{Email Address} = '${email}'`,
+        filterByFormula: `LOWER({Email Address}) = '${escaped}'`,
       })
       .all();
 
-    const roommateData = records.map(record => ({
-      ...record.fields
-    }));
+    const roommateData = records.map(record => {
+      const fields = record.fields || {};
+      const { ['Flight Receipt']: _, ...filtered } = fields;
+      return filtered;
+    });
 
     res.status(200).json(roommateData);
   } catch (error) {
