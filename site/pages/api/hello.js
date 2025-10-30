@@ -1,5 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { withAuth } from "./_middleware";
 
-export default function handler(req, res) {
+export default withAuth(function handler(req, res) {
   res.status(200).json({ name: "John Doe" });
-}
+});
