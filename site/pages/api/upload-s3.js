@@ -1,7 +1,6 @@
-import AWS from "aws-sdk";
-import formidable from "formidable";
-import fs from "fs";
-import { withAuth } from "./_middleware";
+import AWS from 'aws-sdk';
+import formidable from 'formidable';
+import fs from 'fs';
 
 export const config = {
   api: {
@@ -13,12 +12,12 @@ export const config = {
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION
 });
 
-export default withAuth(async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
@@ -26,7 +25,7 @@ export default withAuth(async function handler(req, res) {
     const [fields, files] = await form.parse(req);
 
     if (!files.file || !files.file[0]) {
-      return res.status(400).json({ error: "No file uploaded" });
+      return res.status(400).json({ error: 'No file uploaded' });
     }
 
     const file = files.file[0];
@@ -36,7 +35,7 @@ export default withAuth(async function handler(req, res) {
       Bucket: process.env.AWS_S3_BUCKET,
       Key: `screenshots/${Date.now()}-${file.originalFilename}`,
       Body: fileContent,
-      ContentType: file.mimetype,
+      ContentType: file.mimetype
     };
 
     const uploadResult = await s3.upload(params).promise();
@@ -45,8 +44,9 @@ export default withAuth(async function handler(req, res) {
     fs.unlinkSync(file.filepath);
 
     return res.status(200).json({ url: uploadResult.Location });
+
   } catch (error) {
-    console.error("Error uploading to S3:", error);
-    return res.status(500).json({ error: "Failed to upload image" });
+    console.error('Error uploading to S3:', error);
+    return res.status(500).json({ error: 'Failed to upload image' });
   }
-});
+} 
