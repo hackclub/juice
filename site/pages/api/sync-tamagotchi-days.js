@@ -1,5 +1,7 @@
 import Airtable from 'airtable';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID,
@@ -12,10 +14,12 @@ export default withAuth(async function handler(req, res) {
 
   try {
     const { token } = req.body;
+
+    const sanitisedToken = escapeAirtableString(token);
     
     // Get user's record from Signups table
     const signupRecords = await base('Signups').select({
-      filterByFormula: `{token} = '${token}'`,
+      filterByFormula: `{token} = '${sanitisedToken}'`,
       maxRecords: 1
     }).firstPage();
 
@@ -196,7 +200,7 @@ export default withAuth(async function handler(req, res) {
       dayOmgMoments,
       daysWithOmgMoments: Array.from(daysWithOmgMoments)
     });
-    
+
   } catch (error) {
     console.error('Error syncing Tamagotchi days:', error);
     res.status(500).json({ message: 'Error syncing Tamagotchi days' });

@@ -1,4 +1,6 @@
 import Airtable from 'airtable';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({
   apiKey: process.env.AIRTABLE_API_KEY,

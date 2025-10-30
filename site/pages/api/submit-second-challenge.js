@@ -1,5 +1,7 @@
 import Airtable from "airtable";
 import { withAuth } from "./_middleware";
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({
   apiKey: process.env.AIRTABLE_API_KEY,
@@ -12,6 +14,9 @@ export default withAuth(async function handler(req, res) {
 
   try {
     const { token, itchLink, platforms } = req.body;
+    const sanitisedToken = escapeAirtableString(token);
+    const sanitisedItchLink = escapeAirtableString(itchLink);
+    const sanitisedPlatforms = platforms.map(platform => escapeAirtableString(platform));
 
     if (!token || !itchLink || !platforms?.length) {
       return res.status(400).json({ message: 'Token, itch.io link, and platforms are required' });
@@ -19,7 +24,7 @@ export default withAuth(async function handler(req, res) {
 
     // First find user by token
     const userRecords = await base('Signups').select({
-      filterByFormula: `{token} = '${token}'`,
+      filterByFormula: `{token} = '${sanitisedToken}'`,
       maxRecords: 1
     }).firstPage();
 
@@ -45,8 +50,8 @@ export default withAuth(async function handler(req, res) {
     const shipRecord = await base('Ships').create([
       {
         fields: {
-          Link: itchLink,
-          Platforms: platforms,
+          Link: sanitisedItchLink,
+          Platforms: sanitisedPlatforms,
           user: [userRecord.id],
           Type: 'base-mechanic',
           omgMomentsThatWentIntoThis: omgMoments.map(record => record.id)

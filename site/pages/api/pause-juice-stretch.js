@@ -1,6 +1,8 @@
 import Airtable from 'airtable';
 import { v4 as uuidv4 } from 'uuid';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID,
@@ -14,8 +16,10 @@ export default withAuth(async function handler(req, res) {
   try {
     const { stretchId } = req.body;
 
+    const sanitisedStretchId = escapeAirtableString(stretchId);
+
     const records = await base('juiceStretches').select({
-        filterByFormula: `{ID} = '${stretchId}'`,
+        filterByFormula: `{ID} = '${sanitisedStretchId}'`,
         maxRecords: 1
       }).firstPage();
 

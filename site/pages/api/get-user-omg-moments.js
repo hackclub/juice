@@ -1,5 +1,6 @@
 import Airtable from 'airtable';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID,
@@ -11,6 +12,7 @@ export default withAuth(async function handler(req, res) {
   }
 
   const { email } = req.query;
+  const sanitisedEmail = escapeAirtableString(email);
 
   if (!email) {
     return res.status(400).json({ message: 'Email is required' });
@@ -19,7 +21,7 @@ export default withAuth(async function handler(req, res) {
   try {
     // Get all OMG moments for this user
     const records = await base('omgMoments').select({
-      filterByFormula: `{email} = '${email}'`,
+      filterByFormula: `{email} = '${sanitisedEmail}'`,
       sort: [{ field: 'created_at', direction: 'desc' }]
     }).all();
 

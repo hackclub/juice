@@ -1,5 +1,7 @@
 import Airtable from 'airtable';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID,
@@ -13,18 +15,23 @@ export default withAuth(async function handler(req, res) {
   try {
     const { description, stretchId, stopTime } = req.body;
 
+    const sanitisedDescription = escapeAirtableString(description);
+
     const omgMoment = await base('omgMoments').create([
       {
         fields: {
-          description,
+          description: sanitisedDescription,
           email: req.user.email
         }
       }
     ]);
 
+    const sanitisedID = escapeAirtableString(stretchId);
+    
+
     await base('juiceStretches').update([
       {
-        id: stretchId,
+        id: sanitisedID,
         fields: {
           endTime: stopTime,
           omgMoment: [omgMoment[0].id]

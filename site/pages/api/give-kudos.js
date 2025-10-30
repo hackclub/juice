@@ -1,5 +1,7 @@
 import Airtable from 'airtable';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.AIRTABLE_BASE_ID,
@@ -13,14 +15,16 @@ export default withAuth(async function handler(req, res) {
   }
 
   const { momentId } = req.body;
-  if (!momentId) {
+  const sanitisedMomentId = escapeAirtableString(momentId);
+
+  if (!sanitisedMomentId) {
     return res.status(400).json({ error: 'Missing momentId' });
   }
 
   try {
     // Get the current moment data
     const records = await base('omgMoments').select({
-        filterByFormula: `RECORD_ID() = '${momentId}'`,
+        filterByFormula: `RECORD_ID() = '${sanitisedMomentId}'`,
         maxRecords: 1
       }).firstPage();
 

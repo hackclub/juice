@@ -55,7 +55,6 @@ export default withAuth(async function handler(req, res) {
         "Playable URL": fields["Playable URL"] || null,
         "videoURL": fields["videoURL"] || null,
         "First Name": fields["First Name"] || null,
-        "Last Name": fields["Last Name"] || null,
         "GitHub Username": fields["GitHub Username"] || null,
         "Description": fields["Description"] || null,
         "Screenshot": fields["Screenshot"] || null,

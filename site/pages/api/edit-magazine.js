@@ -1,5 +1,7 @@
 import { base } from '@/lib/airtable';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 export default withAuth(async function handler(req, res) {
   if (req.method !== 'PUT') {
@@ -7,9 +9,10 @@ export default withAuth(async function handler(req, res) {
   }
 
   const { id, fields } = req.body;
+  const sanitisedId = escapeAirtableString(id);
 
   try {
-    const record = await base('YSWS Project Submission').find(id);
+    const record = await base('YSWS Project Submission').find(sanitisedId);
     const recordToken = record.fields.token ? record.fields.token[0] : null;
 
     const userToken =

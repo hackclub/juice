@@ -1,5 +1,7 @@
 import Airtable from 'airtable';
 import { withAuth } from './_middleware';
+import {escapeAirtableString, normalizeEmail, isValidEmail} from '../../lib/airtable-utils'
+
 
 const base = new Airtable({
   apiKey: process.env.AIRTABLE_API_KEY,
@@ -12,6 +14,8 @@ export default withAuth(async function handler(req, res) {
 
   try {
     const { token, mailingAddress } = req.body;
+    const sanitisedToken = escapeAirtableString(token);
+    const sanitisedMailingAddress = escapeAirtableString(mailingAddress);
 
     if (!token || !mailingAddress) {
       return res.status(400).json({ message: 'Token and mailing address are required' });
@@ -19,7 +23,7 @@ export default withAuth(async function handler(req, res) {
 
     // Find user by token
     const records = await base("Signups").select({
-      filterByFormula: `{token} = '${token}'`,
+      filterByFormula: `{token} = '${sanitisedToken}'`,
       maxRecords: 1
     }).firstPage();
 
@@ -34,7 +38,7 @@ export default withAuth(async function handler(req, res) {
       {
         id: record.id,
         fields: {
-          Address: mailingAddress
+          Address: sanitisedMailingAddress
         }
       }
     ]);
